@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>App.ico</ApplicationIcon>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,20 @@
     <Resource Include="Resources\VS2019\OpenFile_16x.png" />
     <Resource Include="Resources\VS2019\Save_16x.png" />
     <Resource Include="Resources\VS2019\Search_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lang\lang-data.ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="SelectArtifact.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

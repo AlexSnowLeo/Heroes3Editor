@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Heroes3Editor.Models"
         mc:Ignorable="d"
-        Title="HoMM3 Savegame Editor" Height="600" Width="800">
+        Title="HoMM3 Savegame Editor" Height="828" MinHeight="828" Width="800" MinWidth="760">
     <Window.Resources>
         <local:Constants x:Key="constants"/>
     </Window.Resources>
@@ -37,6 +37,10 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Name="MenuDebug" Header="_Debug">
+                <MenuItem Header="Load bin data"  Click="LoadBinData"/>
+                <MenuItem Header="Save bin data"  Click="SaveBinData"/>
+            </MenuItem>
         </Menu>
         <ToolBar x:Name="toolBar" DockPanel.Dock="Top">
             <Button HorizontalAlignment="Left" Command="ApplicationCommands.Open">
@@ -46,19 +50,27 @@
                 <Image Source="/Resources/VS2019/Save_16x.png" Width="16" Height="16"></Image>
             </Button>
             <Separator></Separator>
+            <TextBlock Name="langTxtCaption" HorizontalAlignment="Right" VerticalAlignment="Center">Game Lang:</TextBlock>
+            <ComboBox Name="langCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Lang}"
+                      Width="40" Margin="5,0,5,0" IsEditable="False" IsEnabled="True" SelectionChanged="UpdateLangData"></ComboBox>
+            <Separator></Separator>
+            <TextBlock Name="heroTxtCaption" HorizontalAlignment="Right" VerticalAlignment="Center">Search Hero:</TextBlock>
             <ComboBox Name="heroCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Heroes}"
                       Width="110" Margin="5,0,5,0" IsEditable="True" IsEnabled="False"></ComboBox>
-            <Button Name="heroSearchBtn" IsEnabled="False" Click="SearchHero">
+            <Button Name="heroSearchBtn" IsEnabled="False" Click="SearchHero" ToolTip="Search Hero">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
             </Button>
         </ToolBar>
-        <DockPanel DockPanel.Dock="Top">
-            <TabControl Name="heroTabs" Margin="5,5,5,5">
-            </TabControl>
-        </DockPanel>
+        <!--<StackPanel DockPanel.Dock="Top">-->
+        <TabControl Name="heroTabs" Margin="5,5,5,5" DockPanel.Dock="Top" VerticalContentAlignment="Stretch">
+        </TabControl>
+        <!--</StackPanel> -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="status">Ready</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Name="GameVersion"></TextBlock>
             </StatusBarItem>
         </StatusBar>
     </DockPanel>

@@ -2,8 +2,11 @@
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows;
 using ICSharpCode.SharpZipLib.GZip;
 
 namespace Heroes3Editor.Models
@@ -12,21 +15,34 @@ namespace Heroes3Editor.Models
     {
         public bool IsHOTA { get; set; }
         public byte[] Bytes { get; }
+        public string FileName { get; set; }
 
         public IList<Hero> Heroes { get; } = new List<Hero>();
 
         // CGM is supposed to be a GZip file, but GZipStream from .NET library throws a
         // "unsupported compression method" exception, which is why we use SharpZipLib.
         // Also CGM has incorrect CRC which every tool/library complains about.
-        public Game(string file)
+        public Game(string file, bool bin = false)
         {
-            using var fileStream = (new FileInfo(file)).OpenRead();
-            using var gzipStream = new GZipInputStream(fileStream);
+            var fileInfo = new FileInfo(file);
+            using var fileStream = fileInfo.OpenRead();
+            
             using var memoryStream = new MemoryStream();
-            gzipStream.CopyTo(memoryStream);
+            if (!bin)
+            {
+                using var gzipStream = new GZipInputStream(fileStream);
+                gzipStream.CopyTo(memoryStream);
+            } 
+            else
+            {
+                fileStream.CopyTo(memoryStream);
+            }
+
             Bytes = memoryStream.ToArray();
             var gameVersionMajor = Bytes[8];
             var gameVersionMinor = Bytes[12];
+
+            FileName = fileInfo.Name;
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
             {
@@ -53,10 +69,36 @@ namespace Heroes3Editor.Models
         }
         public void Save(string file)
         {
+            var result = ValidateData();
+            if (result.Length > 0)
+            {
+                MessageBox.Show("Validation data errors:\n" + string.Join("/n * ", result), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             using var fileStream = (new FileInfo(file)).OpenWrite();
             using var gzipStream = new GZipOutputStream(fileStream);
             using var memoryStream = new MemoryStream(Bytes);
             memoryStream.CopyTo(gzipStream);
+        }
+
+        public void SaveBinData(string file)
+        {
+            File.WriteAllBytes(file, Bytes);
+        }
+
+        public string[] ValidateData()
+        {
+            var result = new List<string>();
+            foreach (var hero in Heroes)
+            {
+                if (hero.EquippedArtifacts["Weapon"] == Constants.Artifacts[Constants.TITANS_THUNDER] && !hero.SpellBookExist)
+                {
+                    result.Add($"{hero.Name}: must have Spell Book with Titan's Thunder");
+                }
+            }
+
+            return [.. result];
         }
 
         public bool SearchHero(string name)
@@ -118,12 +160,13 @@ namespace Heroes3Editor.Models
         public bool IsHOTAGame => _game.IsHOTA;
         public int BytePosition { get; }
 
-        public byte[] Attributes { get; } = new byte[4];
+        public sbyte[] Attributes { get; } = new sbyte[4];
         public int NumOfSkills { get; private set; }
         public string[] Skills { get; } = new string[8];
         public byte[] SkillLevels { get; } = new byte[8];
 
         public ISet<string> Spells { get; } = new HashSet<string>();
+        public bool SpellBookExist { get; private set; }
 
         public string[] Creatures { get; } = new string[7];
         public int[] CreatureAmounts { get; } = new int[7];
@@ -133,15 +176,24 @@ namespace Heroes3Editor.Models
 
         public IDictionary<string, string> EquippedArtifacts = new Dictionary<string, string>()
         {
-            {"Helm", ""},
-            {"Neck", ""},
-            {"Armor", ""},
-            {"Cloak", ""},
-            {"Boots", ""},
-            {"Weapon", ""},
-            {"Shield", ""},
-            {"LeftRing", ""},
-            {"RightRing", ""},
+            {"Helm", "-"},
+            {"Neck", "-"},
+            {"Armor", "-"},
+            {"Cloak", "-"},
+            {"Boots", "-"},
+            {"Weapon", "-"},
+            {"Shield", "-"},
+            {"LeftRing", "-"},
+            {"RightRing", "-"},
+            {"Item1", "-"},
+            {"Item2", "-"},
+            {"Item3", "-"},
+            {"Item4", "-"},
+            {"Item5", "-"}
+        };
+        
+        public IDictionary<string, string> EquippedSpellScrolls = new Dictionary<string, string>()
+        {
             {"Item1", ""},
             {"Item2", ""},
             {"Item3", ""},
@@ -149,8 +201,12 @@ namespace Heroes3Editor.Models
             {"Item5", ""}
         };
 
-        private const int ON = 0;
-        private const int OFF = 255;
+        public readonly IDictionary<byte, string> InventorySpellScrolls = new Dictionary<byte, string>();
+        
+        public List<string> Inventory { get; } = [];
+
+        private const byte ON = 0x00;
+        private const byte OFF = 0xFF;
 
         public Hero(string name, Game game, int bytePosition)
         {
@@ -159,10 +215,13 @@ namespace Heroes3Editor.Models
             BytePosition = bytePosition;
 
             for (int i = 0; i < 4; ++i)
-                Attributes[i] = _game.Bytes[BytePosition + Constants.HeroOffsets["Attributes"] + i];
+            {
+                var attr = _game.Bytes[BytePosition + Constants.HeroOffsets["Attributes"] + i];
+                Attributes[i] = (sbyte)attr;
+            }
 
             NumOfSkills = _game.Bytes[BytePosition + Constants.HeroOffsets["NumOfSkills"]];
-            for (int i = 0; i < 28; ++i)
+            for (byte i = 0; i < Constants.Skills.Names.Length; ++i)
             {
                 var skillSlotIndex = _game.Bytes[BytePosition + Constants.HeroOffsets["SkillSlots"] + i];
                 if (skillSlotIndex != 0)
@@ -172,7 +231,9 @@ namespace Heroes3Editor.Models
                 }
             }
 
-            for (int i = 0; i < 70; ++i)
+            SpellBookExist = _game.Bytes[BytePosition + Constants.HeroOffsets["SpellBookSlot"]] == ON;
+
+            for (byte i = 0; i < 70; ++i)
             {
                 if (_game.Bytes[BytePosition + Constants.HeroOffsets["Spells"] + i] == 1)
                     Spells.Add(Constants.Spells[i]);
@@ -202,20 +263,55 @@ namespace Heroes3Editor.Models
             var gears = new List<string>(EquippedArtifacts.Keys);
             foreach (var gear in gears)
             {
-                var code = _game.Bytes[BytePosition + Constants.HeroOffsets[gear]];
-                if (code != OFF)
-                    EquippedArtifacts[gear] = Constants.Artifacts[code];
+                var gearPos = BytePosition + Constants.HeroOffsets[gear];
+                var code = _game.Bytes[gearPos];
+                if (code == OFF) continue;
+
+                EquippedArtifacts[gear] = Constants.Artifacts[code];
+                if (gear.StartsWith("Item") && code == Constants.SPELL_SCROLL)
+                {
+                    var spellCode = _game.Bytes[gearPos + 4];
+                    EquippedSpellScrolls[gear] = Constants.Spells[spellCode];
+                }
+            }
+
+            var inventoryPos = BytePosition + Constants.HeroOffsets["Inventory"];
+            for (byte i = 0; i < 64; i++)
+            {
+                var code = _game.Bytes[inventoryPos + i*8];
+                if (code == OFF) continue;
+
+                Inventory.Add(Constants.Artifacts[code]);
+
+                if (code == Constants.SPELL_SCROLL)
+                {
+                    var spellCode = _game.Bytes[inventoryPos + i * 8 + 4];
+                    InventorySpellScrolls.TryAdd(i, Constants.Spells.ByLang(spellCode));
+                }
             }
         }
 
-        public void UpdateAttribute(int i, byte value)
+        public void UpdateAttribute(int i, sbyte value)
         {
             Attributes[i] = value;
-            _game.Bytes[BytePosition + Constants.HeroOffsets["Attributes"] + i] = value;
+            _game.Bytes[BytePosition + Constants.HeroOffsets["Attributes"] + i] = (byte)value;
         }
 
         public void UpdateSkill(int slot, string skill)
         {
+            if (skill == null) // Empty Slot
+            {
+                var oldSkill = Skills[slot];
+                Skills[slot] = null;
+                SkillLevels[slot] = 0;
+
+                _game.Bytes[BytePosition + Constants.HeroOffsets["Skills"] + Constants.Skills[oldSkill]] = 0;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["SkillSlots"] + Constants.Skills[oldSkill]] = 0;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["NumOfSkills"]] = (byte)--NumOfSkills;
+
+                return;
+            }
+
             if (slot < 0 || slot > NumOfSkills) return;
             for (int i = 0; i < NumOfSkills; ++i)
                 if (Skills[i] == skill) return;
@@ -273,8 +369,33 @@ namespace Heroes3Editor.Models
             _game.Bytes[spellBookPosition] = 0;
         }
 
+        public void ToggleSpellBook(bool enable)
+        {
+            int spellBookSlotPosition = BytePosition + Constants.HeroOffsets["SpellBookSlot"];
+            byte onOff = enable ? ON : OFF;
+            _game.Bytes[spellBookSlotPosition] = onOff;
+            _game.Bytes[spellBookSlotPosition + 1] = onOff;
+            _game.Bytes[spellBookSlotPosition + 2] = onOff;
+            _game.Bytes[spellBookSlotPosition + 3] = onOff;
+            SpellBookExist = enable;
+        }
+
         public void UpdateCreature(int i, string creature)
         {
+            if (creature == null)
+            {
+                CreatureAmounts[i] = 0;
+                UpdateCreatureAmount(i, 0);
+
+                Creatures[i] = null;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["Creatures"] + i * 4] = OFF;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["Creatures"] + (i * 4) + 1] = OFF;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["Creatures"] + (i * 4) + 2] = OFF;
+                _game.Bytes[BytePosition + Constants.HeroOffsets["Creatures"] + (i * 4) + 3] = OFF;
+
+                return;
+            }
+
             if (Creatures[i] == null)
             {
                 CreatureAmounts[i] = 1;
@@ -316,34 +437,154 @@ namespace Heroes3Editor.Models
             _game.Bytes[currentBytePos + 3] = OFF;
         }
 
-        public void UpdateEquippedArtifact(string gear, string artifact)
+        public void UpdateEquippedArtifact(string gear, string artifact, string spell)
         {
-            int currentBytePos = BytePosition + Constants.HeroOffsets[gear];
-            if (!artifact.Contains("None"))
+            var currentBytePos = BytePosition + Constants.HeroOffsets[gear];
+            
+            if (!artifact.Contains("-"))
             {
                 EquippedArtifacts[gear] = artifact;
-                _game.Bytes[currentBytePos] = Constants.Artifacts[artifact];
+                
+                var artKey = Constants.Artifacts[artifact];
+                _game.Bytes[currentBytePos] = artKey;
                 _game.Bytes[currentBytePos + 1] = ON;
                 _game.Bytes[currentBytePos + 2] = ON;
                 _game.Bytes[currentBytePos + 3] = ON;
+                
+                if (artKey == Constants.SPELL_SCROLL)
+                {
+                    if (string.IsNullOrEmpty(spell))
+                        throw new ArgumentNullException(nameof(spell));
+                        
+                    _game.Bytes[currentBytePos + 4] = Constants.Spells.KeyByLang(spell);
+                    _game.Bytes[currentBytePos + 5] = ON;
+                    _game.Bytes[currentBytePos + 6] = ON;
+                    _game.Bytes[currentBytePos + 7] = ON;
+                    
+                    EquippedSpellScrolls[gear] = spell;
+                }
             }
             else
             {
-                EquippedArtifacts[gear] = "";
+                EquippedArtifacts[gear] = "-";
+                
                 _game.Bytes[currentBytePos] = OFF;
                 _game.Bytes[currentBytePos + 1] = OFF;
                 _game.Bytes[currentBytePos + 2] = OFF;
                 _game.Bytes[currentBytePos + 3] = OFF;
+
+                if (gear.StartsWith("Item"))
+                {
+                    EquippedSpellScrolls[gear] = "";
+                    _game.Bytes[currentBytePos + 4] = OFF;
+                    _game.Bytes[currentBytePos + 5] = OFF;
+                    _game.Bytes[currentBytePos + 6] = OFF;
+                    _game.Bytes[currentBytePos + 7] = OFF;
+                }
+            }
+        }
+        
+        public void UpdateInventory(string newArtifact = null, string spell = null, int? index = null)
+        {
+            if (newArtifact != null)
+            {
+                Inventory.Add(newArtifact);
+                var artKey = Constants.Artifacts[newArtifact];
+                if (artKey == Constants.SPELL_SCROLL)
+                {
+                    if (string.IsNullOrEmpty(spell))
+                        throw new ArgumentNullException(nameof(spell));
+                    
+                    InventorySpellScrolls.TryAdd((byte)(Inventory.Count - 1), spell);
+                }
+            }
+            
+            for (byte i = 0; i < 64; i++)
+            {
+                var currentBytePos = BytePosition + Constants.HeroOffsets["Inventory"] + i * 8;
+                
+                if (Inventory.Count > i)
+                {
+                    var artifact = Inventory[i];
+                    var artKey = Constants.Artifacts[artifact];
+                    _game.Bytes[currentBytePos] = artKey;
+                    _game.Bytes[currentBytePos + 1] = ON;
+                    _game.Bytes[currentBytePos + 2] = ON;
+                    _game.Bytes[currentBytePos + 3] = ON;
+                    _game.Bytes[currentBytePos + 4] = ON;
+                    _game.Bytes[currentBytePos + 5] = ON;
+                    _game.Bytes[currentBytePos + 6] = ON;
+                    _game.Bytes[currentBytePos + 7] = ON;
+                
+                    if (artKey == Constants.SPELL_SCROLL)
+                    {
+                        spell = InventorySpellScrolls[i];
+                        _game.Bytes[currentBytePos + 4] = Constants.Spells.KeyByLang(spell);
+                    }
+                    else
+                    {
+                        if (InventorySpellScrolls.ContainsKey(i))
+                            InventorySpellScrolls.Remove(i);
+                    }
+                }
+                else
+                {
+                    _game.Bytes[currentBytePos] = OFF;
+                    _game.Bytes[currentBytePos + 1] = OFF;
+                    _game.Bytes[currentBytePos + 2] = OFF;
+                    _game.Bytes[currentBytePos + 3] = OFF;
+                    _game.Bytes[currentBytePos + 4] = ON;
+                    _game.Bytes[currentBytePos + 5] = ON;
+                    _game.Bytes[currentBytePos + 6] = ON;
+                    _game.Bytes[currentBytePos + 7] = ON;
+                    
+                    if (InventorySpellScrolls.ContainsKey(i))
+                        InventorySpellScrolls.Remove(i);
+                }
             }
         }
 
-        //  NAME|ATTACK|DEFENSE|POWER|KNOWLEDGE|MORALE|LUCK|OTHER
-        //   0  |   1  |   2   |  3  |    4    |   5  |  6 |  7
-        public string[] UpdateArtifactInfo(string artifact)
+        public void RemoveFromInventory(string artifact, byte index)
         {
-            if (null != artifact && !"None".Equals(artifact))
+            Inventory.Remove(artifact);
+            
+            if (InventorySpellScrolls.ContainsKey(index))
+                InventorySpellScrolls.Remove(index);
+
+            var spells = InventorySpellScrolls.ToArray();
+            foreach (var (key, spell) in spells)
             {
-                return Constants.ArtifactInfo[Constants.Artifacts[artifact]].Split("|");
+                if (key > index)
+                {
+                    InventorySpellScrolls.Remove(key);
+                    InventorySpellScrolls.Add((byte)(key - 1), spell);
+                }
+            }
+        }
+
+        //  NAME|ATTACK|DEFENSE|POWER|KNOWLEDGE|MORALE|LUCK|OTHER|SLOTS
+        //   0  |   1  |   2   |  3  |    4    |   5  |  6 |  7  |  8
+        // SLOTS - First letters of slots witch blocked: Helm, Neck, Armor, Cloak, Boots, Weapon, Shield, Left/Right Ring, for Items it's number of slots
+        public string[] UpdateArtifactInfo(string artifact, string slotName, byte? inventory = null)
+        {
+            if (!string.IsNullOrEmpty(artifact) && !"-".Equals(artifact))
+            {
+                var infoKey = Constants.Artifacts[artifact];
+                if (infoKey == Constants.SPELL_SCROLL)
+                {
+                    var spell = inventory.HasValue
+                        ? Constants.Spells.ByLang(InventorySpellScrolls[inventory.Value])
+                        : Constants.Spells.ByLang(EquippedSpellScrolls[slotName]);
+                    
+                    return [artifact, "", "", "", "", "", "", $"Add spell \'{spell}'" ];
+                }
+
+                var artInfo = Constants.ArtifactInfo[infoKey].Split("|");
+                if (Constants.ArtifactInfo.LangDescriptions != null &&
+                    Constants.ArtifactInfo.LangDescriptions.ContainsKey(artInfo[0]))
+                    artInfo[7] = Constants.ArtifactInfo.LangDescriptions[artInfo[0]];
+
+                return artInfo;
             }
             return null;
         }

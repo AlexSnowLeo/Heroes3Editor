@@ -1,50 +1,81 @@
-﻿using System.Collections.Generic;
+﻿// Ignore Spelling: Hota
+
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Heroes3Editor.Lang;
+// ReSharper disable InconsistentNaming
 
 namespace Heroes3Editor.Models
 {
     public class Constants
     {
-        public static Skills Skills { get; } = new Skills();
-        public static Spells Spells { get; } = new Spells();
-        public static Creatures Creatures { get; } = new Creatures();
-        public static Weapons Weapons { get; } = new Weapons();
-        public static Shields Shields { get; } = new Shields();
-        public static Armor Armor { get; } = new Armor();
-        public static Cloak Cloak { get; } = new Cloak();
-        public static Helms Helms { get; } = new Helms();
-        public static Rings Rings { get; } = new Rings();
-        public static Boots Boots { get; } = new Boots();
-        public static Neck Neck { get; } = new Neck();
-        public static Items Items { get; } = new Items();
-        public static WarMachines WarMachines { get; } = new WarMachines();
-        public static Artifacts Artifacts { get; } = new Artifacts();
+        public static Skills Skills { get; } = new();
+        public static SkillLevels SkillLevels { get; } = new();
+        public static Spells Spells { get; } = new();
+        public static Creatures Creatures { get; } = new();
+        public static Weapons Weapons { get; } = new();
+        public static Shields Shields { get; } = new();
+        public static Armor Armor { get; } = new();
+        public static Cloak Cloak { get; } = new();
+        public static Helms Helms { get; } = new();
+        public static Rings Rings { get; } = new();
+        public static Boots Boots { get; } = new();
+        public static Neck Neck { get; } = new();
+        public static Items Items { get; } = new();
+        public static WarMachines WarMachines { get; } = new();
+        public static Artifacts Artifacts { get; } = new();
 
-        public static ArtifactInfo ArtifactInfo { get; } = new ArtifactInfo();
+        public static ArtifactInfo ArtifactInfo { get; } = new();
 
-        private static readonly string[] _heroes = {
-            "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine",
-            "Roland", "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion",
-            "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu",
-            "Aeris", "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland", "Fafner", "Iona",
-            "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra", "Daremyth",
-            "Halon", "Serena", "Solmyr", "Theodorus", "Dracon", "Calh", "Fiona", "Ignatius", "Marius", "Nymus",
-            "Octavia", "Pyre", "Rashka", "Xeron", "Ash", "Axsis", "Ayden", "Calid", "Olema", "Xyron", "Xarfax",
-            "Zydar", "Charna", "Clavius", "Galthran", "Isra", "Moandor", "Straker", "Tamika", "Vokial", "Aislinn",
-            "Nagash", "Nimbus", "Sandro", "Septienna", "Thant", "Vidomina", "Xsi", "Ajit", "Arlach", "Dace",
-            "Damacon", "Gunnar", "Lorelei", "Shakti", "Synca", "Mutare", "Mutare Drake", "Alamar", "Darkstorn",
-            "Deemer", "Geon", "Jaegar", "Jeddite", "Malekith", "Sephinroth", "Crag Hack", "Gretchin", "Gurnisson",
-            "Jabarkas", "Krellion", "Shiva", "Tyraxor", "Yog", "Boragus", "Kilgor", "Dessa", "Gird", "Gundula",
-            "Oris", "Saurug", "Terek", "Vey", "Zubin", "Alkin", "Broghild", "Bron", "Drakon", "Gerwulf", "Korbac",
-            "Tazar", "Wystan", "Andra", "Merist", "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne",
-            "Erdamon", "Fiur", "Ignissa", "Kalt", "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele",
-            "Gelare", "Grindan", "Inteus", "Labetha", "Luna", "Gen. Kendal", "Anabel","Cassiopeia","Corkes","Derek",
-            "Elmore","Illor","Leena","Miriam","Andal","Astra","Dargem","Eovacius","Manfred","Zilare",
-            "Jeremy","Bidley","Spint", "Casmetra","Tark"
-        };
-        public static string[] Heroes { get; } = _heroes.OrderBy(x => x).ToArray();
+        public static string[] Lang { get; } = ["en", "ru"];
 
-        public static Dictionary<string, int> HeroOffsets = new Dictionary<string, int>()
+        public const int SPELL_SCROLL = 0x01;
+        public const int TITANS_THUNDER = 0x87;
+
+        private static readonly string[] _heroes =
+        [
+            // Castle
+            "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine", "Roland",
+            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion",
+            // Rampart
+            "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
+            "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland",
+            // Tower
+            "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra",
+            "Daremyth", "Halon", "Serena", "Solmyr", "Theodorus", "Dracon",
+            // Inferno
+            "Calh", "Fiona", "Ignatius", "Marius", "Nymus", "Octavia", "Pyre", "Rashka", "Xeron", "Ash", "Axsis",
+            "Ayden", "Calid", "Olema", "Xyron", "Xarfax", "Zydar",
+            // Necropolis
+            "Charna", "Clavius", "Galthran", "Isra", "Moandor", "Straker", "Tamika", "Vokial", "Aislinn", "Nagash",
+            "Nimbus", "Sandro", "Septienna", "Thant", "Vidomina", "Xsi",
+            // Dangeon
+            "Ajit", "Arlach", "Dace", "Damacon", "Gunnar", "Lorelei", "Shakti", "Synca", "Mutare", "Mutare Drake",
+            "Alamar", "Darkstorn", "Deemer", "Geon", "Jaegar", "Jeddite", "Malekith", "Sephinroth",
+            // Stronghold
+            "Crag Hack", "Gretchin", "Gurnisson", "Jabarkas", "Krellion", "Shiva", "Tyraxor", "Yog", "Boragus",
+            "Kilgor", "Dessa", "Gird", "Gundula", "Oris", "Saurug", "Terek", "Vey", "Zubin",
+            // Fortress
+            "Alkin", "Broghild", "Bron", "Drakon", "Gerwulf", "Korbac", "Tazar", "Wystan", "Andra", "Merist",
+            "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne", "Kinkeria",
+            // Conflux
+            "Erdamon", "Fiur", "Ignissa", "Kalt",
+            "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
+            "Luna", 
+            // Cove
+            "Gen. Kendal", "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
+            "Andal", "Astra", "Dargem", "Eovacius", "Manfred", "Zilare", "Jeremy", "Bidley", "Spint", "Casmetra",
+            "Tark",
+            // Factory
+            "Henrietta", "Sam", "Tancred", "Melchior", "Floribert", "Wynona", "Dury", "Morton", "Tavin", "Murdoch",
+            "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
+        ];
+        public static string[] Heroes => LangData.Instance != null 
+            ? _heroes.Select(x => LangData.Instance.Heroes[x]).OrderBy(x => x).ToArray()
+            : _heroes.OrderBy(x => x).ToArray();
+
+        public static readonly Dictionary<string, int> HeroOffsets = new()
         {
             {"Attributes", 69}, // Primary Skills
             {"Weapon", 237},
@@ -72,7 +103,9 @@ namespace Heroes3Editor.Models
             {"SpellBook", 143},
             {"Creatures", -56},
             {"CreatureAmounts", -28},
-            {"Inventory", 365 }
+            {"Inventory", 365 },
+            {"BlockedSlots", 878 }, // Helm, CLoak, Neck, Weapon, Shield, Armor, RightRing, _, Item5, _, Ammo_Cart, First_Aid_Tent, _, SpellBook
+            {"SpellBookSlot", 349 } // 4 bytes 0x00 - On, 0xFF- Off
         };
 
         public static void LoadHOTAItems()
@@ -88,6 +121,9 @@ namespace Heroes3Editor.Models
             Neck.LoadHotaReferenceCodes();
             Items.LoadHotaReferenceCodes();
             Creatures.LoadHotaReferenceCodes();
+            Skills.LoadHotaReferenceCodes();
+
+            ArtifactInfo.UpdateHotaDescriptions();
         }
 
         public static void RemoveHOTAReferenceCodes()
@@ -103,6 +139,7 @@ namespace Heroes3Editor.Models
             Neck.RemoveHotaReferenceCodes();
             Items.RemoveHotaReferenceCodes();
             Creatures.RemoveHotaReferenceCodes();
+            Skills.RemoveHotaReferenceCodes();
         }
 
         public static void LoadAllArtifacts()
@@ -120,71 +157,84 @@ namespace Heroes3Editor.Models
         }
     }
 
-    public class Skills
+    public class Skills : BaseProp
     {
-        private static readonly Dictionary<int, string> _namesByCode = new Dictionary<int, string>()
+        public Skills()
         {
-            {0, "Pathfinding"},
-            {1, "Archery"},
-            {2, "Logistics"},
-            {3, "Scouting"},
-            {4, "Diplomacy"},
-            {5, "Navigation"},
-            {6, "Leadership"},
-            {7, "Wisdom"},
-            {8, "Mysticism"},
-            {9, "Luck"},
-            {10, "Ballistics"},
-            {11, "Eagle Eye"},
-            {12, "Necromancy"},
-            {13, "Estates"},
-            {14, "Fire Magic"},
-            {15, "Air Magic"},
-            {16, "Water Magic"},
-            {17, "Earth Magic"},
-            {18, "Scholar"},
-            {19, "Tactics"},
-            {20, "Artillery"},
-            {21, "Learning"},
-            {22, "Offense"},
-            {23, "Armorer"},
-            {24, "Intelligence"},
-            {25, "Sorcery"},
-            {26, "Resistance"},
-            {27, "First Aid"}
-        };
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0, "Pathfinding"},
+                {1, "Archery"},
+                {2, "Logistics"},
+                {3, "Scouting"},
+                {4, "Diplomacy"},
+                {5, "Navigation"},
+                {6, "Leadership"},
+                {7, "Wisdom"},
+                {8, "Mysticism"},
+                {9, "Luck"},
+                {10, "Ballistics"},
+                {11, "Eagle Eye"},
+                {12, "Necromancy"},
+                {13, "Estates"},
+                {14, "Fire Magic"},
+                {15, "Air Magic"},
+                {16, "Water Magic"},
+                {17, "Earth Magic"},
+                {18, "Scholar"},
+                {19, "Tactics"},
+                {20, "Artillery"},
+                {21, "Learning"},
+                {22, "Offense"},
+                {23, "Armorer"},
+                {24, "Intelligence"},
+                {25, "Sorcery"},
+                {26, "Resistance"},
+                {27, "First Aid"}
+            };
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
+                {28, "Interference"}
+            };
+        }
+    }
 
-        private static readonly Dictionary<string, int> _codesByName = _namesByCode.ToDictionary(i => i.Value, i => i.Key);
-
-        public string[] Names { get; } = _namesByCode.Values.OrderBy(x => x).ToArray();
-
-        public string this[int key] => _namesByCode[key];
-
-        public int this[string key] => _codesByName[key];
+    public class SkillLevels : BaseProp
+    {
+        public SkillLevels()
+        {
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0, "Basic"},
+                {1, "Advanced"},
+                {2, "Expert"},
+            };
+        }
     }
 
     public class Weapons : BaseArtifact
     {
         public Weapons()
         {
-            _namesByCode = new Dictionary<byte, string>()
+            NamesByCode = new Dictionary<byte, string>
             {
-                {0xFF, "None" },
+                {0xFF, "-" },
                 {0x07, "Centaur's Axe" },
                 {0x08, "Blackshard of the Dead Knight" },
                 {0x09, "Greater Knoll's Flail" },
                 {0x0A, "Ogre's Club of Havoc" },
                 {0x0B, "Sword of Hellfire" },
-                {0X0C, "Titan's Gladius" },
+                {0x0C, "Titan's Gladius" },
                 {0x23, "Sword of Judgement" },
                 {0x26, "Red Dragon Flame Tongue" },
                 {0x80, "Armageddon's Blade" },
                 {0x81, "Angelic Alliance" },
-                {0x87, "Titans Thunder" }
+                {Constants.TITANS_THUNDER, "Titans Thunder" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>()
+            HOTANamesByCode = new Dictionary<byte, string>
             {
                 {0x8F, "Ironfist of the Ogre" },
+                {0x93, "Trident of Dominion" },
             };
         }
     }
@@ -193,8 +243,9 @@ namespace Heroes3Editor.Models
     {
         public Shields()
         {
-            _namesByCode = new Dictionary<byte, string>() {
-                {0xFF, "None" },
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0xFF, "-" },
                 {0x0D, "Shield of the Dwarven Lords" },
                 {0x0E, "Shield of the Yawning Dead" },
                 {0x0F, "Buckler of the Gnoll King" },
@@ -204,7 +255,7 @@ namespace Heroes3Editor.Models
                 {0x22, "Lion's Shield of Courage" },
                 {0x27, "Dragon Scale Shield" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>()
+            HOTANamesByCode = new Dictionary<byte, string>
             {
                 {148, "Shield of Naval Glory"},
             };
@@ -215,8 +266,9 @@ namespace Heroes3Editor.Models
     {
         public Helms()
         {
-            _namesByCode = new Dictionary<byte, string>() {
-                {0xFF, "None" },
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0xFF, "-" },
                 {0x13, "Helm of the Alabaster Unicorn" },
                 {0x14, "Skull Helmet" },
                 {0x15, "Helm of Chaos" },
@@ -229,7 +281,8 @@ namespace Heroes3Editor.Models
                 {0x7C, "Spellbinder's Hat" },
                 {0x88, "Admiral's Hat" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {150, "Crown of the Five Seas"},
                 {155, "Hideous Mask"},
             };
@@ -240,8 +293,9 @@ namespace Heroes3Editor.Models
     {
         public Armor()
         {
-            _namesByCode = new Dictionary<byte, string>() {
-                {0xFF, "None" },
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0xFF, "-" },
                 {0x19, "Breastplate of Petrified Wood" },
                 {0x1A, "Rib Cage" },
                 {0x1B, "Scales of the Greater Basilisk" },
@@ -254,7 +308,8 @@ namespace Heroes3Editor.Models
                 {0x84, "Armor of the Dammed" },
                 {0x86, "Power of the Dragon Father" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {149, "Royal Armor of Nix"},
                 {164, "Plate of Dying Light"}
             };
@@ -265,9 +320,9 @@ namespace Heroes3Editor.Models
     {
         public Cloak()
         {
-            _namesByCode = new Dictionary<byte, string>()
+            NamesByCode = new Dictionary<byte, string>
             {
-                {0xFF, "None" },
+                {0xFF, "-" },
                 {0x2A, "Dragon Wing Tabard" },
                 {0x37, "Vampire's Cowl" },
                 {0x44, "Ambassador's Sash" },
@@ -279,7 +334,8 @@ namespace Heroes3Editor.Models
                 {0x82, "Cloak of Undead King" },
                 {0x8D, "Diplomat's Cloak" },
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {159, "Cape of Silence"},
             };
         }
@@ -289,9 +345,9 @@ namespace Heroes3Editor.Models
     {
         public Boots()
         {
-            _namesByCode = new Dictionary<byte, string>()
+            NamesByCode = new Dictionary<byte, string>
             {
-                {0xFF, "None" },
+                {0xFF, "-" },
                 {0x20, "Sandal's of the Saint" },
                 {0x29, "Dragonbone Greaves" },
                 {0x38, "Dead Men's Boots" },
@@ -299,7 +355,8 @@ namespace Heroes3Editor.Models
                 {0x5A, "Boots of Levitation" },
                 {0x62, "Boots of Speed" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {0x97, "Wayfarer's Boots"},
             };
         }
@@ -309,8 +366,9 @@ namespace Heroes3Editor.Models
     {
         public Neck()
         {
-            _namesByCode = new Dictionary<byte, string>() {
-                {0xFF, "None" },
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0xFF, "-" },
                 {0x21, "Celestial Necklace of Bliss" },
                 {0x2B, "Necklace of Dragonteeth" },
                 {0x36, "Amulet of the Undertaker" },
@@ -328,7 +386,8 @@ namespace Heroes3Editor.Models
                 {0x6B, "Pendant of Total Recall" },
                 {0x6C, "Pendant of Courage" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {0x8E, "Pendant of Reflection" },
                 {157, "Pendant of Downfall"},
             };
@@ -339,9 +398,9 @@ namespace Heroes3Editor.Models
     {
         public Rings()
         {
-            _namesByCode = new Dictionary<byte, string>()
+            NamesByCode = new Dictionary<byte, string>
             {
-                {0xFF, "None" },
+                {0xFF, "-" },
                 {0x25, "Quiet Eye of the Dragon" },
                 {0x2D, "Still Eye of the Dragon" },
                 {0x43, "Diplomat Ring" },
@@ -354,7 +413,8 @@ namespace Heroes3Editor.Models
                 {0x71, "Eversmoking Ring of Sulfur" },
                 {0x8B, "Ring of the Magi" },
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {156, "Ring of Suppression"},
                 {158, "Ring of Oblivion"},
                 {163, "Seal of Sunset"},
@@ -366,8 +426,10 @@ namespace Heroes3Editor.Models
     {
         public Items()
         {
-            _namesByCode = new Dictionary<byte, string>() {
-                {0xFF, "None" },
+            NamesByCode = new Dictionary<byte, string>
+            {
+                {0xFF, "-" },
+                {0x01, "Spell Scroll" },
                 {0x2E, "Clover of Fortune" },
                 {0x2F, "Cards of Prophecy" },
                 {0x30, "Ladybird of Luck" },
@@ -418,9 +480,11 @@ namespace Heroes3Editor.Models
                 {0x89, "Bow of the Sharpshooter" },
                 {0x8A, "Wizard's Well" },
                 {0x8C, "Cornucopia" },
+                {0xA5, "Sleepkeeper" },
 
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {153, "Demon's Horseshoe"},
                 {154, "Shaman's Puppet"},
                 {160, "Golden Goose"},
@@ -434,12 +498,14 @@ namespace Heroes3Editor.Models
     {
         public WarMachines()
         {
-            _namesByCode = new Dictionary<byte, string>() {
+            NamesByCode = new Dictionary<byte, string>
+            {
                 {0x04, "Ballista" },
                 {0x05, "Ammo_Cart" },
                 {0x06, "First_Aid_Tent" }
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
                 {0x92, "Canon" }
             };
         }
@@ -449,9 +515,10 @@ namespace Heroes3Editor.Models
     {
         public Artifacts()
         {
-            _namesByCode = new Dictionary<byte, string>() {
+            NamesByCode = new Dictionary<byte, string>() {
+                {0xFF, "-" },
                 {0x00, "Spell Book" },
-                {0x01, "Spell Scroll" },
+                //{0x01, "Spell Scroll" },
                 {0x02, "The Grail" },
             };
         }
@@ -459,20 +526,26 @@ namespace Heroes3Editor.Models
         {
             foreach (var element in artifacts)
             {
-                if (_namesByCode.ContainsKey(element.Key))
+                if (NamesByCode.ContainsKey(element.Key))
                 {
+                    NamesByCode[element.Key] = element.Value;
                     continue;
                 }
-                _namesByCode.Add(element.Key, element.Value);
+                NamesByCode.Add(element.Key, element.Value);
             }
         }
+
+        public string[] ArtifactsToEquip => Names
+            .Except(Constants.WarMachines.Names)
+            .Except(["Spell Book", "The Grail"])
+            .ToArray();
     }
 
     public class ArtifactInfo
     {
-        //  NAME|ATTACK|DEFENSE|SPELL POWER|KNOWLEDGE|MORALE|LUCK|OTHER
-        //   0  |   1  |   2   |     3     |    4    |   5  |  6 |  7
-        private static readonly Dictionary<byte, string> _namesByCode = new Dictionary<byte, string>()
+        //  NAME|ATTACK|DEFENSE|SPELL POWER|KNOWLEDGE|MORALE|LUCK|OTHER|SLOTS
+        //   0  |   1  |   2   |     3     |    4    |   5  |  6 |  7  |  8
+        private static readonly Dictionary<byte, string> _namesByCode = new()
         {
             {0x07, "Centaur's Axe|+2||||||" },
             {0x08, "Blackshard of the Dead Knight|+3||||||" },
@@ -595,25 +668,26 @@ namespace Heroes3Editor.Models
             {0x7D, "Shackles of War|||||||Neither you nor your opponent may flee or surrender" },
             {0x7E, "Orb of Inhibition|||||||Prevents Casting All Spells" },
             {0x7F, "Vial of Dragonblood|||||||Dragons receive +5 Attack and Defense" },
-            {0x80, "Armageddon's Blade|+3|+3|+3|+6|||Combination Artifact: Can Cast Armageddon, Immune to Armageddon"},
-            {0x81, "Angelic Alliance|+21|+21|+21|+21|||Combination Artifact: No Army Penalty for Good and Neutral troops, Can Cast Prayer" },
-            {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +60%, Raise more Creature Types" },
-            {0x83, "Elixir of Life|||||||Combination Artifact: +25% Unit Health, +4 Health Point Regeneration" },
-            {0x84, "Armor of the Dammed|+3|+3|+2|+2|||Combination Artifact: Cast Slow,Curse,Weakness and Misfortune for 50 rounds in combat." },
-            {0x85, "Statue of Legion|||||||Combination Artifact: Creature Growth +50% + Artifact Effects" },
-            {0x86, "Power of the Dragon Father|+16|+16|+16|+16|+1|+1|Combination Artifact: Immune to Lvl 1-4 Spells" },
-            {0x87, "Titans Thunder|+9|+9|+8|+8|||Combination Artifact: Can Cast Titan's Lightning Bolt" },
-            {0x88, "Admiral's Hat|||||||Combination Artifact: Hero Sea Movement +1500, No Penalty to Board/Leave Boat, Can Cast Summon Boat and Scuttle Boat, Protection from Whirlpools." },
-            {0x89, "Bow of the Sharpshooter|||||||Combination Artifact: No Range and Obstacle Penalty, No Melee Penalty, Archery Skill +30%" },
-            {0x8A, "Wizard's Well|||||||Combination Artifact: Regenerates all spell points each day" },
-            {0x8B, "Ring of the Magi|||||||Combination Artifact: Add 50 rounds to spell duration (56 rounds together with components effect)" },
-            {0x8C, "Cornucopia|||||||Combination Artifact: Generates 5 of each precious resource, each day." },
-            {0x8D, "Diplomat's Cloak|||||||Combination Artifact: Allows your hero to retreat or surrender when battling neutral monsters or defending a town. Multiplies your hero army strength by 3" },
-            {0x8E, "Pendant of Reflection|||||||Combination Artifact: Increases hero's magic resistance by 20%,increases hero's magic resistance by 30%" },
-            {0x8F, "Ironfist of the Ogre|+5|+4|+4|+4|||Combination Artifact: At the beginning of a combat casts Haste, Bloodlust, Fire Shield and Counterstrike." },
-            {148, "Shield of Naval Glory|||||||Increases Defense skill by 7" },
-            {149, "Royal Armor of Nix|||||||Increases Spell Power skill by 6" },
-            {150, "Crown of the Five Seas|||||||Increases Knowledge skill by 6" },
+            {0x80, "Armageddon's Blade|+3|+3|+3|+6|||Can Cast Armageddon, Immune to Armageddon"},
+            {0x81, "Angelic Alliance|+21|+21|+21|+21|||Combination Artifact: No Army Penalty for Good and Neutral troops, Can Cast Prayer|HNASB" },
+            {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +30%, Raise more Creature Types|NB" },
+            {0x83, "Elixir of Life|||||||Combination Artifact: +25% Unit Health, +4 Health Point Regeneration|LR" },
+            {0x84, "Armor of the Dammed|+3|+3|+2|+2|||Combination Artifact: Cast Slow,Curse,Weakness and Misfortune for 50 rounds in combat.|HWS" },
+            {0x85, "Statue of Legion|||||||Combination Artifact: Creature Growth +50% + Artifact Effects|4" },
+            {0x86, "Power of the Dragon Father|+16|+16|+16|+16|+1|+1|Combination Artifact: Immune to Lvl 1-4 Spells|HNWSLRBC" },
+            {0x87, "Titans Thunder|+9|+9|+8|+8|||Combination Artifact: Can Cast Titan's Lightning Bolt|HAS" },
+            {0x88, "Admiral's Hat|||||||Combination Artifact: Hero Sea Movement +1500, No Penalty to Board/Leave Boat, Can Cast Summon Boat and Scuttle Boat, Protection from Whirlpools.|N" },
+            {0x89, "Bow of the Sharpshooter|||||||Combination Artifact: No Range and Obstacle Penalty, No Melee Penalty, Archery Skill +30%|2" },
+            {0x8A, "Wizard's Well|||||||Combination Artifact: Regenerates all spell points each day|2" },
+            {0x8B, "Ring of the Magi|||||||Combination Artifact: Add 50 rounds to spell duration (56 rounds together with components effect)|NC" },
+            {0x8C, "Cornucopia|||||||Combination Artifact: Generates 5 of each precious resource, each day.|4" },
+            {0x8D, "Diplomat's Cloak|||||||Combination Artifact: Allows your hero to retreat or surrender when battling neutral monsters or defending a town. Multiplies your hero army strength by 3|Nr" },
+            {0x8E, "Pendant of Reflection|||||||Combination Artifact: Increases hero's magic resistance by 20%,increases hero's magic resistance by 30%|BC" },
+            {0x8F, "Ironfist of the Ogre|+5|+4|+4|+4|||Combination Artifact: At the beginning of a combat casts Haste, Bloodlust, Fire Shield and Counterstrike.|HAS" },
+            {0x93, "Trident of Dominion|+7||||||" },
+            {148, "Shield of Naval Glory||+7|||||" },
+            {149, "Royal Armor of Nix|||+6||||" },
+            {150, "Crown of the Five Seas||||+6|||" },
             {151, "Wayfarer's Boots|||||||Allows your hero to move over rough terrain without penalty" },
             {153, "Demon's Horseshoe|||||||Decreases enemy's Luck by 1" },
             {154, "Shaman's Puppet|||||||Decreases enemy's Luck by 2" },
@@ -622,11 +696,22 @@ namespace Heroes3Editor.Models
             {157, "Pendant of Downfall|||||||Decreases enemy's Morale by 2" },
             {158, "Ring of Oblivion|||||||Makes all losses in the battle irrevocable" },
             {159, "Cape of Silence|||||||Bans all level 1 and 2 spells in battle" },
-            {160, "Golden Goose|||||||Combination Artifact: brings 7000 gold per day" },
+            {160, "Golden Goose|||||||Combination Artifact: brings 7000 gold per day|2" },
             {161, "Horn of the Abyss|||||||After a stack of living creatures is slain, a stack of Fangarms will rise in their stead and will stay loyal to the hero after the battle concludes" },
             {162, "Charm of Eclipse|||||||Reduces the Power skill of enemy hero by 10% during combat" },
             {163, "Seal of Sunset|||||||Reduces the Power skill of enemy hero by 10% during combat" },
-            {164, "Plate of Dying Light|||||||Reduces the Power skill of enemy hero by 25% during combat" }
+            {164, "Plate of Dying Light|||||||Reduces the Power skill of enemy hero by 25% during combat" },
+            {165, "Sleepkeeper|||||||Give your units mind spells immunity" }
+        };
+
+        private static readonly Dictionary<byte, string> _hotaNamesByCode = new()
+        {
+            {0x36, "Amulet of the Undertaker|||||||Necromancy +2.5%" },
+            {0x37, "Vampire's Cowl|||||||Necromancy 5%" },
+            {0x38, "Dead Men's Boots|||||||Necromancy 7.5%" },
+            {0x46, "Equestrian's Gloves|||||||Hero Movement Points +200" },
+            {0x62, "Boots of Speed|||||||Hero Movement Points +400" },
+            {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +15%, Raise more Creature Types|NB" },
         };
 
         private static readonly Dictionary<string, byte> _codesByName = _namesByCode.ToDictionary(i => i.Value, i => i.Key);
@@ -636,96 +721,160 @@ namespace Heroes3Editor.Models
         public string this[byte key] => _namesByCode[key];
 
         public byte this[string key] => _codesByName[key];
+
+        public Dictionary<string, string> LangDescriptions { get; set; }
+        public Dictionary<string, string> HotaLangDescriptions { get; set; }
+
+        public void UpdateHotaDescriptions()
+        {
+            foreach (var code in _hotaNamesByCode)
+            {
+                if (_namesByCode.ContainsKey(code.Key))
+                    _namesByCode[code.Key] = code.Value;
+            }
+
+            UpdateHotaLangDescriptions();
+        }
+
+        public void UpdateHotaLangDescriptions()
+        {
+            if (LangDescriptions != null && HotaLangDescriptions != null)
+            {
+                foreach (var item in HotaLangDescriptions)
+                {
+                    if (LangDescriptions.ContainsKey(item.Key))
+                        LangDescriptions[item.Key] = item.Value;
+                }
+            }
+        }
     }
 
     public class Spells
     {
-        private static readonly Dictionary<int, string> _namesByCode = new Dictionary<int, string>()
+        public Spells()
         {
-            {0, "Summon_Boat"},
-            {1, "Scuttle_Boat"},
-            {2, "Visions"},
-            {3, "View_Earth"},
-            {4, "Disguise"},
-            {5, "View_Air"},
-            {6, "Fly"},
-            {7, "Water_Walk"},
-            {8, "Dimension_Door"},
-            {9, "Town_Portal"},
-            {10, "Quick_Sand"},
-            {11, "Land_Mine"},
-            {12, "Force_Field"},
-            {13, "Fire_Wall"},
-            {14, "Earthquake"},
-            {15, "Magic_Arrow"},
-            {16, "Ice_Bolt"},
-            {17, "Lightning_Bolt"},
-            {18, "Implosion"},
-            {19, "Chain_Lightning"},
-            {20, "Frost_Ring"},
-            {21, "Fireball"},
-            {22, "Inferno"},
-            {23, "Meteor_Shower"},
-            {24, "Death_Ripple"},
-            {25, "Destroy_Undead"},
-            {26, "Armageddon"},
-            {27, "Shield"},
-            {28, "Air_Shield"},
-            {29, "Fire_Shield"},
-            {30, "Protection_from_Air"},
-            {31, "Protection_from_Fire"},
-            {32, "Protection_from_Water"},
-            {33, "Protection_from_Earth"},
-            {34, "Anti_Magic"},
-            {35, "Dispel"},
-            {36, "Magic_Mirror"},
-            {37, "Cure"},
-            {38, "Resurrection"},
-            {39, "Animate_Dead"},
-            {40, "Sacrifice"},
-            {41, "Bless"},
-            {42, "Curse"},
-            {43, "Bloodlust"},
-            {44, "Precision"},
-            {45, "Weakness"},
-            {46, "Stone_Skin"},
-            {47, "Disrupting_Ray"},
-            {48, "Prayer"},
-            {49, "Mirth"},
-            {50, "Sorrow"},
-            {51, "Fortune"},
-            {52, "Misfortune"},
-            {53, "Haste"},
-            {54, "Slow"},
-            {55, "Slayer"},
-            {56, "Frenzy"},
-            {57, "Titans_Lightning_Bolt"},
-            {58, "Counterstrike"},
-            {59, "Berserk"},
-            {60, "Hypnotize"},
-            {61, "Forgetfulness"},
-            {62, "Blind"},
-            {63, "Teleport"},
-            {64, "Remove_Obstacle"},
-            {65, "Clone"},
-            {66, "Summon_Fire_Elemental"},
-            {67, "Summon_Earth_Elemental"},
-            {68, "Summon_Water_Elemental"},
-            {69, "Summon_Air_Elemental"}
-        };
+            NamesByCode = new Dictionary<byte, string>
+            {
+                { 0, "Summon Boat" },
+                { 1, "Scuttle Boat" },
+                { 2, "Visions" },
+                { 3, "View Earth" },
+                { 4, "Disguise" },
+                { 5, "View Air" },
+                { 6, "Fly" },
+                { 7, "Water Walk" },
+                { 8, "Dimension Door" },
+                { 9, "Town Portal" },
+                { 10, "Quick Sand" },
+                { 11, "Land Mine" },
+                { 12, "Force Field" },
+                { 13, "Fire Wall" },
+                { 14, "Earthquake" },
+                { 15, "Magic Arrow" },
+                { 16, "Ice Bolt" },
+                { 17, "Lightning Bolt" },
+                { 18, "Implosion" },
+                { 19, "Chain Lightning" },
+                { 20, "Frost Ring" },
+                { 21, "Fireball" },
+                { 22, "Inferno" },
+                { 23, "Meteor Shower" },
+                { 24, "Death Ripple" },
+                { 25, "Destroy Undead" },
+                { 26, "Armageddon" },
+                { 27, "Shield" },
+                { 28, "Air Shield" },
+                { 29, "Fire Shield" },
+                { 30, "Protection from Air" },
+                { 31, "Protection from Fire" },
+                { 32, "Protection from Water" },
+                { 33, "Protection from Earth" },
+                { 34, "Anti Magic" },
+                { 35, "Dispel" },
+                { 36, "Magic Mirror" },
+                { 37, "Cure" },
+                { 38, "Resurrection" },
+                { 39, "Animate Dead" },
+                { 40, "Sacrifice" },
+                { 41, "Bless" },
+                { 42, "Curse" },
+                { 43, "Bloodlust" },
+                { 44, "Precision" },
+                { 45, "Weakness" },
+                { 46, "Stone Skin" },
+                { 47, "Disrupting Ray" },
+                { 48, "Prayer" },
+                { 49, "Mirth" },
+                { 50, "Sorrow" },
+                { 51, "Fortune" },
+                { 52, "Misfortune" },
+                { 53, "Haste" },
+                { 54, "Slow" },
+                { 55, "Slayer" },
+                { 56, "Frenzy" },
+                { 57, "Titans Lightning Bolt" },
+                { 58, "Counterstrike" },
+                { 59, "Berserk" },
+                { 60, "Hypnotize" },
+                { 61, "Forgetfulness" },
+                { 62, "Blind" },
+                { 63, "Teleport" },
+                { 64, "Remove Obstacle" },
+                { 65, "Clone" },
+                { 66, "Summon Fire Elemental" },
+                { 67, "Summon Earth Elemental" },
+                { 68, "Summon Water Elemental" },
+                { 69, "Summon Air Elemental" }
+            };
+        }
+        
+        protected Dictionary<string, string> Lang { get; set; }
+        protected Dictionary<string, string> LangInverted { get; set; }
+        public Dictionary<string, string> LangDescriptions { get; set; }
+        
+        protected Dictionary<byte, string> NamesByCode { get; }
+        
+        internal Dictionary<string, byte> CodesByName => NamesByCode?.ToDictionary(i => i.Value, i => i.Key);
+        
+        public string[] Names => NamesByCode?.Values.ToArray();
+        
+        public string this[byte key] => NamesByCode[key];
+        
+        public string ByLang(byte key) => Lang != null && Lang.ContainsKey(NamesByCode[key])
+            ? Lang[NamesByCode[key]]
+            : NamesByCode[key];
+        
+        public byte KeyByLang(string key) => LangInverted != null && LangInverted.ContainsKey(key) 
+            ? CodesByName[LangInverted[key]]
+            : CodesByName[key];
 
-        private static readonly Dictionary<string, int> _codesByName = _namesByCode.ToDictionary(i => i.Value, i => i.Key);
+        public byte this[string key] => CodesByName[key];
+        
+        public string ByLang(string key) => Lang != null && Lang.ContainsKey(key) 
+            ? Lang[key]
+            : key;
+        
+        public void SetLang(Dictionary<string, string> langData, Dictionary<string, string> descriptions)
+        {
+            if (langData == null)
+            {
+                Lang = null;
+                LangInverted = null;
+                return;
+            }
 
-        public string this[int key] => _namesByCode[key];
-
-        public int this[string key] => _codesByName[key];
+            Lang = langData;
+            LangInverted = langData.ToDictionary(key => key.Value, value => value.Key);
+            LangDescriptions = descriptions;
+        }
     }
 
     public class Creatures : BaseArtifact
     {
         public Creatures()
         {
-            _namesByCode = new Dictionary<byte, string>() {
+            NamesByCode = new Dictionary<byte, string>
+            {
                 {0x00, "Pikeman"},
                 {0x01, "Halberdier"},
                 {0x02, "Archer"},
@@ -844,8 +993,8 @@ namespace Heroes3Editor.Models
                 {0x73, "Water Elemental"},
                 {0x74, "Gold Golem"},
                 {0x75, "Diamond Golem"},
-                {0x76, "Pixies"},
-                {0x77, "Sprites"},
+                {0x76, "Pixie"},
+                {0x77, "Sprite"},
                 {0x78, "Psychic Elemental"},
                 {0x79, "Magic Elemental"},
                 {0x7B, "Ice Elemental"},
@@ -868,26 +1017,45 @@ namespace Heroes3Editor.Models
                 {0x8F, "Rogue"},
                 {0x90, "Troll"},
             };
-            _HOTANamesByCode = new Dictionary<byte, string>() {
+            HOTANamesByCode = new Dictionary<byte, string>
+            {
+                // Cove
                 {153, "Nymph"},
-                {154, "Oceanids"},
-                {155, "Crew Mates"},
+                {154, "Oceanid"},
+                {155, "Crew Mate"},
                 {156, "Seamen"},
-                {157, "Pirates"},
-                {158, "Corsairs"},
-                {151, "Sea Dogs"},
-                {159, "Stormbirds"},
-                {160, "Ayssids"},
-                {161, "Sea Witches"},
-                {162, "Sorceresses"},
+                {157, "Pirate"},
+                {158, "Corsair"},
+                {151, "Sea Dog"},
+                {159, "Stormbird"},
+                {160, "Ayssid"},
+                {161, "Sea Witch"},
+                {162, "Sorceress"},
                 {163, "Nix"},
-                {164, "Nix Warriors"},
-                {165, "Sea Serpents"},
-                {166, "Haspids"},
-                {167, "Satyrs"},
-                {168, "Fangarms"},
-                {169, "Leprechauns"},
-                {170, "Steel golems"}
+                {164, "Nix Warrior"},
+                {165, "Sea Serpent"},
+                {166, "Haspid"},
+                // HOTA neutrals
+                {167, "Satyr"},
+                {168, "Fangarm"},
+                {169, "Leprechaun"},
+                {170, "Steel golem"},
+                // Factory
+                {171, "Halfling Grenadier"},
+                {172, "Mechanic"},
+                {173, "Engineer"},
+                {174, "Armadillo"},
+                {175, "Bellwether Armadillo"},
+                {176, "Automaton"},
+                {177, "Sentinel Automaton"},
+                {178, "Sandworm"},
+                {179, "Olgoi-Khorkhoi"},
+                {180, "Gunslinger"},
+                {181, "Bounty Hunter"},
+                {182, "Couatl"},
+                {183, "Crimson Couatl"},
+                {184, "Dreadnought"},
+                {185, "Juggernaut"},
             };
         }
     }

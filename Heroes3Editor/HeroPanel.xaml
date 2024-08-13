@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Heroes3Editor.Models"
-             mc:Ignorable="d" 
-             d:DesignHeight="1433" d:DesignWidth="800">
+             xmlns:heroes3Editor="clr-namespace:Heroes3Editor"
+             mc:Ignorable="d" d:DesignWidth="800" Height="685">
     <UserControl.Resources>
         <local:Constants x:Key="constants"/>
+        <heroes3Editor:NullItem2Visibility x:Key="NullItem2Visibility"/>
         <Style TargetType="GroupBox">
             <Setter Property="Margin" Value="5" />
             <Setter Property="Padding" Value="5" />
@@ -26,546 +27,584 @@
             <Setter Property="Margin" Value="5,0,0,0" />
         </Style>
     </UserControl.Resources>
-    <ScrollViewer>
-        <StackPanel>
-            <GroupBox Header="Primary Skills">
-                <Grid>
+    <StackPanel>
+        <GroupBox Header="Primary Skills">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                    <Label>Attack</Label>
+                    <TextBox Name="Attribute0" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                    <Label>Defense</Label>
+                    <TextBox Name="Attribute1" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                    <Label>Spell Power</Label>
+                    <TextBox Name="Attribute2" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
+                    <Label>Knowledge</Label>
+                    <TextBox Name="Attribute3" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <TabControl>
+            <TabItem Header="Secondary Skills">
+                <Grid DataContext="{Binding Source={StaticResource constants}}" Margin="5">
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,0,0" />
+                        </Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Width" Value="Auto" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="3" />
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="Auto" />
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="Margin" Value="3" />
+                            <Setter Property="Padding" Value="10 0 10 0" />
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.7*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1.1*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                        <Label>Attack</Label>
-                        <TextBox Name="Attribute0" TextChanged="UpdateAttribute"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                        <Label>Defense</Label>
-                        <TextBox Name="Attribute1" TextChanged="UpdateAttribute"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
-                        <Label>Spell Power</Label>
-                        <TextBox Name="Attribute2" TextChanged="UpdateAttribute"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
-                        <Label>Knowledge</Label>
-                        <TextBox Name="Attribute3" TextChanged="UpdateAttribute"></TextBox>
-                    </StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">Type</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center">Mastery</TextBlock>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0">Skill 1:</TextBlock>
+                    <ComboBox Name="Skill0" Grid.Row="1" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel0" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill0" Grid.Row="1" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0">Skill 2:</TextBlock>
+                    <ComboBox Name="Skill1" Grid.Row="2" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel1" Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill1" Grid.Row="2" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="3" Grid.Column="0">Skill 3:</TextBlock>
+                    <ComboBox Name="Skill2" Grid.Row="3" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel2" Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill2" Grid.Row="3" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="4" Grid.Column="0">Skill 4:</TextBlock>
+                    <ComboBox Name="Skill3" Grid.Row="4" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel3" Grid.Row="4" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill3" Grid.Row="4" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="5" Grid.Column="0">Skill 5:</TextBlock>
+                    <ComboBox Name="Skill4" Grid.Row="5" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel4" Grid.Row="5" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill4" Grid.Row="5" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="6" Grid.Column="0">Skill 6:</TextBlock>
+                    <ComboBox Name="Skill5" Grid.Row="6" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel5" Grid.Row="6" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill5" Grid.Row="6" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="7" Grid.Column="0">Skill 7:</TextBlock>
+                    <ComboBox Name="Skill6" Grid.Row="7" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel6" Grid.Row="7" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill6" Grid.Row="7" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    
+                    <TextBlock Grid.Row="8" Grid.Column="0">Skill 8:</TextBlock>
+                    <ComboBox Name="Skill7" Grid.Row="8" Grid.Column="1" SelectionChanged="UpdateSkill" />
+                    <ComboBox Name="SkillLevel7" Grid.Row="8" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
+                    <Button Name="ClearSkill7" Grid.Row="8" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
                 </Grid>
-            </GroupBox>
-            <GroupBox Header="Secondary Skills">
-                <Grid DataContext="{Binding Source={StaticResource constants}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="2">
-                        <ComboBox Name="Skill0" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel0" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="2">
-                        <ComboBox Name="Skill1" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel1" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2" Margin="2">
-                        <ComboBox Name="Skill2" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel2" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3" Margin="2">
-                        <ComboBox Name="Skill3" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel3" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="2">
-                        <ComboBox Name="Skill4" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel4" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="2">
-                        <ComboBox Name="Skill5" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel5" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="2">
-                        <ComboBox Name="Skill6" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel6" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="3" Margin="2">
-                        <ComboBox Name="Skill7" ItemsSource="{Binding Path=Skills.Names}" SelectionChanged="UpdateSkill" />
-                        <TextBox Name="SkillLevel7" TextChanged="UpdateSkillLevel"></TextBox>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Spells">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="1*" />
-                    </Grid.RowDefinitions>
-                    <GroupBox Header="All Schools" Grid.Row="0" Grid.ColumnSpan="4">
+            </TabItem>
+            <TabItem Header="Spells" Name="TabSpells">
+                <StackPanel>
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="ToolTip">
+                                <Style.Resources>
+                                    <Style TargetType="ContentPresenter">
+                                        <Style.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                            </Style>
+                                        </Style.Resources>
+                                    </Style>
+                                </Style.Resources>
+                                <Setter Property="MaxWidth" Value="300" />
+
+                            </Style>
+                            <Style TargetType="CheckBox">
+                                <Setter Property="Margin" Value="3" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Spell Book" Grid.Row="0" Grid.Column="0">
+                            <CheckBox Name="SpellBook" Checked="ToggleSpellBook" Unchecked="ToggleSpellBook">Exist</CheckBox>
+                        </GroupBox>
+                        <GroupBox Header="All Schools" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                            <WrapPanel>
+                                <CheckBox ToolTip="Target, enemy troop receives magic damage" Name="Magic_Arrow" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Magic Arrow
+                                </CheckBox>
+                                <CheckBox Name="Visions" ToolTip="Increases information shown in scouting reports of towns, creatures and heroes." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Visions
+                                </CheckBox>
+                            </WrapPanel>
+                        </GroupBox>
+                        <GroupBox Header="Air Magic" Grid.Row="1" Grid.Column="0">
+                            <StackPanel>
+                                <CheckBox ToolTip="Targeted allied unit(s) speed is increased." Name="Haste" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Haste
+                                </CheckBox>
+                                <CheckBox ToolTip="Reveals location of all unclaimed artifacts." Name="View_Air" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    View Air
+                                </CheckBox>
+                                <CheckBox ToolTip="Modifies the army composition scouting report visible to enemies." Name="Disguise" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Disguise
+                                </CheckBox>
+                                <CheckBox Name="Disrupting_Ray" ToolTip="Reduces defense rating of a single enemy. May be used repeatedly on the same target." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Disrupting Ray
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases luck." Name="Fortune" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fortune
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Lightning_Bolt" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Lightning Bolt
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases ranged attack rating." Name="Precision" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Precision
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces damage taken from air spells." Name="Protection_from_Air" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Protection from Air
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces damage taken from ranged attacks." Name="Air_Shield" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Air Shield
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all undead creatures." Name="Destroy_Undead" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Destroy Undead
+                                </CheckBox>
+                                <CheckBox ToolTip="Allows control of actions taken by enemy creature." Name="Hypnotize" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Hypnotize
+                                </CheckBox>
+                                <CheckBox Name="Chain_Lightning" ToolTip="Inflicts magic damage on initial creature and reduced damage on nearby creatures." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Chain Lightning
+                                </CheckBox>
+                                <CheckBox ToolTip="Allows extra retaliations per round." Name="Counterstrike" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Counterstrike
+                                </CheckBox>
+                                <CheckBox ToolTip="Teleports hero to visible location." Name="Dimension_Door" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Dimension Door
+                                </CheckBox>
+                                <CheckBox Name="Fly" ToolTip="Allows movement to visible land over all map obstacles. Cannot fly through cave walls in the underground." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fly
+                                </CheckBox>
+                                <CheckBox ToolTip="Reflects hostile spells to a random enemy." Name="Magic_Mirror" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Magic Mirror
+                                </CheckBox>
+                                <CheckBox ToolTip="Summons allied Air Elementals for the duration of combat." Name="Summon_Air_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Summon Air Elemental
+                                </CheckBox>
+                                <CheckBox Name="Titans_Lightning_Bolt" ToolTip="Inflicts 600 magic damage on a single enemy. Requires Titan's Thunder." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Titan's Lightning Bolt
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Earth Magic" Grid.Row="1" Grid.Column="1">
+                            <StackPanel>
+                                <CheckBox ToolTip="Reduces damage taken from hand-to-hand attacks." Name="Shield" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Shield
+                                </CheckBox>
+                                <CheckBox ToolTip="Decreases speed." Name="Slow" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Slow
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases defense rating." Name="Stone_Skin" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Stone Skin
+                                </CheckBox>
+                                <CheckBox ToolTip="Reveals location of all resources." Name="View_Earth" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    View Earth
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all living creatures." Name="Death_Ripple" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Death Ripple
+                                </CheckBox>
+                                <CheckBox Name="Quick_Sand" ToolTip="Places quicksand at random locations on the battlefield. Only visible to caster and creatures native to the terrain." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Quick Sand
+                                </CheckBox>
+                                <CheckBox Name="Animate_Dead" ToolTip="Reanimates killed undead creatures. Reanimated creatures are not lost when combat ends." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Animate Dead
+                                </CheckBox>
+                                <CheckBox ToolTip="Grants spell immunity to a single creature." Name="Anti_Magic" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Anti-Magic
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts damage on random castle wall sections during a siege." Name="Earthquake" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Earthquake
+                                </CheckBox>
+                                <CheckBox Name="Force_Field" ToolTip="Places force field at specified location. Creatures cannot pass this field." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Force Field
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces damage taken from earth spells." Name="Protection_from_Earth" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Protection from Earth
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Meteor_Shower" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Meteor Shower
+                                </CheckBox>
+                                <CheckBox ToolTip="Resurrects killed living creatures until the end of combat." Name="Resurrection" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Resurrection
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces morale." Name="Sorrow" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Sorrow
+                                </CheckBox>
+                                <CheckBox ToolTip="Teleports hero to closest allied, unoccupied town." Name="Town_Portal" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Town Portal
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Implosion" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Implosion
+                                </CheckBox>
+                                <CheckBox ToolTip="Summons allied Earth Elementals for the duration of combat." Name="Summon_Earth_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Summon Earth Elemental
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Fire Magic" Grid.Row="1" Grid.Column="2">
+                            <StackPanel>
+                                <CheckBox ToolTip="Increases the attack skill of target(s) for melee attacks." Name="Bloodlust" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Bloodlust
+                                </CheckBox>
+                                <CheckBox ToolTip="The targeted enemy unit(s) deliver reduced damage when attacking." Name="Curse" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Curse
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces damage taken from fire spells." Name="Protection_from_Fire" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Protection from Fire
+                                </CheckBox>
+                                <CheckBox ToolTip="Prevents any action from being taken by target enemy creature." Name="Blind" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Blind
+                                </CheckBox>
+                                <CheckBox Name="Fire_Wall" ToolTip="Creates wall of fire at target location that inflicts magic damage on creatures that pass through." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fire Wall
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Fireball" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fireball
+                                </CheckBox>
+                                <CheckBox Name="Land_Mine" ToolTip="Places landmines at random locations on the battlefield. Only visible to caster and creatures native to the terrain." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Land Mine
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces luck." Name="Misfortune" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Misfortune
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all creatures on the battlefield." Name="Armageddon" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Armageddon
+                                </CheckBox>
+                                <CheckBox ToolTip="Forces enemy to attack closest creature." Name="Berserk" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Berserk
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage proportional to damage taken from hand-to-hand attacks." Name="Fire_Shield" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fire Shield
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases attack rating and sets defense rating to 0." Name="Frenzy" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Frenzy
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Inferno" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Inferno
+                                </CheckBox>
+                                <CheckBox Name="Slayer" ToolTip="Increases attack rating of a single ally against Dragons, Behemoths, Hydras, Angels, Devils and Titans." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Slayer
+                                </CheckBox>
+                                <CheckBox Name="Sacrifice" ToolTip="Destroys and removes living, unkilled allies to bring previously living, killed allies back to life." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Sacrifice
+                                </CheckBox>
+                                <CheckBox ToolTip="Summons allied Fire Elementals for the duration of combat." Name="Summon_Fire_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Summon Fire Elemental
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Water Magic" Grid.Row="1" Grid.Column="3">
+                            <StackPanel>
+                                <CheckBox Name="Cure" ToolTip="Removes all negative spell effects from allied target(s) and heals some hitpoints." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Cure
+                                </CheckBox>
+                                <CheckBox Name="Dispel" ToolTip="Removes all spell effects from target allied, enemy or all creatures and the battlefield." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Dispel
+                                </CheckBox>
+                                <CheckBox ToolTip="Targeted allied creature(s) inflict maximum damage when they attack." Name="Bless" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Bless
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces damage taken from water spells." Name="Protection_from_Water" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Protection from Water
+                                </CheckBox>
+                                <CheckBox ToolTip="Summons unoccupied boat to nearby body of water." Name="Summon_Boat" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Summon Boat
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Ice_Bolt" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Ice Bolt
+                                </CheckBox>
+                                <CheckBox ToolTip="Removes obstacles from the battlefield." Name="Remove_Obstacle" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Remove Obstacle
+                                </CheckBox>
+                                <CheckBox ToolTip="Destroys nearby unoccupied boat." Name="Scuttle_Boat" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Scuttle Boat
+                                </CheckBox>
+                                <CheckBox ToolTip="Reduces attack rating." Name="Weakness" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Weakness
+                                </CheckBox>
+                                <CheckBox ToolTip="Prevents use of ranged attacks." Name="Forgetfulness" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Forgetfulness
+                                </CheckBox>
+                                <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Frost_Ring" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Frost Ring
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases morale." Name="Mirth" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Mirth
+                                </CheckBox>
+                                <CheckBox ToolTip="Teleports ally to location on the battlefield." Name="Teleport" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Teleport
+                                </CheckBox>
+                                <CheckBox ToolTip="Creates clone of allied creature." Name="Clone" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Clone
+                                </CheckBox>
+                                <CheckBox ToolTip="Increases attack rating, defense rating and speed." Name="Prayer" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Prayer
+                                </CheckBox>
+                                <CheckBox ToolTip="Allows movement to visible land across bodies of water." Name="Water_Walk" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Water Walk
+                                </CheckBox>
+                                <CheckBox ToolTip="Summons allied Water Elementals for the duration of combat." Name="Summon_Water_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Summon Water Elemental
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Creatures">
+                <StackPanel Margin="5">
+                    <Grid DataContext="{Binding Source={StaticResource constants}}">
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Right" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Margin" Value="5,0,0,0" />
+                            </Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="Height" Value="21" />
+                                <Setter Property="Margin" Value="5 0" />
+                            </Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="3" />
+                            </Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Width" Value="Auto" />
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Margin" Value="3" />
+                                <Setter Property="Padding" Value="10 0 10 0" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.7*" />
+                            <ColumnDefinition Width="1.6*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">Type</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left">Quantity</TextBlock>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0">Slot 1:</TextBlock>
+                        <ComboBox Name="Creature0" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount0" Grid.Row="1" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature0" Grid.Row="1" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0">Slot 2:</TextBlock>
+                        <ComboBox Name="Creature1" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount1" Grid.Row="2" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature1" Grid.Row="2" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0">Slot 3:</TextBlock>
+                        <ComboBox Name="Creature2" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount2" Grid.Row="3" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature2" Grid.Row="3" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0">Slot 4:</TextBlock>
+                        <ComboBox Name="Creature3" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount3" Grid.Row="4" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature3" Grid.Row="4" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0">Slot 5:</TextBlock>
+                        <ComboBox Name="Creature4" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount4" Grid.Row="5" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature4" Grid.Row="5" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0">Slot 6:</TextBlock>
+                        <ComboBox Name="Creature5" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount5" Grid.Row="6" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature5" Grid.Row="6" Grid.Column="3" Click="ClearCreature">Clear</Button>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0">Slot 7:</TextBlock>
+                        <ComboBox Name="Creature6" Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
+                        <TextBox Name="CreatureAmount6" Grid.Row="7" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
+                        <Button Name="ClearCreature6" Grid.Row="7" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Equipment">
+                <StackPanel>
+                    <GroupBox Header="War Machines">
                         <WrapPanel>
-                            <CheckBox ToolTip="Target, enemy troop receives magic damage" Name="Magic_Arrow" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Magic Arrow</Label>
+                            <CheckBox Name="Ballista" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista">
+                                <Label>Ballista</Label>
                             </CheckBox>
-                            <CheckBox Name="Visions" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Increases information shown in scouting reports of towns,
-                                    <LineBreak />
-                                    creatures and heroes.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Visions</Label>
+                            <RadioButton GroupName="Artillery" Name="BallistaRadio" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista" Visibility="Hidden">
+                                <Label>Ballista</Label>
+                            </RadioButton>
+                            <RadioButton GroupName="Artillery" Name="Canon" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Canon" Visibility="Hidden">
+                                <Label>Canon</Label>
+                            </RadioButton>
+                            <CheckBox Name="Ammo_Cart" Margin="25,0" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ammo_Cart">
+                                <Label>Ammo Cart</Label>
+                            </CheckBox>
+                            <CheckBox Name="First_Aid_Tent" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="First_Aid_Tent">
+                                <Label>First Aid Tent</Label>
                             </CheckBox>
                         </WrapPanel>
                     </GroupBox>
-                    <GroupBox Header="Air Magic" Grid.Row="1" Grid.Column="0">
-                        <StackPanel>
-                            <CheckBox ToolTip="Targeted allied unit(s) speed is increased." Name="Haste" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Haste</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reveals location of all unclaimed artifacts." Name="View_Air" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>View Air</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Modifies the army composition scouting report visible to enemies." Name="Disguise" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Disguise</Label>
-                            </CheckBox>
-                            <CheckBox Name="Disrupting_Ray" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Reduces defense rating of a single enemy.
-                                    <LineBreak />
-                                    May be used repeatedly on the same target.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Disrupting Ray</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases luck." Name="Fortune" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Fortune</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Lightning_Bolt" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Lightning Bolt</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases ranged attack rating." Name="Precision" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Precision</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces damage taken from air spells." Name="Protection_from_Air" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Protection from Air</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces damage taken from ranged attacks." Name="Air_Shield" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Air Shield</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all undead creatures." Name="Destroy_Undead" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Destroy Undead</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Allows control of actions taken by enemy creature." Name="Hypnotize" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Hypnotize</Label>
-                            </CheckBox>
-                            <CheckBox Name="Chain_Lightning" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Inflicts magic damage on initial creature
-                                    <LineBreak />
-                                    and reduced damage on nearby creatures.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Chain Lightning</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Allows extra retaliations per round." Name="Counterstrike" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Counterstrike</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Teleports hero to visible location." Name="Dimension_Door" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Dimension Door</Label>
-                            </CheckBox>
-                            <CheckBox Name="Fly" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Allows movement to visible land over all map obstacles.
-                                    <LineBreak />
-                                    Cannot fly through cave walls in the underground.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Fly</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reflects hostile spells to a random enemy." Name="Magic_Mirror" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Magic Mirror</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Summons allied Air Elementals for the duration of combat." Name="Summon_Air_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Summon Air Elemental</Label>
-                            </CheckBox>
-                            <CheckBox Name="Titans_Lightning_Bolt" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Inflicts 600 magic damage on a single enemy.
-                                    <LineBreak />
-                                    Requires Titan's Thunder.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Titan's Lightning Bolt</Label>
-                            </CheckBox>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Earth Magic" Grid.Row="1" Grid.Column="1">
-                        <StackPanel>
-                            <CheckBox ToolTip="Reduces damage taken from hand-to-hand attacks." Name="Shield" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Shield</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Decreases speed." Name="Slow" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Slow</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases defense rating." Name="Stone_Skin" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Stone Skin</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reveals location of all resources." Name="View_Earth" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>View Earth</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all living creatures." Name="Death_Ripple" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Death Ripple</Label>
-                            </CheckBox>
-                            <CheckBox Name="Quick_Sand" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Places quicksand at random locations on the battlefield.
-                                    <LineBreak />
-                                    Only visible to caster and creatures native to the terrain.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Quick Sand</Label>
-                            </CheckBox>
-                            <CheckBox Name="Animate_Dead" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Reanimates killed undead creatures.
-                                    <LineBreak />
-                                    Reanimated creatures are not lost when combat ends.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Animate Dead</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Grants spell immunity to a single creature." Name="Anti_Magic" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Anti-Magic</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts damage on random castle wall sections during a siege." Name="Earthquake" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Earthquake</Label>
-                            </CheckBox>
-                            <CheckBox Name="Force_Field" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Places force field at specified location.
-                                    <LineBreak />
-                                    Creatures cannot pass this field.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Force Field</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces damage taken from earth spells." Name="Protection_from_Earth" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Protection from Earth</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Meteor_Shower" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Meteor Shower</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Resurrects killed living creatures until the end of combat." Name="Resurrection" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Resurrection</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces morale." Name="Sorrow" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Sorrow</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Teleports hero to closest allied, unoccupied town." Name="Town_Portal" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Town Portal</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Implosion" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Implosion</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Summons allied Earth Elementals for the duration of combat." Name="Summon_Earth_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Summon Earth Elemental</Label>
-                            </CheckBox>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Fire Magic" Grid.Row="1" Grid.Column="2">
-                        <StackPanel>
-                            <CheckBox ToolTip="Increases the attack skill of target(s) for melee attacks." Name="Bloodlust" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Bloodlust</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="The targeted enemy unit(s) deliver reduced damage when attacking." Name="Curse" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Curse</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces damage taken from fire spells." Name="Protection_from_Fire" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Protection from Fire</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Prevents any action from being taken by target enemy creature." Name="Blind" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Blind</Label>
-                            </CheckBox>
-                            <CheckBox Name="Fire_Wall" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Creates wall of fire at target location that inflicts
-                                    <LineBreak />
-                                    magic damage on creatures that pass through.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Fire Wall</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Fireball" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Fireball</Label>
-                            </CheckBox>
-                            <CheckBox Name="Land_Mine" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Places landmines at random locations on the battlefield.
-                                    <LineBreak />
-                                    Only visible to caster and creatures native to the terrain.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Land Mine</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces luck." Name="Misfortune" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Misfortune</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all creatures on the battlefield." Name="Armageddon" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Armageddon</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Forces enemy to attack closest creature." Name="Berserk" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Berserk</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage proportional to damage taken from hand-to-hand attacks." Name="Fire_Shield" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Fire Shield</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases attack rating and sets defense rating to 0." Name="Frenzy" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Frenzy</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Inferno" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Inferno</Label>
-                            </CheckBox>
-                            <CheckBox Name="Slayer" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Increases attack rating of a single ally against Dragons, Behemoths,
-                                    <LineBreak />
-                                    Hydras, Angels, Devils and Titans.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Slayer</Label>
-                            </CheckBox>
-                            <CheckBox Name="Sacrifice" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Destroys and removes living, unkilled allies to bring
-                                    <LineBreak />
-                                    previously living, killed allies back to life.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Sacrifice</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Summons allied Fire Elementals for the duration of combat." Name="Summon_Fire_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Summon Fire Elemental</Label>
-                            </CheckBox>
-                        </StackPanel>
-                    </GroupBox>
-                    <GroupBox Header="Water Magic" Grid.Row="1" Grid.Column="3">
-                        <StackPanel>
-                            <CheckBox Name="Cure" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Removes all negative spell effects from allied target(s)
-                                    <LineBreak />
-                                    and heals some hitpoints.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Cure</Label>
-                            </CheckBox>
-                            <CheckBox Name="Dispel" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <CheckBox.ToolTip>
-                                    <TextBlock>
-                                    Removes all spell effects from target allied,
-                                    <LineBreak />
-                                    enemy or all creatures and the battlefield.
-                                    </TextBlock>
-                                </CheckBox.ToolTip>
-                                <Label>Dispel</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Targeted allied creature(s) inflict maximum damage when they attack." Name="Bless" Checked="AddSpell" Unchecked="RemoveSpell">
-                                
-                                <Label>Bless</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces damage taken from water spells." Name="Protection_from_Water" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Protection from Water</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Summons unoccupied boat to nearby body of water." Name="Summon_Boat" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Summon Boat</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Ice_Bolt" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Ice Bolt</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Removes obstacles from the battlefield." Name="Remove_Obstacle" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Remove Obstacle</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Destroys nearby unoccupied boat." Name="Scuttle_Boat" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Scuttle Boat</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Reduces attack rating." Name="Weakness" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Weakness</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Prevents use of ranged attacks." Name="Forgetfulness" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Forgetfulness</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Inflicts magic damage on all creatures in area." Name="Frost_Ring" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Frost Ring</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases morale." Name="Mirth" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Mirth</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Teleports ally to location on the battlefield." Name="Teleport" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Teleport</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Creates clone of allied creature." Name="Clone" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Clone</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Increases attack rating, defense rating and speed." Name="Prayer" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Prayer</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Allows movement to visible land across bodies of water." Name="Water_Walk" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Water Walk</Label>
-                            </CheckBox>
-                            <CheckBox ToolTip="Summons allied Water Elementals for the duration of combat." Name="Summon_Water_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                <Label>Summon Water Elemental</Label>
-                            </CheckBox>
-                        </StackPanel>
-                    </GroupBox>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Creatures">
-                <Grid DataContext="{Binding Source={StaticResource constants}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="2">
-                        <ComboBox Name="Creature0" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount0" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="2">
-                        <ComboBox Name="Creature1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount1" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2" Margin="2">
-                        <ComboBox Name="Creature2" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount2" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3" Margin="2">
-                        <ComboBox Name="Creature3" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount3" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="2">
-                        <ComboBox Name="Creature4" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount4" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="2">
-                        <ComboBox Name="Creature5" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount5" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Margin="2">
-                        <ComboBox Name="Creature6" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
-                        <TextBox Name="CreatureAmount6" TextChanged="UpdateCreatureAmount"></TextBox>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="War Machines">
-                <WrapPanel>
-                    <CheckBox Name="Ballista" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista">
-                        <Label>Ballista</Label>
-                    </CheckBox>
-                    <RadioButton GroupName="Artillery" Name="BallistaRadio" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista" Visibility="Hidden">
-                        <Label>Ballista</Label>
-                    </RadioButton>
-                    <RadioButton GroupName="Artillery" Name="Canon" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Canon" Visibility="Hidden">
-                        <Label>Canon</Label>
-                    </RadioButton>
-                    <CheckBox Name="Ammo_Cart" Margin="25,0" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ammo_Cart">
-                        <Label>Ammo Cart</Label>
-                    </CheckBox>
-                    <CheckBox Name="First_Aid_Tent" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="First_Aid_Tent">
-                        <Label>First Aid Tent</Label>
-                    </CheckBox>
-                </WrapPanel>
-            </GroupBox>
-            <GroupBox Header="Equipped Artifacts">
-                <Grid DataContext="{Binding Source={StaticResource constants}}" HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="ComboBox">
-                            <Setter Property="Width" Value="200" />
-                        </Style>
-                    </Grid.Resources>
-                    <StackPanel Grid.Row="0" Grid.Column="0">
-                        <GroupBox Header="Helm">
-                            <ComboBox Name="EA_Helm" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Helms.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Neck">
-                            <ComboBox Name="EA_Neck" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Neck.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Armor">
-                            <ComboBox Name="EA_Armor" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Armor.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Cloak">
-                            <ComboBox Name="EA_Cloak" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Cloak.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Boots">
-                            <ComboBox Name="EA_Boots" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Boots.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                    </StackPanel>
-                    <StackPanel Grid.Row="0" Grid.Column="1">
-                        <GroupBox Header="Weapon">
-                            <ComboBox Name="EA_Weapon" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Weapons.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Shield">
-                            <ComboBox Name="EA_Shield" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Shields.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Left Ring">
-                            <ComboBox Name="EA_LeftRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                        <GroupBox Header="Right Ring">
-                            <ComboBox Name="EA_RightRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                        </GroupBox>
-                    </StackPanel>
-                    <GroupBox Header="Item Slots" Grid.Row="0" Grid.Column="2">
-                        <StackPanel>
-                            <StackPanel.Resources>
+                    <GroupBox Header="Equipped Artifacts">
+                        <Grid DataContext="{Binding Source={StaticResource constants}}" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.Resources>
                                 <Style TargetType="ComboBox">
-                                    <Setter Property="Margin" Value="0,5"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
                                 </Style>
-                            </StackPanel.Resources>
-                            <ComboBox Name="EA_Item1" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                            <ComboBox Name="EA_Item2" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                            <ComboBox Name="EA_Item3" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                            <ComboBox Name="EA_Item4" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                            <ComboBox Name="EA_Item5" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
-                            <GroupBox Header="Artifact Info" Name="ArtifactInfo" >
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Margin" Value="0 0 0 0" />
+                                    <Setter Property="Padding" Value="0 2 0 2" />
+                                </Style>
+                            </Grid.Resources>
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <GroupBox Header="Helm">
+                                    <ComboBox Name="EA_Helm" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Helms.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Neck">
+                                    <ComboBox Name="EA_Neck" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Neck.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Armor">
+                                    <ComboBox Name="EA_Armor" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Armor.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Cloak">
+                                    <ComboBox Name="EA_Cloak" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Cloak.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Boots">
+                                    <ComboBox Name="EA_Boots" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Boots.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <GroupBox Header="Weapon">
+                                    <ComboBox Name="EA_Weapon" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Weapons.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Shield">
+                                    <ComboBox Name="EA_Shield" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Shields.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Left Ring">
+                                    <ComboBox Name="EA_LeftRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Right Ring">
+                                    <ComboBox Name="EA_RightRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2">
+                                <GroupBox Header="Item #1">
+                                    <ComboBox Name="EA_Item1" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Item#2">
+                                    <ComboBox Name="EA_Item2" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Item #3">
+                                    <ComboBox Name="EA_Item3" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Item #4">
+                                    <ComboBox Name="EA_Item4" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                                <GroupBox Header="Item #5">
+                                    <ComboBox Name="EA_Item5" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
+                                </GroupBox>
+                            </StackPanel>
+                            <GroupBox Name="GroupBoxInventory" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Header="Inventory">
+                                <Grid DataContext="{Binding Source={StaticResource constants}}" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*" />
+                                        <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ListBox Height="205" VerticalAlignment="Top" Name="ListBoxInventory" SelectionChanged="ListBoxInventory_OnSelectionChanged" MouseEnter="ListBoxInventory_MouseEnter" />
+                                    <StackPanel Grid.Column="1">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="Button">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="Width" Value="120" />
+                                                <Setter Property="Height" Value="25" />
+                                                <Setter Property="Margin" Value="5" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <Button Click="AddInventoryItem">Add</Button>
+                                        <Button Click="RemoveInventoryItem">Remove</Button>
+                                        <Button Click="RemoveAllInventoryItems">Remove All</Button>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Grid.Column="2" Header="Artifact Info" Name="ArtifactInfo" >
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
@@ -603,14 +642,14 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2">
                                         <Label>Effects:</Label>
-                                        <TextBlock TextWrapping="WrapWithOverflow" Name="Effects" VerticalAlignment="Center" Width="135" Height="110" Margin="0,5,2,2"></TextBlock>
+                                        <TextBlock TextWrapping="WrapWithOverflow" Name="Effects" VerticalAlignment="Stretch" Height="110" Margin="0,5,2,2" Width="175" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>
                             </GroupBox>
-                        </StackPanel>
+                        </Grid>
                     </GroupBox>
-                </Grid>
-            </GroupBox>
-        </StackPanel>
-    </ScrollViewer>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
 </UserControl>
