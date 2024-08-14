@@ -36,7 +36,7 @@ namespace Heroes3Editor
         private void UpdateLangData(object sender, EventArgs eventArgs)
         {
             LangData.SetInstance((string)langCboBox.SelectedValue);
-            heroCboBox.ItemsSource = Constants.Heroes;
+            heroCboBox.ItemsSource = Heroes.Names;
 
             if (heroTabs.Items.Count == 0)
                 return;
@@ -76,6 +76,7 @@ namespace Heroes3Editor
 
                 heroTabs.Items.Clear();
                 heroTabs.Visibility = Visibility.Hidden;
+                heroCboBox.ItemsSource = Heroes.Names;
                 heroCboBox.IsEnabled = true;
                 heroSearchBtn.IsEnabled = true;
 

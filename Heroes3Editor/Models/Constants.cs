@@ -28,52 +28,10 @@ namespace Heroes3Editor.Models
 
         public static ArtifactInfo ArtifactInfo { get; } = new();
 
-        public static string[] Lang { get; } = ["en", "ru"];
+        public static string[] Lang { get; } = ["en", "ru", "pl"];
 
         public const int SPELL_SCROLL = 0x01;
         public const int TITANS_THUNDER = 0x87;
-
-        private static readonly string[] _heroes =
-        [
-            // Castle
-            "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine", "Roland",
-            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion",
-            // Rampart
-            "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
-            "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland",
-            // Tower
-            "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra",
-            "Daremyth", "Halon", "Serena", "Solmyr", "Theodorus", "Dracon",
-            // Inferno
-            "Calh", "Fiona", "Ignatius", "Marius", "Nymus", "Octavia", "Pyre", "Rashka", "Xeron", "Ash", "Axsis",
-            "Ayden", "Calid", "Olema", "Xyron", "Xarfax", "Zydar",
-            // Necropolis
-            "Charna", "Clavius", "Galthran", "Isra", "Moandor", "Straker", "Tamika", "Vokial", "Aislinn", "Nagash",
-            "Nimbus", "Sandro", "Septienna", "Thant", "Vidomina", "Xsi",
-            // Dangeon
-            "Ajit", "Arlach", "Dace", "Damacon", "Gunnar", "Lorelei", "Shakti", "Synca", "Mutare", "Mutare Drake",
-            "Alamar", "Darkstorn", "Deemer", "Geon", "Jaegar", "Jeddite", "Malekith", "Sephinroth",
-            // Stronghold
-            "Crag Hack", "Gretchin", "Gurnisson", "Jabarkas", "Krellion", "Shiva", "Tyraxor", "Yog", "Boragus",
-            "Kilgor", "Dessa", "Gird", "Gundula", "Oris", "Saurug", "Terek", "Vey", "Zubin",
-            // Fortress
-            "Alkin", "Broghild", "Bron", "Drakon", "Gerwulf", "Korbac", "Tazar", "Wystan", "Andra", "Merist",
-            "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne", "Kinkeria",
-            // Conflux
-            "Erdamon", "Fiur", "Ignissa", "Kalt",
-            "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
-            "Luna", 
-            // Cove
-            "Gen. Kendal", "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
-            "Andal", "Astra", "Dargem", "Eovacius", "Manfred", "Zilare", "Jeremy", "Bidley", "Spint", "Casmetra",
-            "Tark",
-            // Factory
-            "Henrietta", "Sam", "Tancred", "Melchior", "Floribert", "Wynona", "Dury", "Morton", "Tavin", "Murdoch",
-            "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
-        ];
-        public static string[] Heroes => LangData.Instance != null 
-            ? _heroes.Select(x => LangData.Instance.Heroes[x]).OrderBy(x => x).ToArray()
-            : _heroes.OrderBy(x => x).ToArray();
 
         public static readonly Dictionary<string, int> HeroOffsets = new()
         {
@@ -122,6 +80,7 @@ namespace Heroes3Editor.Models
             Items.LoadHotaReferenceCodes();
             Creatures.LoadHotaReferenceCodes();
             Skills.LoadHotaReferenceCodes();
+            Heroes.LoadHota();
 
             ArtifactInfo.UpdateHotaDescriptions();
         }
@@ -140,6 +99,7 @@ namespace Heroes3Editor.Models
             Items.RemoveHotaReferenceCodes();
             Creatures.RemoveHotaReferenceCodes();
             Skills.RemoveHotaReferenceCodes();
+            Heroes.RemoveHota();
         }
 
         public static void LoadAllArtifacts()
@@ -154,6 +114,65 @@ namespace Heroes3Editor.Models
             Artifacts.AddArtifacts(Boots.GetArtifacts);
             Artifacts.AddArtifacts(Neck.GetArtifacts);
             Artifacts.AddArtifacts(Items.GetArtifacts);
+        }
+    }
+
+    public static class Heroes
+    {
+        private static readonly List<string> _heroes =
+        [
+            // Castle
+            "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine", "Roland",
+            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion",
+            // Rampart
+            "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
+            "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland",
+            // Tower
+            "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra",
+            "Daremyth", "Halon", "Serena", "Solmyr", "Theodorus", "Dracon",
+            // Inferno
+            "Calh", "Fiona", "Ignatius", "Marius", "Nymus", "Octavia", "Pyre", "Rashka", "Xeron", "Ash", "Axsis",
+            "Ayden", "Calid", "Olema", "Xyron", "Xarfax", "Zydar",
+            // Necropolis
+            "Charna", "Clavius", "Galthran", "Isra", "Moandor", "Straker", "Tamika", "Vokial", "Aislinn", "Nagash",
+            "Nimbus", "Sandro", "Septienna", "Thant", "Vidomina", "Xsi",
+            // Dangeon
+            "Ajit", "Arlach", "Dace", "Damacon", "Gunnar", "Lorelei", "Shakti", "Synca", "Mutare", "Mutare Drake",
+            "Alamar", "Darkstorn", "Deemer", "Geon", "Jaegar", "Jeddite", "Malekith", "Sephinroth",
+            // Stronghold
+            "Crag Hack", "Gretchin", "Gurnisson", "Jabarkas", "Krellion", "Shiva", "Tyraxor", "Yog", "Boragus",
+            "Kilgor", "Dessa", "Gird", "Gundula", "Oris", "Saurug", "Terek", "Vey", "Zubin",
+            // Fortress
+            "Alkin", "Broghild", "Bron", "Drakon", "Gerwulf", "Korbac", "Tazar", "Wystan", "Andra", "Merist",
+            "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne", "Kinkeria",
+            // Conflux
+            "Erdamon", "Fiur", "Ignissa", "Kalt",
+            "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
+            "Luna"
+        ];
+
+        private static readonly string[] _heroesHota = [
+            // Cove
+            "Gen. Kendal", "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
+            "Andal", "Astra", "Dargem", "Eovacius", "Manfred", "Zilare", "Jeremy", "Bidley", "Spint", "Casmetra",
+            "Tark",
+            // Factory
+            "Henrietta", "Sam", "Tancred", "Melchior", "Floribert", "Wynona", "Dury", "Morton", "Tavin", "Murdoch",
+            "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
+        ];
+
+        public static string[] Names => LangData.Instance != null
+            ? [.. _heroes.Select(x => LangData.Instance.Heroes[x]).OrderBy(x => x)]
+            : [.. _heroes.OrderBy(x => x)];
+
+        public static void LoadHota()
+        {
+            _heroes.AddRange(_heroesHota);
+        }
+
+        public static void RemoveHota()
+        {
+            _heroes.RemoveRange(_heroes.FindIndex(x => x == _heroesHota[0]), _heroesHota.Length);
         }
     }
 
@@ -185,7 +204,7 @@ namespace Heroes3Editor.Models
                 {19, "Tactics"},
                 {20, "Artillery"},
                 {21, "Learning"},
-                {22, "Offense"},
+                {22, "Offense"}, // 'Offence' - it's missprint in original game
                 {23, "Armorer"},
                 {24, "Intelligence"},
                 {25, "Sorcery"},
@@ -221,7 +240,7 @@ namespace Heroes3Editor.Models
                 {0xFF, "-" },
                 {0x07, "Centaur's Axe" },
                 {0x08, "Blackshard of the Dead Knight" },
-                {0x09, "Greater Knoll's Flail" },
+                {0x09, "Greater Gnoll's Flail" },
                 {0x0A, "Ogre's Club of Havoc" },
                 {0x0B, "Sword of Hellfire" },
                 {0x0C, "Titan's Gladius" },
@@ -229,7 +248,7 @@ namespace Heroes3Editor.Models
                 {0x26, "Red Dragon Flame Tongue" },
                 {0x80, "Armageddon's Blade" },
                 {0x81, "Angelic Alliance" },
-                {Constants.TITANS_THUNDER, "Titans Thunder" }
+                {Constants.TITANS_THUNDER, "Titan's Thunder" }
             };
             HOTANamesByCode = new Dictionary<byte, string>
             {
@@ -305,7 +324,7 @@ namespace Heroes3Editor.Models
                 {0x1F, "Armor of Wonder" },
                 {0x28, "Dragon Scale Armor" },
                 {0x3A, "Surcoat of Counterpoise" },
-                {0x84, "Armor of the Dammed" },
+                {0x84, "Armor of the Damned" },
                 {0x86, "Power of the Dragon Father" }
             };
             HOTANamesByCode = new Dictionary<byte, string>
@@ -444,18 +463,18 @@ namespace Heroes3Editor.Models
                 {0x3F, "Bird of Perception" },
                 {0x40, "Stoic Watchman" },
                 {0x41, "Emblem of Cognizance" },
-                {0x42, "Statesmen's Medal" },
+                {0x42, "Statesman's Medal" },
                 {0x49, "Charm of Mana" },
                 {0x4A, "Talisman of Mana" },
                 {0x4B, "Mystic Orb of Mana" },
                 {0x4F, "Orb of Firmament" },
                 {0x50, "Orb of Silt" },
-                {0x51, "Orb of Tempestous Fire" },
+                {0x51, "Orb of Tempestuous Fire" },
                 {0x52, "Orb of Driving Rain" },
-                {0x54, "Spirit of Opression" },
+                {0x54, "Spirit of Oppression" },
                 {0x55, "Hourglass of the Evil Hour" },
                 {0x56, "Tome of Fire Magic" },
-                {0x57, "Tome of Wind Magic" },
+                {0x57, "Tome of Air Magic" },
                 {0x58, "Tome of Water Magic" },
                 {0x59, "Tome of Earth Magic" },
                 {0x5B, "Golden Bow" },
@@ -463,8 +482,8 @@ namespace Heroes3Editor.Models
                 {0x5D, "Orb of Vulnerability" },
                 {0x60, "Vial of Lifeblood" },
                 {0x6F, "Everpouring Vial of Mercury" },
-                {0x70, "Inexhaustable Cart of Ore" },
-                {0x72, "Inexhaustable Cart of Lumber" },
+                {0x70, "Inexhaustible Cart of Ore" },
+                {0x72, "Inexhaustible Cart of Lumber" },
                 {0x73, "Endless Sack of Gold" },
                 {0x74, "Endless Bag of Gold" },
                 {0x75, "Endless Purse of Gold" },
@@ -606,7 +625,7 @@ namespace Heroes3Editor.Models
             {0x3F, "Bird of Perception|||||||Eagle Eye Skill 5%" },
             {0x40, "Stoic Watchman|||||||Eagle Eye Skill 10%" },
             {0x41, "Emblem of Cognizance|||||||Eagle Eye Skill 15%" },
-            {0x42, "Statesmen's Medal|||||||Surrendering Cost -10%" },
+            {0x42, "Statesman's Medal|||||||Surrendering Cost -10%" },
             {0x43, "Diplomat Ring|||||||Surrendering Cost -10%" },
             {0x44, "Ambassador's Sash|||||||Surrendering Cost -10%" },
             {0x45, "Ring of the Wayfarer|||||||Unit Speed +1" },
@@ -621,13 +640,13 @@ namespace Heroes3Editor.Models
             {0x4E, "Cape of Conjuring|||||||Spell Duration +3" },
             {0x4F, "Orb of Firmament|||||||All Air Spell Damage +50%" },
             {0x50, "Orb of Silt|||||||All Earth Spell Damage +50%" },
-            {0x51, "Orb of Tempestous Fire|||||||All Fire Spell Damage +50%" },
+            {0x51, "Orb of Tempestuous Fire|||||||All Fire Spell Damage +50%" },
             {0x52, "Orb of Driving Rain|||||||All Water Spell Damage +50%" },
             {0x53, "Recanter's Cloak|||||||Prevents Casting lvl 3+ Spells" },
-            {0x54, "Spirit of Opression|||||||Positive Morale Disabled" },
+            {0x54, "Spirit of Oppression|||||||Positive Morale Disabled" },
             {0x55, "Hourglass of the Evil Hour|||||||Luck Disabled" },
             {0x56, "Tome of Fire Magic|||||||All Fire Spells Unlocked" },
-            {0x57, "Tome of Wind Magic|||||||All Air Spells Unlocked" },
+            {0x57, "Tome of Air Magic|||||||All Air Spells Unlocked" },
             {0x58, "Tome of Water Magic|||||||All Water Spells Unlocked" },
             {0x59, "Tome of Earth Magic|||||||All Earth Spells Unlocked" },
             {0x5A, "Boots of Levitation|||||||Hero Will Walk on Water" },
@@ -652,9 +671,9 @@ namespace Heroes3Editor.Models
             {0x6D, "Everflowing Crystal Cloak|||||||+1 Crystal per day" },
             {0x6E, "Ring of Infinite Gems|||||||+1 Gems per day" },
             {0x6F, "Everpouring Vial of Mercury|||||||+1 Mercury per day" },
-            {0x70, "Inexhaustable Cart of Ore|||||||+1 Ore per day" },
+            {0x70, "Inexhaustible Cart of Ore|||||||+1 Ore per day" },
             {0x71, "Eversmoking Ring of Sulfur|||||||+1 Sulfur per day" },
-            {0x72, "Inexhaustable Cart of Lumber|||||||+1 Lumber per day" },
+            {0x72, "Inexhaustible Cart of Lumber|||||||+1 Lumber per day" },
             {0x73, "Endless Sack of Gold|||||||+1000 Gold per day" },
             {0x74, "Endless Bag of Gold|||||||+750 Gold per day" },
             {0x75, "Endless Purse of Gold|||||||+500 Gold per day" },
@@ -672,10 +691,10 @@ namespace Heroes3Editor.Models
             {0x81, "Angelic Alliance|+21|+21|+21|+21|||Combination Artifact: No Army Penalty for Good and Neutral troops, Can Cast Prayer|HNASB" },
             {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +30%, Raise more Creature Types|NB" },
             {0x83, "Elixir of Life|||||||Combination Artifact: +25% Unit Health, +4 Health Point Regeneration|LR" },
-            {0x84, "Armor of the Dammed|+3|+3|+2|+2|||Combination Artifact: Cast Slow,Curse,Weakness and Misfortune for 50 rounds in combat.|HWS" },
+            {0x84, "Armor of the Damned|+3|+3|+2|+2|||Combination Artifact: Cast Slow,Curse,Weakness and Misfortune for 50 rounds in combat.|HWS" },
             {0x85, "Statue of Legion|||||||Combination Artifact: Creature Growth +50% + Artifact Effects|4" },
             {0x86, "Power of the Dragon Father|+16|+16|+16|+16|+1|+1|Combination Artifact: Immune to Lvl 1-4 Spells|HNWSLRBC" },
-            {0x87, "Titans Thunder|+9|+9|+8|+8|||Combination Artifact: Can Cast Titan's Lightning Bolt|HAS" },
+            {0x87, "Titan's Thunder|+9|+9|+8|+8|||Combination Artifact: Can Cast Titan's Lightning Bolt|HAS" },
             {0x88, "Admiral's Hat|||||||Combination Artifact: Hero Sea Movement +1500, No Penalty to Board/Leave Boat, Can Cast Summon Boat and Scuttle Boat, Protection from Whirlpools.|N" },
             {0x89, "Bow of the Sharpshooter|||||||Combination Artifact: No Range and Obstacle Penalty, No Melee Penalty, Archery Skill +30%|2" },
             {0x8A, "Wizard's Well|||||||Combination Artifact: Regenerates all spell points each day|2" },
@@ -812,7 +831,7 @@ namespace Heroes3Editor.Models
                 { 54, "Slow" },
                 { 55, "Slayer" },
                 { 56, "Frenzy" },
-                { 57, "Titans Lightning Bolt" },
+                { 57, "Titan's Lightning Bolt" },
                 { 58, "Counterstrike" },
                 { 59, "Berserk" },
                 { 60, "Hypnotize" },
@@ -821,10 +840,10 @@ namespace Heroes3Editor.Models
                 { 63, "Teleport" },
                 { 64, "Remove Obstacle" },
                 { 65, "Clone" },
-                { 66, "Summon Fire Elemental" },
-                { 67, "Summon Earth Elemental" },
-                { 68, "Summon Water Elemental" },
-                { 69, "Summon Air Elemental" }
+                { 66, "Fire Elemental" },
+                { 67, "Earth Elemental" },
+                { 68, "Water Elemental" },
+                { 69, "Air Elemental" }
             };
         }
         
@@ -969,8 +988,8 @@ namespace Heroes3Editor.Models
                 {0x5B, "Ogre Mage"},
                 {0x5C, "Roc"},
                 {0x5D, "Thunderbird"},
-                {0x5E, "Cyclops"},
-                {0x5F, "Cyclops King"},
+                {0x5E, "Cyclop"},
+                {0x5F, "Cyclop King"},
                 {0x60, "Behemoth"},
                 {0x61, "Ancient Behemoth"},
                 {0x62, "Gnoll"},
@@ -1005,7 +1024,7 @@ namespace Heroes3Editor.Models
                 {0x83, "Phoenix"},
                 {0x84, "Azure Dragon"},
                 {0x85, "Crystal Dragon"},
-                {0x86, "Faeri Dragon"},
+                {0x86, "Faerie Dragon"},
                 {0x87, "Rust Dragon"},
                 {0x88, "Enchanter"},
                 {0x89, "Sharpshooter"},
@@ -1023,7 +1042,7 @@ namespace Heroes3Editor.Models
                 {153, "Nymph"},
                 {154, "Oceanid"},
                 {155, "Crew Mate"},
-                {156, "Seamen"},
+                {156, "Seaman"},
                 {157, "Pirate"},
                 {158, "Corsair"},
                 {151, "Sea Dog"},
@@ -1039,7 +1058,7 @@ namespace Heroes3Editor.Models
                 {167, "Satyr"},
                 {168, "Fangarm"},
                 {169, "Leprechaun"},
-                {170, "Steel golem"},
+                {170, "Steel Golem"},
                 // Factory
                 {171, "Halfling Grenadier"},
                 {172, "Mechanic"},

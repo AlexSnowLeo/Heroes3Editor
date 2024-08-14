@@ -233,10 +233,10 @@
                                 <CheckBox ToolTip="Reflects hostile spells to a random enemy." Name="Magic_Mirror" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Magic Mirror
                                 </CheckBox>
-                                <CheckBox ToolTip="Summons allied Air Elementals for the duration of combat." Name="Summon_Air_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Summon Air Elemental
+                                <CheckBox ToolTip="Summons allied Air Elementals for the duration of combat." Name="Air_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Air Elemental
                                 </CheckBox>
-                                <CheckBox Name="Titans_Lightning_Bolt" ToolTip="Inflicts 600 magic damage on a single enemy. Requires Titan's Thunder." Checked="AddSpell" Unchecked="RemoveSpell">
+                                <CheckBox Name="Titan__s_Lightning_Bolt" ToolTip="Inflicts 600 magic damage on a single enemy. Requires Titan's Thunder." Checked="AddSpell" Unchecked="RemoveSpell">
                                     Titan's Lightning Bolt
                                 </CheckBox>
                             </StackPanel>
@@ -291,8 +291,8 @@
                                 <CheckBox ToolTip="Inflicts magic damage on a single enemy." Name="Implosion" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Implosion
                                 </CheckBox>
-                                <CheckBox ToolTip="Summons allied Earth Elementals for the duration of combat." Name="Summon_Earth_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Summon Earth Elemental
+                                <CheckBox ToolTip="Summons allied Earth Elementals for the duration of combat." Name="Earth_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Earth Elemental
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
@@ -343,8 +343,8 @@
                                 <CheckBox Name="Sacrifice" ToolTip="Destroys and removes living, unkilled allies to bring previously living, killed allies back to life." Checked="AddSpell" Unchecked="RemoveSpell">
                                     Sacrifice
                                 </CheckBox>
-                                <CheckBox ToolTip="Summons allied Fire Elementals for the duration of combat." Name="Summon_Fire_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Summon Fire Elemental
+                                <CheckBox ToolTip="Summons allied Fire Elementals for the duration of combat." Name="Fire_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Fire Elemental
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
@@ -398,8 +398,8 @@
                                 <CheckBox ToolTip="Allows movement to visible land across bodies of water." Name="Water_Walk" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Water Walk
                                 </CheckBox>
-                                <CheckBox ToolTip="Summons allied Water Elementals for the duration of combat." Name="Summon_Water_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Summon Water Elemental
+                                <CheckBox ToolTip="Summons allied Water Elementals for the duration of combat." Name="Water_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Water Elemental
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>

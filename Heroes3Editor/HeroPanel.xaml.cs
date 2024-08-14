@@ -1,28 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using Heroes3Editor.Lang;
 using Heroes3Editor.Models;
 
 namespace Heroes3Editor
 {
-    public class NullItem2Visibility : IValueConverter{
-        public object Convert(object value, Type type, object parameter, CultureInfo culture){
-            return value == null ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value != null ? Visibility.Visible : Visibility.Collapsed;
-        }
-    }
-    
     /// <summary>
     /// Interaction logic for HeroPanel.xaml
     /// </summary>
@@ -81,7 +68,7 @@ namespace Heroes3Editor
 
                 foreach (var spell in _hero.Spells)
                 {
-                    var chkBox = FindName(spell.Replace(' ','_')) as CheckBox;
+                    var chkBox = FindName(spell.ToControlName()) as CheckBox;
                     chkBox.IsChecked = true;
                 }
 
@@ -146,7 +133,7 @@ namespace Heroes3Editor
 
             foreach (var spell in Constants.Spells.Names)
             {
-                if (FindName(spell.Replace(' ', '_')) is not CheckBox spellCheckBox)
+                if (FindName(spell.ToControlName()) is not CheckBox spellCheckBox)
                     continue;
 
                 spellCheckBox.Content = Constants.Spells.ByLang(spell);
@@ -303,7 +290,7 @@ namespace Heroes3Editor
                 return;
             
             var chkBox = e.Source as CheckBox;
-            _hero.AddSpell(chkBox.Name.Replace('_',' '));
+            _hero.AddSpell(chkBox.Name.FromControlName());
 
             if (SpellBook.IsChecked != true)
                 SpellBook.IsChecked = true;
@@ -312,7 +299,7 @@ namespace Heroes3Editor
         private void RemoveSpell(object sender, RoutedEventArgs e)
         {
             var chkBox = e.Source as CheckBox;
-            _hero.RemoveSpell(chkBox.Name.Replace('_',' '));
+            _hero.RemoveSpell(chkBox.Name.FromControlName());
         }
 
         private void UpdateCreature(object sender, RoutedEventArgs e)
@@ -459,7 +446,7 @@ namespace Heroes3Editor
                 }
             }
 
-            // 0x87, "Titans Thunder" automatically add Spell Book
+            // 0x87, "Titan's Thunder" automatically add Spell Book
             if (artKey == 0x87)
             {
                 if (SpellBook.IsChecked != true)
@@ -774,6 +761,19 @@ namespace Heroes3Editor
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+    }
+
+    public static class StringExtensions
+    {
+        public static string ToControlName(this string val)
+        {
+            return val.Replace(" ", "_").Replace("'", "__");
+        }
+
+        public static string FromControlName(this string val)
+        {
+            return val.Replace("__", "'").Replace("_", " ");
         }
     }
 }
