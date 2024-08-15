@@ -1,5 +1,4 @@
-*This repository is archived as I no longer have time to maintain it. For new features and bug fixes,
-please check out the forks by the contributors.*
+*This repository is forcked from https://github.com/cysun/Heroes3Editor I plan to develop it and add new features.*
 
 # Heroes of Might and Magic 3 (HoMM3) Savegame Editor
 
