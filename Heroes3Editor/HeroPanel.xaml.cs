@@ -89,7 +89,7 @@ namespace Heroes3Editor
 
                 foreach (var warMachine in _hero.WarMachines)
                 {
-                    var toggleComponent = FindName(warMachine) as ToggleButton;
+                    var toggleComponent = FindName(warMachine.ToControlName()) as ToggleButton;
                     toggleComponent.IsChecked = true;
                 }
 
@@ -146,6 +146,14 @@ namespace Heroes3Editor
                     spellCheckBox.ToolTip = description;
             }
 
+            foreach (var warMachine in Constants.WarMachines.OriginalNames)
+            {
+                var toggleComponent = FindName(warMachine.ToControlName()) as ToggleButton;
+                toggleComponent.Content = Constants.WarMachines.ByLang(warMachine);
+            }
+
+            BallistaRadio.Content = Constants.WarMachines.ByLang("Ballista");
+
             for (int i = 0; i < 8; ++i)
             {
                 var cboBoxSkill = FindName("Skill" + i) as ComboBox;
@@ -158,15 +166,15 @@ namespace Heroes3Editor
 
         private void SetHOTASettings()
         {
-            SetComponentVisibility("Ballista", Visibility.Hidden);
+            SetComponentVisibility("Ballista", Visibility.Collapsed);
             SetComponentVisibility("BallistaRadio", Visibility.Visible);
             SetComponentVisibility("Canon", Visibility.Visible);
         }
         private void SetClassicSettings()
         {
             SetComponentVisibility("Ballista", Visibility.Visible);
-            SetComponentVisibility("BallistaRadio", Visibility.Hidden);
-            SetComponentVisibility("Canon", Visibility.Hidden);
+            SetComponentVisibility("BallistaRadio", Visibility.Collapsed);
+            SetComponentVisibility("Canon", Visibility.Collapsed);
         }
         private void SetComponentVisibility(string name, Visibility visibility)
         {

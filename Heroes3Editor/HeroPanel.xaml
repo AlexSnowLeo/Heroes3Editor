@@ -497,17 +497,20 @@
                             <CheckBox Name="Ballista" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista">
                                 <Label>Ballista</Label>
                             </CheckBox>
-                            <RadioButton GroupName="Artillery" Name="BallistaRadio" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista" Visibility="Hidden">
+                            <RadioButton GroupName="Artillery" Margin="5 0" VerticalContentAlignment="Center" Name="BallistaRadio" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista" Visibility="Collapsed">
                                 <Label>Ballista</Label>
                             </RadioButton>
-                            <RadioButton GroupName="Artillery" Name="Canon" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Canon" Visibility="Hidden">
+                            <RadioButton GroupName="Artillery" VerticalContentAlignment="Center" Name="Canon" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Canon" Visibility="Collapsed">
                                 <Label>Canon</Label>
                             </RadioButton>
-                            <CheckBox Name="Ammo_Cart" Margin="25,0" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ammo_Cart">
+                            <CheckBox Name="Ammo_Cart" Margin="20,0" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ammo Cart">
                                 <Label>Ammo Cart</Label>
                             </CheckBox>
-                            <CheckBox Name="First_Aid_Tent" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="First_Aid_Tent">
+                            <CheckBox Name="First_Aid_Tent" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="First Aid Tent">
                                 <Label>First Aid Tent</Label>
+                            </CheckBox>
+                            <CheckBox Name="Catapult" Margin="20,0" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Catapult">
+                                <Label>Catapult</Label>
                             </CheckBox>
                         </WrapPanel>
                     </GroupBox>

@@ -204,7 +204,9 @@
     "Ziph": "Ziph",
     "Victoria": "Victoria",
     "Eanswythe": "Eanswythe",
-    "Frederick": "Frederick"
+    "Frederick": "Frederick",
+
+    "Tarnum": "Tarnum"
   },
   "Skills": {
     "Pathfinding": "Znajd. drogi",
@@ -424,6 +426,13 @@
     "Charm of Eclipse": "Wisior Zaćmienia",
     "Sleepkeeper": "Sleepkeeper"
   },
+  "WarMachines": {
+    "Catapult": "Katapulta",
+    "Ballista": "Balista",
+    "Ammo Cart": "Wóz z amunicją",
+    "First Aid Tent": "Namiot medyka",
+    "Canon": "Armata"
+  },
   "Spells": {
     "Summon Boat": "Przyzwanie okrętu",
     "Scuttle Boat": "Zniszczenie okrętu",
@@ -568,6 +577,8 @@
     "Air Elemental": "Pozwala na przyzwanie żywiołaków powietrza. Żadne inne żywiołaki nie będą mogły być przyzwane."
   },
   "ArtifactDescriptions": {
+    "Speculum": "Zwiększa pole widzenia bohatera o +1",
+    "Spyglass": "Zwiększa pole widzenia bohatera o +1",
     "Amulet of the Undertaker": "Nekromacji +5%",
     "Vampire's Cowl": "Nekromacji +10%",
     "Dead Men's Boots": "Nekromacji +15%",

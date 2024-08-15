@@ -81,7 +81,7 @@ namespace Heroes3Editor
                 heroSearchBtn.IsEnabled = true;
 
                 status.Text = openDlg.FileName;
-                GameVersion.Text = Game.IsHOTA ? "HotA" : "";
+                GameVersion.Text = $" | Save Game version: {Game.Version} | Game Lang: {Game.Lang.ToUpper()}";
             }
         }
 

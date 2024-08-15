@@ -14,6 +14,8 @@ namespace Heroes3Editor.Models
     public class Game
     {
         public bool IsHOTA { get; set; }
+        public string Version { get; set; }
+        public string Lang { get; set; }
         public byte[] Bytes { get; }
         public string FileName { get; set; }
 
@@ -41,8 +43,11 @@ namespace Heroes3Editor.Models
             Bytes = memoryStream.ToArray();
             var gameVersionMajor = Bytes[8];
             var gameVersionMinor = Bytes[12];
-
+            
             FileName = fileInfo.Name;
+            Lang = SearchHero("Adela", Bytes.Length) > 0
+                ? "en"
+                : SearchHero("Адель", Bytes.Length) > 0 ? "ru" : "en";
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
             {
@@ -52,6 +57,9 @@ namespace Heroes3Editor.Models
             {
                 SetClassic();
             }
+
+            Version = $"{gameVersionMajor}.{gameVersionMinor}{(IsHOTA ? " HotA" : "")}";
+
             Constants.LoadAllArtifacts();
         }
 
@@ -254,7 +262,7 @@ namespace Heroes3Editor.Models
                 }
             }
 
-            foreach (var warMachine in Constants.WarMachines.Names)
+            foreach (var warMachine in Constants.WarMachines.OriginalNames)
             {
                 if (_game.Bytes[BytePosition + Constants.HeroOffsets[warMachine]] == Constants.WarMachines[warMachine])
                     WarMachines.Add(warMachine);

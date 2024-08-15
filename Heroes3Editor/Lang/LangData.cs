@@ -37,6 +37,7 @@ namespace Heroes3Editor.Lang
             Constants.Neck.SetLang(Instance?.Neck);
             Constants.Rings.SetLang(Instance?.Rings);
             Constants.Items.SetLang(Instance?.Items);
+            Constants.WarMachines.SetLang(Instance?.WarMachines);
             Constants.Spells.SetLang(Instance?.Spells, Instance?.SpellDescriptions);
             Constants.Creatures.SetLang(Instance?.Creatures);
 
@@ -61,6 +62,7 @@ namespace Heroes3Editor.Lang
         public Dictionary<string, string> Neck { get; set; }
         public Dictionary<string, string> Rings { get; set; }
         public Dictionary<string, string> Items { get; set; }
+        public Dictionary<string, string> WarMachines { get; set; }
         public Dictionary<string, string> Spells { get; set; }
         public Dictionary<string, string> SpellDescriptions { get; set; }
         public Dictionary<string, string> ArtifactDescriptions { get; set; }

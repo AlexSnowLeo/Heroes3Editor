@@ -52,8 +52,8 @@ namespace Heroes3Editor.Models
             {"Item5", 357},
             {"Ballista", 317},
             {"Canon", 317},
-            {"Ammo_Cart", 325},
-            {"First_Aid_Tent", 333},
+            {"Ammo Cart", 325},
+            {"First Aid Tent", 333},
             {"NumOfSkills", -126},
             {"Skills", 13}, // Secondary Skills
             {"SkillSlots", 41},
@@ -62,8 +62,20 @@ namespace Heroes3Editor.Models
             {"Creatures", -56},
             {"CreatureAmounts", -28},
             {"Inventory", 365 },
+
             {"BlockedSlots", 878 }, // Helm, CLoak, Neck, Weapon, Shield, Armor, RightRing, _, Item5, _, Ammo_Cart, First_Aid_Tent, _, SpellBook
-            {"SpellBookSlot", 349 } // 4 bytes 0x00 - On, 0xFF- Off
+            {"SpellBookSlot", 349 }, // 4 bytes 0x00 - On, 0xFF- Off
+            {"Catapult", 341},
+            {"Experience", -130},
+            {"CoordinatesXMarker", -150 },
+            {"CoordinatesYMarker", -146 },
+            {"CurrentMovementPoints", -134 },
+            {"MaxMovementPoints", -138 },
+            {"HeroLevel", -120},
+            {"ManaPoints", -122},
+            {"CoordinatesX", -195},
+            {"CoordinatesY", -193},
+            {"CoordinatesZ", -191},
         };
 
         public static void LoadHOTAItems()
@@ -148,7 +160,9 @@ namespace Heroes3Editor.Models
             // Conflux
             "Erdamon", "Fiur", "Ignissa", "Kalt",
             "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
-            "Luna"
+            "Luna",
+            // Chronicles
+            "Tarnum"
         ];
 
         private static readonly string[] _heroesHota = [
@@ -172,6 +186,10 @@ namespace Heroes3Editor.Models
 
         public static void RemoveHota()
         {
+            var hotaIndex = _heroes.FindIndex(x => x == _heroesHota[0]);
+            if (hotaIndex < 0)
+                return;
+
             _heroes.RemoveRange(_heroes.FindIndex(x => x == _heroesHota[0]), _heroesHota.Length);
         }
     }
@@ -519,9 +537,10 @@ namespace Heroes3Editor.Models
         {
             NamesByCode = new Dictionary<byte, string>
             {
+                {0x03, "Catapult" },
                 {0x04, "Ballista" },
-                {0x05, "Ammo_Cart" },
-                {0x06, "First_Aid_Tent" }
+                {0x05, "Ammo Cart" },
+                {0x06, "First Aid Tent" }
             };
             HOTANamesByCode = new Dictionary<byte, string>
             {

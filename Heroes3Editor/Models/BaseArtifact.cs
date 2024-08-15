@@ -29,6 +29,10 @@ namespace Heroes3Editor.Models
             ? CodesByName[LangInverted[key]]
             : CodesByName[key];
 
+        public string ByLang(string key) => Lang != null && Lang.ContainsKey(key)
+            ? Lang[key]
+            : key;
+
         public void LoadHotaReferenceCodes()
         {
             foreach (var code in HOTANamesByCode)
