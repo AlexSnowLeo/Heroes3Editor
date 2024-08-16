@@ -28,6 +28,7 @@ namespace Heroes3Editor.Lang
             
             Constants.Skills.SetLang(Instance?.Skills);
             Constants.SkillLevels.SetLang(Instance?.SkillLevels);
+            Constants.Artifacts.SetLang(Instance?.CommonArtifacts);
             Constants.Weapons.SetLang(Instance?.Weapons);
             Constants.Shields.SetLang(Instance?.Shields);
             Constants.Helms.SetLang(Instance?.Helms);
@@ -53,6 +54,7 @@ namespace Heroes3Editor.Lang
         public Dictionary<string, string> Heroes { get; set; }
         public Dictionary<string, string> Skills { get; set; }
         public Dictionary<string, string> SkillLevels { get; set; }
+        public Dictionary<string, string> CommonArtifacts { get; set; }
         public Dictionary<string, string> Weapons { get; set; }
         public Dictionary<string, string> Shields { get; set; }
         public Dictionary<string, string> Helms { get; set; }

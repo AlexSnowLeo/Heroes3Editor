@@ -244,6 +244,9 @@
     "Advanced": "Zaawansow.",
     "Expert": "Mistrz"
   },
+  "CommonArtifacts": {
+    "Grail": "Graal"
+  },
   "Weapons": {
     "-": "-",
     "Centaur's Axe": "Topór centaura",

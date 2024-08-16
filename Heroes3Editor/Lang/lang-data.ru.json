@@ -244,6 +244,9 @@
     "Advanced": "Продвинутый",
     "Expert": "Экспертный"
   },
+  "CommonArtifacts": {
+    "Grail": "Грааль"
+  },
   "Weapons": {
     "-": "-",
     "Centaur's Axe": "Секира Кентавра",

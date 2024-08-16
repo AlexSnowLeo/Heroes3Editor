@@ -116,7 +116,7 @@ namespace Heroes3Editor.Models
 
         public static void LoadAllArtifacts()
         {
-            Artifacts.AddArtifacts(WarMachines.GetArtifacts);
+            //Artifacts.AddArtifacts(WarMachines.GetArtifacts);
             Artifacts.AddArtifacts(Weapons.GetArtifacts);
             Artifacts.AddArtifacts(Shields.GetArtifacts);
             Artifacts.AddArtifacts(Armor.GetArtifacts);
@@ -555,9 +555,7 @@ namespace Heroes3Editor.Models
         {
             NamesByCode = new Dictionary<byte, string>() {
                 {0xFF, "-" },
-                {0x00, "Spell Book" },
-                //{0x01, "Spell Scroll" },
-                {0x02, "The Grail" },
+                {0x02, "Grail" },
             };
         }
         public void AddArtifacts(Dictionary<byte, string> artifacts)
@@ -572,11 +570,6 @@ namespace Heroes3Editor.Models
                 NamesByCode.Add(element.Key, element.Value);
             }
         }
-
-        public string[] ArtifactsToEquip => Names
-            .Except(Constants.WarMachines.Names)
-            .Except(["Spell Book", "The Grail"])
-            .ToArray();
     }
 
     public class ArtifactInfo
@@ -585,6 +578,7 @@ namespace Heroes3Editor.Models
         //   0  |   1  |   2   |     3     |    4    |   5  |  6 |  7  |  8
         private static readonly Dictionary<byte, string> _namesByCode = new()
         {
+            {0x02, "Grail|||||||" },
             {0x07, "Centaur's Axe|+2||||||" },
             {0x08, "Blackshard of the Dead Knight|+3||||||" },
             {0x09, "Greater Knoll's Flail|+4||||||" },

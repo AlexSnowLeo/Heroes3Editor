@@ -18,7 +18,7 @@ public partial class SelectArtifact : Window
             ComboBoxSpells.Items.Add(Constants.Spells.ByLang(spell));
         }
 
-        ComboBoxArtifacts.ItemsSource = Constants.Artifacts.ArtifactsToEquip;
+        ComboBoxArtifacts.ItemsSource = Constants.Artifacts.Names;
         
         ComboBoxArtifacts.SelectedIndex = 0;
         SelectedArtifact = (string)ComboBoxSpells.SelectedValue;
