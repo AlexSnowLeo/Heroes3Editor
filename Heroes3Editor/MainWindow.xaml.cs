@@ -158,5 +158,39 @@ namespace Heroes3Editor
                 status.Text = saveDlg.FileName;
             }
         }
+
+        private void TestSearchHeroes(object sender, RoutedEventArgs e)
+        {
+            if (Game == null)
+                return;
+
+            var notFoundHeroes = new List<string>();
+            foreach (string hero in heroCboBox.Items)
+            {
+                if (Game.SearchHero(hero, Game.Bytes.Length) == -1)
+                {
+                    var heroInfo = Heroes.TestDescriptions.TryGetValue(Heroes.GetLangValue(hero), out var desc) 
+                        ? hero + ": " + desc 
+                        : hero;
+
+                    notFoundHeroes.Add(heroInfo);
+                }
+            }
+
+            var mess = "";
+            if (notFoundHeroes.Count == 0)
+                mess = "All characters of the selected language have been successfully found on the loaded map.";
+
+            if (notFoundHeroes.Count > 30)
+                mess = $"The number of undiscovered heroes on the loaded map ({notFoundHeroes.Count}) " +
+                    $"is very large. Perhaps you have chosen the wrong game language?";
+            else
+            {
+                mess = "Heroes that were not found on the loaded map:" +
+                    "\n\n - " + string.Join("\n - ", notFoundHeroes);
+            }
+
+            MessageBox.Show(mess, "Test Search Heroes");
+        }
     }
 }

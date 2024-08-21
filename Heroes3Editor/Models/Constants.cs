@@ -135,10 +135,10 @@ namespace Heroes3Editor.Models
         [
             // Castle
             "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine", "Roland",
-            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion",
+            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion", "Gen. Kendal",
             // Rampart
             "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
-            "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland",
+            "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland", 
             // Tower
             "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra",
             "Daremyth", "Halon", "Serena", "Solmyr", "Theodorus", "Dracon",
@@ -161,13 +161,15 @@ namespace Heroes3Editor.Models
             "Erdamon", "Fiur", "Ignissa", "Kalt",
             "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
             "Luna",
-            // Chronicles
+            // Heroes Chronicles
             "Tarnum"
         ];
 
         private static readonly string[] _heroesHota = [
+            // Rampart
+            "Giselle",
             // Cove
-            "Gen. Kendal", "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
+            "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
             "Andal", "Astra", "Dargem", "Eovacius", "Manfred", "Zilare", "Jeremy", "Bidley", "Spint", "Casmetra",
             "Tark",
             // Factory
@@ -175,9 +177,20 @@ namespace Heroes3Editor.Models
             "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
         ];
 
+        public static readonly Dictionary<string, string> TestDescriptions = new Dictionary<string, string> {
+            { "Gen. Kendal", "General Kendal is a campaign exclusive hero and is not playable in custom made maps." },
+            { "Kinkeria", "In Horn of the Abyss, Kinkeria replaces Voy on maps without water." },
+            { "Giselle", "In Horn of the Abyss, Giselle replaces Thorgrim by default." },
+            { "Tarnum", "The main hero throughout the eight campaigns of the Heroes Chronicles. Available only in the Heroes Chronicles maps." },
+        };
+
         public static string[] Names => LangData.Instance != null
             ? [.. _heroes.Select(x => LangData.Instance.Heroes[x]).OrderBy(x => x)]
             : [.. _heroes.OrderBy(x => x)];
+
+        public static string GetLangValue(string key) => LangData.Instance != null && LangData.Instance.Heroes.ContainsKey(key)
+            ? LangData.Instance.Heroes[key]
+            : key;
 
         public static void LoadHota()
         {
@@ -186,11 +199,10 @@ namespace Heroes3Editor.Models
 
         public static void RemoveHota()
         {
-            var hotaIndex = _heroes.FindIndex(x => x == _heroesHota[0]);
-            if (hotaIndex < 0)
-                return;
-
-            _heroes.RemoveRange(_heroes.FindIndex(x => x == _heroesHota[0]), _heroesHota.Length);
+            foreach (var h in _heroesHota)
+            {
+                _heroes.Remove(h);
+            }
         }
     }
 
@@ -533,12 +545,13 @@ namespace Heroes3Editor.Models
 
     public class WarMachines : BaseArtifact
     {
+        public const byte BALLISTA = 0x04;
         public WarMachines()
         {
             NamesByCode = new Dictionary<byte, string>
             {
                 {0x03, "Catapult" },
-                {0x04, "Ballista" },
+                {BALLISTA, "Ballista" },
                 {0x05, "Ammo Cart" },
                 {0x06, "First Aid Tent" }
             };
@@ -781,7 +794,7 @@ namespace Heroes3Editor.Models
         }
     }
 
-    public class Spells
+    public class Spells : BaseProp
     {
         public Spells()
         {
@@ -860,31 +873,7 @@ namespace Heroes3Editor.Models
             };
         }
         
-        protected Dictionary<string, string> Lang { get; set; }
-        protected Dictionary<string, string> LangInverted { get; set; }
         public Dictionary<string, string> LangDescriptions { get; set; }
-        
-        protected Dictionary<byte, string> NamesByCode { get; }
-        
-        internal Dictionary<string, byte> CodesByName => NamesByCode?.ToDictionary(i => i.Value, i => i.Key);
-        
-        public string[] Names => NamesByCode?.Values.ToArray();
-        
-        public string this[byte key] => NamesByCode[key];
-        
-        public string ByLang(byte key) => Lang != null && Lang.ContainsKey(NamesByCode[key])
-            ? Lang[NamesByCode[key]]
-            : NamesByCode[key];
-        
-        public byte KeyByLang(string key) => LangInverted != null && LangInverted.ContainsKey(key) 
-            ? CodesByName[LangInverted[key]]
-            : CodesByName[key];
-
-        public byte this[string key] => CodesByName[key];
-        
-        public string ByLang(string key) => Lang != null && Lang.ContainsKey(key) 
-            ? Lang[key]
-            : key;
         
         public void SetLang(Dictionary<string, string> langData, Dictionary<string, string> descriptions)
         {
@@ -901,7 +890,7 @@ namespace Heroes3Editor.Models
         }
     }
 
-    public class Creatures : BaseArtifact
+    public class Creatures : BaseProp
     {
         public Creatures()
         {

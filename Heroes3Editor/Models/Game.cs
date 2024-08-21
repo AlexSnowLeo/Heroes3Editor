@@ -45,8 +45,8 @@ namespace Heroes3Editor.Models
             var gameVersionMinor = Bytes[12];
             
             FileName = fileInfo.Name;
-            Lang = SearchHero("Adela", Bytes.Length) > 0
-                ? "en"
+            Lang = SearchHero("Katarzyna", Bytes.Length) > 0
+                ? "pl"
                 : SearchHero("Адель", Bytes.Length) > 0 ? "ru" : "en";
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
@@ -128,7 +128,7 @@ namespace Heroes3Editor.Models
                 return false;
         }
 
-        private int SearchHero(string name, int startPosition)
+        public int SearchHero(string name, int startPosition)
         {
             byte[] pattern = new byte[13];
             Encoding.ASCII.GetBytes(name).CopyTo(pattern, 0);
@@ -294,7 +294,7 @@ namespace Heroes3Editor.Models
                 if (code == Constants.SPELL_SCROLL)
                 {
                     var spellCode = _game.Bytes[inventoryPos + i * 8 + 4];
-                    InventorySpellScrolls.TryAdd(i, Constants.Spells.ByLang(spellCode));
+                    InventorySpellScrolls.TryAdd(i, Constants.Spells[spellCode]);
                 }
             }
         }
@@ -449,7 +449,7 @@ namespace Heroes3Editor.Models
         {
             var currentBytePos = BytePosition + Constants.HeroOffsets[gear];
             
-            if (!artifact.Contains("-"))
+            if (artifact is not "-")
             {
                 EquippedArtifacts[gear] = artifact;
                 
@@ -464,7 +464,7 @@ namespace Heroes3Editor.Models
                     if (string.IsNullOrEmpty(spell))
                         throw new ArgumentNullException(nameof(spell));
                         
-                    _game.Bytes[currentBytePos + 4] = Constants.Spells.KeyByLang(spell);
+                    _game.Bytes[currentBytePos + 4] = Constants.Spells[spell];
                     _game.Bytes[currentBytePos + 5] = ON;
                     _game.Bytes[currentBytePos + 6] = ON;
                     _game.Bytes[currentBytePos + 7] = ON;
@@ -527,7 +527,7 @@ namespace Heroes3Editor.Models
                     if (artKey == Constants.SPELL_SCROLL)
                     {
                         spell = InventorySpellScrolls[i];
-                        _game.Bytes[currentBytePos + 4] = Constants.Spells.KeyByLang(spell);
+                        _game.Bytes[currentBytePos + 4] = Constants.Spells[spell];
                     }
                     else
                     {
@@ -554,7 +554,7 @@ namespace Heroes3Editor.Models
 
         public void RemoveFromInventory(string artifact, byte index)
         {
-            Inventory.Remove(artifact);
+            Inventory.RemoveAt(index);
             
             if (InventorySpellScrolls.ContainsKey(index))
                 InventorySpellScrolls.Remove(index);
@@ -581,8 +581,8 @@ namespace Heroes3Editor.Models
                 if (infoKey == Constants.SPELL_SCROLL)
                 {
                     var spell = inventory.HasValue
-                        ? Constants.Spells.ByLang(InventorySpellScrolls[inventory.Value])
-                        : Constants.Spells.ByLang(EquippedSpellScrolls[slotName]);
+                        ? Constants.Spells.GetLangValue(InventorySpellScrolls[inventory.Value])
+                        : Constants.Spells.GetLangValue(EquippedSpellScrolls[slotName]);
                     
                     return [artifact, "", "", "", "", "", "", $"Add spell \'{spell}'" ];
                 }

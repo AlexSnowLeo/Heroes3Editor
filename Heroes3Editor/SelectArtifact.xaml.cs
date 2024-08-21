@@ -13,11 +13,7 @@ public partial class SelectArtifact : Window
     {
         InitializeComponent();
 
-        foreach (var spell in Constants.Spells.Names)
-        {
-            ComboBoxSpells.Items.Add(Constants.Spells.ByLang(spell));
-        }
-
+        ComboBoxSpells.ItemsSource = Constants.Spells.Names;
         ComboBoxArtifacts.ItemsSource = Constants.Artifacts.Names;
         
         ComboBoxArtifacts.SelectedIndex = 0;

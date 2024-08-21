@@ -68,7 +68,7 @@ namespace Heroes3Editor
 
                 foreach (var spell in _hero.Spells)
                 {
-                    var chkBox = FindName(spell.ToControlName()) as CheckBox;
+                    var chkBox = FindName(Constants.Spells.GetOriginalValue(spell).ToControlName()) as CheckBox;
                     chkBox.IsChecked = true;
                 }
 
@@ -131,12 +131,12 @@ namespace Heroes3Editor
         {
             InitializeComponent();
 
-            foreach (var spell in Constants.Spells.Names)
+            foreach (var spell in Constants.Spells.OriginalNames)
             {
                 if (FindName(spell.ToControlName()) is not CheckBox spellCheckBox)
                     continue;
 
-                spellCheckBox.Content = Constants.Spells.ByLang(spell);
+                spellCheckBox.Content = Constants.Spells.GetLangValue(spell);
 
                 if (LangData.CurrentLang == "en")
                     continue;
@@ -149,10 +149,10 @@ namespace Heroes3Editor
             foreach (var warMachine in Constants.WarMachines.OriginalNames)
             {
                 var toggleComponent = FindName(warMachine.ToControlName()) as ToggleButton;
-                toggleComponent.Content = Constants.WarMachines.ByLang(warMachine);
+                toggleComponent.Content = Constants.WarMachines.GetLangValue(warMachine);
             }
 
-            BallistaRadio.Content = Constants.WarMachines.ByLang("Ballista");
+            BallistaRadio.Content = Constants.WarMachines[WarMachines.BALLISTA];
 
             for (int i = 0; i < 8; ++i)
             {
@@ -166,15 +166,15 @@ namespace Heroes3Editor
 
         private void SetHOTASettings()
         {
-            SetComponentVisibility("Ballista", Visibility.Collapsed);
-            SetComponentVisibility("BallistaRadio", Visibility.Visible);
-            SetComponentVisibility("Canon", Visibility.Visible);
+            Ballista.Visibility = Visibility.Collapsed;
+            BallistaRadio.Visibility = Visibility.Visible;
+            Canon.Visibility = Visibility.Visible;
         }
         private void SetClassicSettings()
         {
-            SetComponentVisibility("Ballista", Visibility.Visible);
-            SetComponentVisibility("BallistaRadio", Visibility.Collapsed);
-            SetComponentVisibility("Canon", Visibility.Collapsed);
+            Ballista.Visibility = Visibility.Visible;
+            BallistaRadio.Visibility = Visibility.Collapsed;
+            Canon.Visibility = Visibility.Collapsed;
         }
         private void SetComponentVisibility(string name, Visibility visibility)
         {
@@ -298,7 +298,8 @@ namespace Heroes3Editor
                 return;
             
             var chkBox = e.Source as CheckBox;
-            _hero.AddSpell(chkBox.Name.FromControlName());
+            var spell = chkBox.Name.FromControlName();
+            _hero.AddSpell(Constants.Spells.GetLangValue(spell));
 
             if (SpellBook.IsChecked != true)
                 SpellBook.IsChecked = true;
@@ -307,7 +308,8 @@ namespace Heroes3Editor
         private void RemoveSpell(object sender, RoutedEventArgs e)
         {
             var chkBox = e.Source as CheckBox;
-            _hero.RemoveSpell(chkBox.Name.FromControlName());
+            var spell = chkBox.Name.FromControlName();
+            _hero.RemoveSpell(Constants.Spells.GetLangValue(spell));
         }
 
         private void UpdateCreature(object sender, RoutedEventArgs e)
@@ -425,8 +427,6 @@ namespace Heroes3Editor
                 } else
                 {
                     UpdatePrimarySkills(artInfo, false);
-                    if (artInfo?.Length == 9 && !string.IsNullOrEmpty(artInfo[8]))
-                        UpdateSlotsEnable(gear, artInfo[8], true);
                 }
                 
                 return;
@@ -500,6 +500,8 @@ namespace Heroes3Editor
         /// </summary>
         private string UpdateSlotsEnable(string gear, string slots, bool enable)
         {
+            var affectedSlots = new List<string>();
+            var affectedControls = new List<Control>();
             for (byte i = 0; i < slots.Length; i++)
             {
                 var slot = slots[i];
@@ -554,7 +556,8 @@ namespace Heroes3Editor
                         if (!_initializing && !enable)
                             itemControl.SelectedItem = "-";
 
-                        itemControl.IsEnabled = enable;
+                        //itemControl.IsEnabled = enable;
+                        affectedControls.Add(itemControl);
                         items--;
                         
                         if (items == 0)
@@ -592,7 +595,13 @@ namespace Heroes3Editor
                 /*if (!_initializing && !enable)
                     slotControl.SelectedItem = "-";*/
                         
-                slotControl.IsEnabled = enable;
+                //slotControl.IsEnabled = enable;
+                affectedControls.Add(slotControl);
+            }
+
+            foreach (var control in affectedControls)
+            {
+                control.IsEnabled = enable;
             }
 
             return null;
@@ -647,10 +656,14 @@ namespace Heroes3Editor
 
         private void RemoveInventoryItem(object sender, RoutedEventArgs e)
         {
+            if (ListBoxInventory.Items.Count == 0) return;
+
             var art = (string)ListBoxInventory.SelectedValue;
             var selectedIndex = (byte)ListBoxInventory.SelectedIndex;
+
+            if (art == null) return;
             
-            ListBoxInventory.Items.Remove(art);
+            ListBoxInventory.Items.RemoveAt(selectedIndex);
             _hero.RemoveFromInventory(art, selectedIndex);
             _hero.UpdateInventory();
 
@@ -672,10 +685,10 @@ namespace Heroes3Editor
 
             if (result == MessageBoxResult.Yes) 
             {
-                for (byte i = 0; i < ListBoxInventory.Items.Count; i++)
+                for (var i = ListBoxInventory.Items.Count - 1; i >= 0; i--)
                 {
                     var item = (string)ListBoxInventory.Items[i];
-                    _hero.RemoveFromInventory(item, i);
+                    _hero.RemoveFromInventory(item, (byte) i);
                 }
 
                 _hero.UpdateInventory();

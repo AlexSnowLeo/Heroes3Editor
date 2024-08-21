@@ -10,10 +10,7 @@ public partial class SelectSpell : Window
     {
         InitializeComponent();
 
-        foreach (var spell in Constants.Spells.Names)
-        {
-            ComboBoxSpells.Items.Add(Constants.Spells.ByLang(spell));
-        }
+        ComboBoxSpells.ItemsSource = Constants.Spells.Names;
 
         ComboBoxSpells.SelectedIndex = 0;
         SelectedSpell = (string)ComboBoxSpells.SelectedValue;

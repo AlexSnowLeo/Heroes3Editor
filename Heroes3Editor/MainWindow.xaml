@@ -40,6 +40,8 @@
             <MenuItem Name="MenuDebug" Header="_Debug">
                 <MenuItem Header="Load bin data"  Click="LoadBinData"/>
                 <MenuItem Header="Save bin data"  Click="SaveBinData"/>
+                <Separator />
+                <MenuItem Header="Test Search Heroes"  Click="TestSearchHeroes"/>
             </MenuItem>
         </Menu>
         <ToolBar x:Name="toolBar" DockPanel.Dock="Top">
