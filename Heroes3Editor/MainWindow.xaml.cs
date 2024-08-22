@@ -154,7 +154,7 @@ namespace Heroes3Editor
             var saveDlg = new SaveFileDialog { FileName = fileName, Filter = "Bin game data |*.bin" };
             if (saveDlg.ShowDialog() == true)
             {
-                Game.Save(saveDlg.FileName);
+                Game.Save(saveDlg.FileName, true);
                 status.Text = saveDlg.FileName;
             }
         }

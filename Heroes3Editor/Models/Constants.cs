@@ -28,7 +28,7 @@ namespace Heroes3Editor.Models
 
         public static ArtifactInfo ArtifactInfo { get; } = new();
 
-        public static string[] Lang { get; } = ["en", "ru", "pl"];
+        public static string[] Lang { get; } = ["EN", "RU", "PL", "FR"];
 
         public const int SPELL_SCROLL = 0x01;
         public const int TITANS_THUNDER = 0x87;
@@ -140,7 +140,7 @@ namespace Heroes3Editor.Models
             "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
             "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland", 
             // Tower
-            "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar", "Aine", "Astral", "Cyra",
+            "Fafner", "Iona", "Josephine", "Neela", "Piquedram", "Rissa", "Thane", "Torosar ", "Aine", "Astral", "Cyra",
             "Daremyth", "Halon", "Serena", "Solmyr", "Theodorus", "Dracon",
             // Inferno
             "Calh", "Fiona", "Ignatius", "Marius", "Nymus", "Octavia", "Pyre", "Rashka", "Xeron", "Ash", "Axsis",
@@ -399,7 +399,7 @@ namespace Heroes3Editor.Models
                 {0xFF, "-" },
                 {0x20, "Sandal's of the Saint" },
                 {0x29, "Dragonbone Greaves" },
-                {0x38, "Dead Men's Boots" },
+                {0x38, "Dead Man's Boots" },
                 {0x3B, "Boots of Polarity" },
                 {0x5A, "Boots of Levitation" },
                 {0x62, "Boots of Speed" }
@@ -452,7 +452,7 @@ namespace Heroes3Editor.Models
                 {0xFF, "-" },
                 {0x25, "Quiet Eye of the Dragon" },
                 {0x2D, "Still Eye of the Dragon" },
-                {0x43, "Diplomat Ring" },
+                {0x43, "Diplomat's Ring" },
                 {0x45, "Ring of the Wayfarer" },
                 {0x46, "Equestrian's Gloves" },
                 {0x4D, "Ring of Conjuring" },
@@ -641,7 +641,7 @@ namespace Heroes3Editor.Models
             {0x35, "Spyglass|||||||Scouting Radius +1" },
             {0x36, "Amulet of the Undertaker|||||||Necromancy +5%" },
             {0x37, "Vampire's Cowl|||||||Necromancy 10%" },
-            {0x38, "Dead Men's Boots|||||||Necromancy 15%" },
+            {0x38, "Dead Man's Boots|||||||Necromancy 15%" },
             {0x39, "Garniture of Interference|||||||Magic Resistance 5%" },
             {0x3A, "Surcoat of Counterpoise|||||||Magic Resistance 10%" },
             {0x3B, "Boots of Polarity|||||||Magic Resistance 15%" },
@@ -652,7 +652,7 @@ namespace Heroes3Editor.Models
             {0x40, "Stoic Watchman|||||||Eagle Eye Skill 10%" },
             {0x41, "Emblem of Cognizance|||||||Eagle Eye Skill 15%" },
             {0x42, "Statesman's Medal|||||||Surrendering Cost -10%" },
-            {0x43, "Diplomat Ring|||||||Surrendering Cost -10%" },
+            {0x43, "Diplomat's Ring|||||||Surrendering Cost -10%" },
             {0x44, "Ambassador's Sash|||||||Surrendering Cost -10%" },
             {0x45, "Ring of the Wayfarer|||||||Unit Speed +1" },
             {0x46, "Equestrian's Gloves|||||||Hero Movement Points +300" },
@@ -727,7 +727,7 @@ namespace Heroes3Editor.Models
             {0x8B, "Ring of the Magi|||||||Combination Artifact: Add 50 rounds to spell duration (56 rounds together with components effect)|NC" },
             {0x8C, "Cornucopia|||||||Combination Artifact: Generates 5 of each precious resource, each day.|4" },
             {0x8D, "Diplomat's Cloak|||||||Combination Artifact: Allows your hero to retreat or surrender when battling neutral monsters or defending a town. Multiplies your hero army strength by 3|Nr" },
-            {0x8E, "Pendant of Reflection|||||||Combination Artifact: Increases hero's magic resistance by 20%,increases hero's magic resistance by 30%|BC" },
+            {0x8E, "Pendant of Reflection|||||||Combination Artifact: Increases hero's magic resistance by 20%, increases hero's magic resistance by 30%|BC" },
             {0x8F, "Ironfist of the Ogre|+5|+4|+4|+4|||Combination Artifact: At the beginning of a combat casts Haste, Bloodlust, Fire Shield and Counterstrike.|HAS" },
             {0x93, "Trident of Dominion|+7||||||" },
             {148, "Shield of Naval Glory||+7|||||" },
@@ -753,7 +753,7 @@ namespace Heroes3Editor.Models
         {
             {0x36, "Amulet of the Undertaker|||||||Necromancy +2.5%" },
             {0x37, "Vampire's Cowl|||||||Necromancy 5%" },
-            {0x38, "Dead Men's Boots|||||||Necromancy 7.5%" },
+            {0x38, "Dead Man's Boots|||||||Necromancy 7.5%" },
             {0x46, "Equestrian's Gloves|||||||Hero Movement Points +200" },
             {0x62, "Boots of Speed|||||||Hero Movement Points +400" },
             {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +15%, Raise more Creature Types|NB" },

@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Lang\lang-data.fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Lang\lang-data.pl.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

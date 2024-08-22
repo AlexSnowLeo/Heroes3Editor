@@ -75,7 +75,7 @@ namespace Heroes3Editor.Models
             Constants.HeroOffsets["SkillSlots"] = 41;
             Constants.RemoveHOTAReferenceCodes();
         }
-        public void Save(string file)
+        public void Save(string file, bool binData = false)
         {
             var result = ValidateData();
             if (result.Length > 0)
@@ -85,9 +85,16 @@ namespace Heroes3Editor.Models
             }
 
             using var fileStream = (new FileInfo(file)).OpenWrite();
-            using var gzipStream = new GZipOutputStream(fileStream);
             using var memoryStream = new MemoryStream(Bytes);
-            memoryStream.CopyTo(gzipStream);
+            if (binData)
+            {
+                memoryStream.CopyTo(fileStream);
+                fileStream.Close();
+            } else
+            {
+                using var gzipStream = new GZipOutputStream(fileStream);
+                memoryStream.CopyTo(gzipStream);
+            }
         }
 
         public void SaveBinData(string file)

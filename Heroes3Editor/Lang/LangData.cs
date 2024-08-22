@@ -14,8 +14,8 @@ namespace Heroes3Editor.Lang
 
         public static void SetInstance(string lang)
         {
-            CurrentLang = lang;
-            if (lang == "en")
+            CurrentLang = lang.ToLower();
+            if (CurrentLang == "en")
             {
                 Instance = null;
             }
@@ -23,7 +23,7 @@ namespace Heroes3Editor.Lang
             {
                 var langFolder = Path.Combine(Environment.CurrentDirectory, "Lang");
                 Instance = JsonSerializer.Deserialize<LangData>(
-                    File.ReadAllText(Path.Combine(langFolder, $"lang-data.{lang}.json")));
+                    File.ReadAllText(Path.Combine(langFolder, $"lang-data.{CurrentLang}.json")));
             }
             
             Constants.Skills.SetLang(Instance?.Skills);
