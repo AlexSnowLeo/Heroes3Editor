@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Xml.Linq;
+using Heroes3Editor.Lang;
 using ICSharpCode.SharpZipLib.GZip;
 
 namespace Heroes3Editor.Models
@@ -19,7 +21,9 @@ namespace Heroes3Editor.Models
         public byte[] Bytes { get; }
         public string FileName { get; set; }
 
-        public IList<Hero> Heroes { get; } = new List<Hero>();
+        public IList<Hero> Heroes { get; } = [];
+
+        public IList<Town> Towns { get; } = [];
 
         // CGM is supposed to be a GZip file, but GZipStream from .NET library throws a
         // "unsupported compression method" exception, which is why we use SharpZipLib.
@@ -45,9 +49,9 @@ namespace Heroes3Editor.Models
             var gameVersionMinor = Bytes[12];
             
             FileName = fileInfo.Name;
-            Lang = SearchHero("Katarzyna", Bytes.Length) > 0
+            Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
                 ? "pl"
-                : SearchHero("Адель", Bytes.Length) > 0 ? "ru" : "en";
+                : SearchHero(Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
             {
@@ -61,6 +65,8 @@ namespace Heroes3Editor.Models
             Version = $"{gameVersionMajor}.{gameVersionMinor}{(IsHOTA ? " HotA" : "")}";
 
             Constants.LoadAllArtifacts();
+
+            SearchTowns();
         }
 
         public void SetHOTA()
@@ -163,6 +169,69 @@ namespace Heroes3Editor.Models
                 }
             }
             return -1;
+        }
+
+        public void SearchTowns()
+        {
+            var position = Bytes.Length;
+            foreach (var faction in Models.Towns.Factions)
+            {
+                foreach (var town in Constants.Towns[faction])
+                {
+                    var factionLang = Constants.Towns.GetLangFactionValue(faction);
+                    SearchTown(town, factionLang, position);
+                }
+            }
+        }
+
+        public (Town town, bool added) SearchTown(string town, string faction, int position)
+        {
+            var encoding = Encoding.ASCII;
+            if (Regex.IsMatch(town, @"\p{IsCyrillic}"))
+            {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                encoding = Encoding.GetEncoding("windows-1251");
+            }
+
+            byte[] pattern = encoding.GetBytes(town);
+
+            for (int i = position - pattern.Length; i > 0; --i)
+            {
+                bool found = true;
+                for (int j = 0; j < pattern.Length; ++j)
+                {
+                    if (Bytes[i + j] != pattern[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    var existTown = Towns.FirstOrDefault(x => x.Position == i);
+                    if (existTown != null)
+                        return (existTown, false);
+
+                    var prev = Convert.ToChar(Bytes[i - 1]);
+                    var next = Convert.ToChar(Bytes[i + pattern.Length]);
+                    if (Char.IsLetter(prev) || Char.IsLetter(next) || prev == ' ' || next == ' ')
+                        continue;
+
+                    var newTown = new Town
+                    {
+                        Faction = faction,
+                        Name = town,
+                        Position = i,
+                    };
+
+                    Towns.Add(newTown);
+
+                    return (newTown, true);
+                }
+            }
+
+            return (null, false);
         }
     }
 
@@ -602,6 +671,18 @@ namespace Heroes3Editor.Models
                 return artInfo;
             }
             return null;
+        }
+    }
+
+    public class Town
+    {
+        public string Name { get; set; }
+        public string Faction { get; set; }
+        public int Position { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

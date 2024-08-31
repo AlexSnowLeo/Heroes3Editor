@@ -45,6 +45,7 @@ namespace Heroes3Editor.Lang
             Constants.LoadAllArtifacts();
             Constants.ArtifactInfo.LangDescriptions = Instance?.ArtifactDescriptions;
             Constants.ArtifactInfo.HotaLangDescriptions = Instance?.HotaArtifactDescriptions;
+            Constants.Towns.SetLang(Instance?.Towns, Instance?.HotaTowns, Instance?.Factions, Instance?.HotaFactions);
 
             //Constants.Artifacts.AppendLang(Instance.Weapons);
             //Constants.Artifacts.AppendLang(Instance.Shields);
@@ -70,5 +71,9 @@ namespace Heroes3Editor.Lang
         public Dictionary<string, string> ArtifactDescriptions { get; set; }
         public Dictionary<string, string> HotaArtifactDescriptions { get; set; }
         public Dictionary<string, string> Creatures { get; set; }
+        public Dictionary<string, string> Factions { get; set; }
+        public Dictionary<string, string> HotaFactions { get; set; }
+        public Dictionary<string, string> Towns { get; set; }
+        public Dictionary<string, string> HotaTowns { get; set; }
     }
 }

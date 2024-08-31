@@ -871,5 +871,20 @@
     "Crystal Dragon": "Kryształowy smok",
     "Faerie Dragon": "Zaklęty smok",
     "Rust Dragon": "Rdzawy smok"
+  },
+  "Factions": {
+    "Castle": "Zamek",
+    "Conflux": "Wrota żywiołów",
+    "Dungeon": "Lochy",
+    "Fortress": "Cytadela",
+    "Inferno": "Inferno",
+    "Necropolis": "Nekropolis",
+    "Rampart": "Bastion",
+    "Stronghold": "Twierdza",
+    "Tower": "Forteca"
+  },
+  "HotaFactions": {
+    "Cove": "Zatoka",
+    "Factory": "Factory"
   }
 }

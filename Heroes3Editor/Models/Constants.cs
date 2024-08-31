@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Hota
+﻿// Ignore Spelling: Hota Strongglen Conflux
 
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ namespace Heroes3Editor.Models
         public static Artifacts Artifacts { get; } = new();
 
         public static ArtifactInfo ArtifactInfo { get; } = new();
+
+        public static Towns Towns { get; } = new();
 
         public static string[] Lang { get; } = ["EN", "RU", "PL", "FR"];
 
@@ -93,6 +95,7 @@ namespace Heroes3Editor.Models
             Creatures.LoadHotaReferenceCodes();
             Skills.LoadHotaReferenceCodes();
             Heroes.LoadHota();
+            Towns.LoadHotaValues();
 
             ArtifactInfo.UpdateHotaDescriptions();
         }
@@ -112,6 +115,7 @@ namespace Heroes3Editor.Models
             Creatures.RemoveHotaReferenceCodes();
             Skills.RemoveHotaReferenceCodes();
             Heroes.RemoveHota();
+            Towns.RemoveHotaValues();
         }
 
         public static void LoadAllArtifacts()
@@ -131,6 +135,8 @@ namespace Heroes3Editor.Models
 
     public static class Heroes
     {
+        public const string CatherinePL = "Katarzyna";
+        public const string AdelaRU = "Адель";
         private static readonly List<string> _heroes =
         [
             // Castle
@@ -194,7 +200,11 @@ namespace Heroes3Editor.Models
 
         public static void LoadHota()
         {
-            _heroes.AddRange(_heroesHota);
+            foreach (var h in _heroesHota)
+            {
+                if (!_heroes.Contains(h))
+                    _heroes.Add(h);
+            }
         }
 
         public static void RemoveHota()
@@ -1078,6 +1088,218 @@ namespace Heroes3Editor.Models
                 {184, "Dreadnought"},
                 {185, "Juggernaut"},
             };
+        }
+    }
+
+    public class Towns
+    {
+        private const string Strongglen = "Strongglen";
+        private const string RampartFaction = "Rampart";
+
+        private static readonly Dictionary<string, string[]> _towns = new()
+        {
+            {
+                "Castle", [
+                    "Castellatus", "Cornerstone", "Claxton", "Armitage", "Whistledale", "Gateway", "Dunwall", "Kildare",
+                    "Kanan", "Highcastle", "Whitemoon", "Transom", "Middleheim", "Brettonia", "Alexandretta",
+                    "Whitestone"
+                ]
+            },
+            {
+                "Conflux", [
+                    "Elementon", "Styriam", "Ventu", "Fleogan Mills", "Electrising", "Ceald", "Igne", "Froisan",
+                    "Fenderen",
+                    "Lagumoor", "Wazzar", "Lanting", "Vluchton", "Solium", "Massein", "Magmetin",
+                ]
+            },
+            {
+                "Dungeon", [
+                    "Veks", "Sorrow Crown", "Dragonnade", "Shade", "Evernight", "Darkburrow", "Lost Hold", "Coldshadow",
+                    "Chillwater", "Deepshadow", "Darkhold", "Blindroot", "Shadowden", "Scar", "Malev", "Castigare",
+                ]
+            },
+            {
+                "Fortress", [
+                    "Marshank", "Deadfall", "Drakenmoor", "Hermit Cove", "Mosswood", "Marshwall", "Mossden", "Mudshire",
+                    "Coolmire", "Backwater", "Marshchoke", "Lostmoor", "Silt", "Deadwood", "Edgewater", "Stillbog",
+                ]
+            },
+            {
+                "Inferno", [
+                    "Abaddon", "Acheron", "Ashcombe", "Hellwind", "Stygius", "Styx", "Tartaros", "Blackburn", "Ashden",
+                    "Brimstone", "Candent", "Cinderspire", "Daemon Gate", "Enkindle", "Gehenna", "Firebrand",
+                ]
+            },
+            {
+                "Necropolis", [
+                    "Haunt's Wind", "Cessacioun", "Coldreign", "Dark Eternal", "Ghostwind", "Blight", "Shadow Keep",
+                    "Worm Warren", "Agony", "Sanctum", "Terminus", "Blackquarter", "Death's Gate", "Grave Raven", "Dark Cloud",
+                    "Coldsoul",
+                ]
+            },
+            {
+                RampartFaction, [
+                    "Wise Oak", "Forest", Strongglen, "Marishen", "Bath'iere", "Green Falls", "Emerald Moor", "Wild Willow",
+                    "Fortune Keep", "Still Water", "Elfwind", "Serenity", "Ceiliedgh", "Gladeroot", "Forest Glen", "Rainhaven",
+                ]
+            },
+            {
+                "Stronghold", [
+                    "Kragg", "Drago Breach", "Tormina", "Dolere", "Rockwarren", Strongglen, "Kruber", "Rovener", "Hartgrim",
+                    "Sandflash", "Morganheim", "Cragmoor", "Dragonspire", "Battlement", "Bocc", "Slau",
+                ]
+            },
+            {
+                "Tower", [
+                    "Machina", "Stronggale", "Tirith", "Fallen Star", "Mystos", "Ayer", "Silverspire", "Manufactury", "Corona",
+                    "Silverwing", "Facture", "Cloudfire", "Cloudspire", "Equinox", "Athenaeum", "Valtara",
+                ]
+            }
+        };
+
+        private readonly Dictionary<string, string[]> _hotaTowns = new()
+        {
+            {
+                "Cove", [
+                    "Tartaglia", "Lewindale", "Westland Pier", "Walendale", "Port Crowland", "Jordanhall", "Sleepy Creek",
+                    "Hitchgrove", "Port Evendore", "Rotunda", "Watergate", "Brown's Bay", "Nithenes", "Downhaven", "Lakenshire",
+                    "Noral",
+                ]
+            },
+            {
+                "Factory", [
+                    "Salda", "Burton", "Prospero", "Mount Copper", "Ardon", "New Dolere", "Corakstone", "Kergar", "Dardentor",
+                    "Arcadia", "Endurance", "Vulcan", "Aurichalcum", "Fort Rotwang", "Volta", "Ridder",
+                ]
+            }
+        };
+
+        public string[] this[string key] => _towns[key].Select(town => GetLangValue(town, key)).ToArray();
+        
+        public static string[] Factions => [.. _towns.Keys];
+
+        private Dictionary<string, string> LangSaved { get; set; } = [];
+        private Dictionary<string, string> Lang { get; set; }
+        private Dictionary<string, string> LangHota { get; set; }
+        private Dictionary<string, string> LangFactionsSaved { get; set; } = [];
+        private Dictionary<string, string> LangFactions { get; set; }
+        private Dictionary<string, string> LangFactionsHota { get; set; }
+
+        public void LoadHotaValues()
+        {
+            foreach (var code in _hotaTowns)
+            {
+                if (_towns.ContainsKey(code.Key))
+                {
+                    continue;
+                }
+
+                _towns.Add(code.Key, code.Value);
+            }
+
+            if (Lang != null && LangHota != null)
+                foreach (var kvp in LangHota)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        if (Lang[kvp.Key] != kvp.Value)
+                        {
+                            LangSaved.Add(kvp.Key, Lang[kvp.Key]);
+                            Lang[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    else
+                    {
+                        Lang.Add(kvp.Key, kvp.Value);
+                    }
+                }
+
+            if (LangFactions != null && LangFactionsHota != null)
+                foreach (var kvp in LangFactionsHota)
+                {
+                    if (LangFactions.ContainsKey(kvp.Key))
+                    {
+                        if (LangFactions[kvp.Key] != kvp.Value)
+                        {
+                            LangFactionsSaved.Add(kvp.Key, LangFactions[kvp.Key]);
+                            LangFactions[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    else
+                    {
+                        LangFactions.Add(kvp.Key, kvp.Value);
+                    }
+                }
+        }
+
+        public void RemoveHotaValues()
+        {
+            foreach (var kvp in _hotaTowns)
+            {
+                if (_towns.ContainsKey(kvp.Key))
+                {
+                    _towns.Remove(kvp.Key);
+                }
+            }
+
+            if (Lang != null)
+                foreach (var kvp in LangSaved)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        Lang[kvp.Key] = kvp.Value;
+                    }
+                }
+
+            LangSaved.Clear();
+
+            if (LangFactions != null)
+                foreach (var kvp in LangFactionsSaved)
+                {
+                    if (LangFactions.ContainsKey(kvp.Key))
+                    {
+                        LangFactions[kvp.Key] = kvp.Value;
+                    }
+                }
+
+            LangFactionsSaved.Clear();
+        }
+
+        public void SetLang(
+            Dictionary<string, string> lang,
+            Dictionary<string, string> langHota,
+            Dictionary<string, string> langFactions,
+            Dictionary<string, string> langFactionsHota)
+        {
+            Lang = lang;
+            LangHota = langHota;
+            LangFactions = langFactions;
+            LangFactionsHota = langFactionsHota;
+        }
+
+        public string GetLangValue(string town, string faction)
+        {
+            var key = town;
+            if (town == Strongglen)
+            {
+                key = $"{town}.{faction ?? RampartFaction}";
+            }
+
+            if (Lang != null && Lang.TryGetValue(key, out var lang))
+                return lang;
+
+            return town;
+        }
+
+        public string GetLangFactionValue(string key)
+        {
+            if (key == null)
+                return null;
+            
+            if (LangFactions != null && LangFactions.TryGetValue(key, out var lang))
+                return lang;
+
+            return key;
         }
     }
 }

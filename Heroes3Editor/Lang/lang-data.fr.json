@@ -872,5 +872,20 @@
     "Crystal Dragon": "Dragon de Cristal",
     "Faerie Dragon": "Dragon Féerique",
     "Rust Dragon": "Dragon Corrosif"
+  },
+  "Factions": {
+    "Castle": "Château",
+    "Conflux": "Conflux",
+    "Dungeon": "Donjon",
+    "Fortress": "Forteresse",
+    "Inferno": "Hadès",
+    "Necropolis": "Nécropole",
+    "Rampart": "Rempart",
+    "Stronghold": "Bastion",
+    "Tower": "Tour"
+  },
+  "HotaFactions": {
+    "Cove": "Cove",
+    "Factory": "Factory"
   }
 }

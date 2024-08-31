@@ -82,6 +82,17 @@ namespace Heroes3Editor
 
                 status.Text = openDlg.FileName;
                 GameVersion.Text = $" | Save Game version: {Game.Version} | Game Lang: {Game.Lang.ToUpper()}";
+
+                TownCboBox.Items.Clear();
+                if (Game.Towns.Count > 0)
+                {
+                    foreach (var town in Game.Towns)
+                    {
+                        TownCboBox.Items.Add(town);
+                    }
+                }
+
+                TownCboBox.IsEnabled = true;
             }
         }
 
@@ -177,20 +188,29 @@ namespace Heroes3Editor
                 }
             }
 
-            var mess = "";
-            if (notFoundHeroes.Count == 0)
-                mess = "All characters of the selected language have been successfully found on the loaded map.";
-
+            string mess;
             if (notFoundHeroes.Count > 30)
                 mess = $"The number of undiscovered heroes on the loaded map ({notFoundHeroes.Count}) " +
                     $"is very large. Perhaps you have chosen the wrong game language?";
             else
             {
-                mess = "Heroes that were not found on the loaded map:" +
+                mess = notFoundHeroes.Count == 0
+                    ? "All characters of the selected language have been successfully found on the loaded map."
+                    : "Heroes that were not found on the loaded map:" + 
                     "\n\n - " + string.Join("\n - ", notFoundHeroes);
             }
 
             MessageBox.Show(mess, "Test Search Heroes");
+        }
+
+        private void TownSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var (town, added) = Game.SearchTown(TownCboBox.Text, null, Game.Bytes.Length);
+            if (added)
+                TownCboBox.Items.Add(town);
+
+            if (town != null)
+                TownCboBox.SelectedItem = town;
         }
     }
 }
