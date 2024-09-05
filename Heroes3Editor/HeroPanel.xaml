@@ -28,7 +28,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
-        <GroupBox Header="Primary Skills">
+        <GroupBox Header="{DynamicResource hero_PrimarySkills}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -40,28 +40,28 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                    <Label>Attack</Label>
+                    <Label Content="{DynamicResource hero_Attack}"/>
                     <TextBox Name="Attribute0" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                    <Label>Defense</Label>
+                    <Label Content="{DynamicResource hero_Defense}"/>
                     <TextBox Name="Attribute1" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
-                    <Label>Spell Power</Label>
+                    <Label Content="{DynamicResource hero_SpellPower}"/>
                     <TextBox Name="Attribute2" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
-                    <Label>Knowledge</Label>
+                    <Label Content="{DynamicResource hero_Knowledge}"/>
                     <TextBox Name="Attribute3" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
             </Grid>
         </GroupBox>
         <TabControl>
-            <TabItem Header="Secondary Skills">
+            <TabItem Header="{DynamicResource hero_SecondarySkills}">
                 <Grid DataContext="{Binding Source={StaticResource constants}}" Margin="5">
                     <Grid.Resources>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="Label">
                             <Setter Property="HorizontalAlignment" Value="Right" />
                             <Setter Property="VerticalAlignment" Value="Center" />
                             <Setter Property="Margin" Value="5,0,0,0" />
@@ -95,51 +95,51 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">Type</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center">Mastery</TextBlock>
-                    
-                    <TextBlock Grid.Row="1" Grid.Column="0">Skill 1:</TextBlock>
+                    <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Content="{DynamicResource hero_Type}"/>
+                    <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Content="{DynamicResource hero_Mastery}"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource hero_Skill1}"></Label>
                     <ComboBox Name="Skill0" Grid.Row="1" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel0" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill0" Grid.Row="1" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="2" Grid.Column="0">Skill 2:</TextBlock>
+                    <Button Name="ClearSkill0" Grid.Row="1" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource hero_Skill2}"/>
                     <ComboBox Name="Skill1" Grid.Row="2" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel1" Grid.Row="2" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill1" Grid.Row="2" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="3" Grid.Column="0">Skill 3:</TextBlock>
+                    <Button Name="ClearSkill1" Grid.Row="2" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource hero_Skill3}"/>
                     <ComboBox Name="Skill2" Grid.Row="3" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel2" Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill2" Grid.Row="3" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="4" Grid.Column="0">Skill 4:</TextBlock>
+                    <Button Name="ClearSkill2" Grid.Row="3" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="4" Grid.Column="0" Content="{DynamicResource hero_Skill4}"/>
                     <ComboBox Name="Skill3" Grid.Row="4" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel3" Grid.Row="4" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill3" Grid.Row="4" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="5" Grid.Column="0">Skill 5:</TextBlock>
+                    <Button Name="ClearSkill3" Grid.Row="4" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="5" Grid.Column="0" Content="{DynamicResource hero_Skill5}"/>
                     <ComboBox Name="Skill4" Grid.Row="5" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel4" Grid.Row="5" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill4" Grid.Row="5" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="6" Grid.Column="0">Skill 6:</TextBlock>
+                    <Button Name="ClearSkill4" Grid.Row="5" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="6" Grid.Column="0" Content="{DynamicResource hero_Skill6}"/>
                     <ComboBox Name="Skill5" Grid.Row="6" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel5" Grid.Row="6" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill5" Grid.Row="6" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="7" Grid.Column="0">Skill 7:</TextBlock>
+                    <Button Name="ClearSkill5" Grid.Row="6" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="7" Grid.Column="0" Content="{DynamicResource hero_Skill7}"/>
                     <ComboBox Name="Skill6" Grid.Row="7" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel6" Grid.Row="7" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill6" Grid.Row="7" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
-                    
-                    <TextBlock Grid.Row="8" Grid.Column="0">Skill 8:</TextBlock>
+                    <Button Name="ClearSkill6" Grid.Row="7" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
+
+                    <Label Grid.Row="8" Grid.Column="0" Content="{DynamicResource hero_Skill8}"/>
                     <ComboBox Name="Skill7" Grid.Row="8" Grid.Column="1" SelectionChanged="UpdateSkill" />
                     <ComboBox Name="SkillLevel7" Grid.Row="8" Grid.Column="2" ItemsSource="{Binding Path=SkillLevels.Names}" SelectionChanged="UpdateSkillLevel" />
-                    <Button Name="ClearSkill7" Grid.Row="8" Grid.Column="3" Click="ClearSkill" IsEnabled="False">Clear</Button>
+                    <Button Name="ClearSkill7" Grid.Row="8" Grid.Column="3" Click="ClearSkill" IsEnabled="False" Content="{DynamicResource hero_Clear}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Spells" Name="TabSpells">
+            <TabItem Header="{DynamicResource hero_Spells}" Name="TabSpells">
                 <StackPanel>
                     <Grid>
                         <Grid.Resources>
@@ -170,10 +170,10 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
-                        <GroupBox Header="Spell Book" Grid.Row="0" Grid.Column="0">
-                            <CheckBox Name="SpellBook" Checked="ToggleSpellBook" Unchecked="ToggleSpellBook">Exist</CheckBox>
+                        <GroupBox Header="{DynamicResource hero_SpellBook}" Grid.Row="0" Grid.Column="0">
+                            <CheckBox Name="SpellBook" Checked="ToggleSpellBook" Unchecked="ToggleSpellBook" Content="{DynamicResource hero_Exists}"/>
                         </GroupBox>
-                        <GroupBox Header="All Schools" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                        <GroupBox Header="{DynamicResource hero_AllSchools}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
                             <WrapPanel>
                                 <CheckBox ToolTip="Target, enemy troop receives magic damage" Name="Magic_Arrow" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Magic Arrow
@@ -183,7 +183,7 @@
                                 </CheckBox>
                             </WrapPanel>
                         </GroupBox>
-                        <GroupBox Header="Air Magic" Grid.Row="1" Grid.Column="0">
+                        <GroupBox Header="{DynamicResource hero_AirMagic}" Grid.Row="1" Grid.Column="0">
                             <StackPanel>
                                 <CheckBox ToolTip="Targeted allied unit(s) speed is increased." Name="Haste" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Haste
@@ -241,7 +241,7 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Earth Magic" Grid.Row="1" Grid.Column="1">
+                        <GroupBox Header="{DynamicResource hero_EarthMagic}" Grid.Row="1" Grid.Column="1">
                             <StackPanel>
                                 <CheckBox ToolTip="Reduces damage taken from hand-to-hand attacks." Name="Shield" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Shield
@@ -296,7 +296,7 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Fire Magic" Grid.Row="1" Grid.Column="2">
+                        <GroupBox Header="{DynamicResource hero_FireMagic}" Grid.Row="1" Grid.Column="2">
                             <StackPanel>
                                 <CheckBox ToolTip="Increases the attack skill of target(s) for melee attacks." Name="Bloodlust" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Bloodlust
@@ -348,7 +348,7 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Water Magic" Grid.Row="1" Grid.Column="3">
+                        <GroupBox Header="{DynamicResource hero_WaterMagic}" Grid.Row="1" Grid.Column="3">
                             <StackPanel>
                                 <CheckBox Name="Cure" ToolTip="Removes all negative spell effects from allied target(s) and heals some hitpoints." Checked="AddSpell" Unchecked="RemoveSpell">
                                     Cure
@@ -406,11 +406,11 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Creatures">
+            <TabItem Header="{DynamicResource hero_Creatures}">
                 <StackPanel Margin="5">
                     <Grid DataContext="{Binding Source={StaticResource constants}}">
                         <Grid.Resources>
-                            <Style TargetType="TextBlock">
+                            <Style TargetType="Label">
                                 <Setter Property="HorizontalAlignment" Value="Right" />
                                 <Setter Property="VerticalAlignment" Value="Center" />
                                 <Setter Property="Margin" Value="5,0,0,0" />
@@ -435,10 +435,10 @@
                             </Style>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.7*" />
+                            <ColumnDefinition Width="0.6*" />
                             <ColumnDefinition Width="1.6*" />
-                            <ColumnDefinition Width="0.5*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="0.7*" />
+                            <ColumnDefinition Width="2.9*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -450,49 +450,49 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">Type</TextBlock>
-                        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left">Quantity</TextBlock>
+                        <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Content="{DynamicResource hero_Type}"/>
+                        <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Content="{DynamicResource hero_Quantity}"/>
 
-                        <TextBlock Grid.Row="1" Grid.Column="0">Slot 1:</TextBlock>
+                        <Label Grid.Row="1" Grid.Column="0" Content="{DynamicResource hero_Slot1}" />
                         <ComboBox Name="Creature0" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount0" Grid.Row="1" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature0" Grid.Row="1" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature0" Grid.Row="1" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="2" Grid.Column="0">Slot 2:</TextBlock>
+                        <Label Grid.Row="2" Grid.Column="0" Content="{DynamicResource hero_Slot2}" />
                         <ComboBox Name="Creature1" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount1" Grid.Row="2" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature1" Grid.Row="2" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature1" Grid.Row="2" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="3" Grid.Column="0">Slot 3:</TextBlock>
+                        <Label Grid.Row="3" Grid.Column="0" Content="{DynamicResource hero_Slot3}" />
                         <ComboBox Name="Creature2" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount2" Grid.Row="3" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature2" Grid.Row="3" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature2" Grid.Row="3" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="4" Grid.Column="0">Slot 4:</TextBlock>
+                        <Label Grid.Row="4" Grid.Column="0" Content="{DynamicResource hero_Slot4}" />
                         <ComboBox Name="Creature3" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount3" Grid.Row="4" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature3" Grid.Row="4" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature3" Grid.Row="4" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="5" Grid.Column="0">Slot 5:</TextBlock>
+                        <Label Grid.Row="5" Grid.Column="0" Content="{DynamicResource hero_Slot5}" />
                         <ComboBox Name="Creature4" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount4" Grid.Row="5" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature4" Grid.Row="5" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature4" Grid.Row="5" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="6" Grid.Column="0">Slot 6:</TextBlock>
+                        <Label Grid.Row="6" Grid.Column="0" Content="{DynamicResource hero_Slot6}" />
                         <ComboBox Name="Creature5" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount5" Grid.Row="6" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature5" Grid.Row="6" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature5" Grid.Row="6" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
 
-                        <TextBlock Grid.Row="7" Grid.Column="0">Slot 7:</TextBlock>
+                        <Label Grid.Row="7" Grid.Column="0" Content="{DynamicResource hero_Slot7}" />
                         <ComboBox Name="Creature6" Grid.Row="7" Grid.Column="1" ItemsSource="{Binding Path=Creatures.Names}" SelectionChanged="UpdateCreature" />
                         <TextBox Name="CreatureAmount6" Grid.Row="7" Grid.Column="2" TextChanged="UpdateCreatureAmount" PreviewTextInput="NumberPreviewTextInput" MouseWheel="CreatureAmounMouseWheel"></TextBox>
-                        <Button Name="ClearCreature6" Grid.Row="7" Grid.Column="3" Click="ClearCreature">Clear</Button>
+                        <Button Name="ClearCreature6" Grid.Row="7" Grid.Column="3" Click="ClearCreature" Content="{DynamicResource hero_Clear}"/>
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Equipment">
+            <TabItem Header="{DynamicResource hero_Equipment}">
                 <StackPanel>
-                    <GroupBox Header="War Machines">
+                    <GroupBox Header="{DynamicResource hero_WarMachines}">
                         <WrapPanel>
                             <CheckBox Name="Ballista" Checked="AddWarMachine" Unchecked="RemoveWarMachine" Tag="Ballista">
                                 <Label>Ballista</Label>
@@ -514,7 +514,7 @@
                             </CheckBox>
                         </WrapPanel>
                     </GroupBox>
-                    <GroupBox Header="Equipped Artifacts">
+                    <GroupBox Header="{DynamicResource hero_EquippedArtifacts}">
                         <Grid DataContext="{Binding Source={StaticResource constants}}" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
@@ -535,54 +535,54 @@
                                 </Style>
                             </Grid.Resources>
                             <StackPanel Grid.Row="0" Grid.Column="0">
-                                <GroupBox Header="Helm">
+                                <GroupBox Header="{DynamicResource hero_Helm}">
                                     <ComboBox Name="EA_Helm" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Helms.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Neck">
+                                <GroupBox Header="{DynamicResource hero_Neck}">
                                     <ComboBox Name="EA_Neck" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Neck.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Armor">
+                                <GroupBox Header="{DynamicResource hero_Armor}">
                                     <ComboBox Name="EA_Armor" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Armor.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Cloak">
+                                <GroupBox Header="{DynamicResource hero_Cloak}">
                                     <ComboBox Name="EA_Cloak" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Cloak.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Boots">
+                                <GroupBox Header="{DynamicResource hero_Boots}">
                                     <ComboBox Name="EA_Boots" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Boots.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="1">
-                                <GroupBox Header="Weapon">
+                                <GroupBox Header="{DynamicResource hero_Weapon}">
                                     <ComboBox Name="EA_Weapon" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Weapons.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Shield">
+                                <GroupBox Header="{DynamicResource hero_Shield}">
                                     <ComboBox Name="EA_Shield" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Shields.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Left Ring">
+                                <GroupBox Header="{DynamicResource hero_LeftRing}">
                                     <ComboBox Name="EA_LeftRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Right Ring">
+                                <GroupBox Header="{DynamicResource hero_RightRing}">
                                     <ComboBox Name="EA_RightRing" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo"  ItemsSource="{Binding Path=Rings.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
                             </StackPanel>
                             <StackPanel Grid.Row="0" Grid.Column="2">
-                                <GroupBox Header="Item #1">
+                                <GroupBox Header="{DynamicResource hero_Item1}">
                                     <ComboBox Name="EA_Item1" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Item#2">
+                                <GroupBox Header="{DynamicResource hero_Item2}">
                                     <ComboBox Name="EA_Item2" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Item #3">
+                                <GroupBox Header="{DynamicResource hero_Item3}">
                                     <ComboBox Name="EA_Item3" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Item #4">
+                                <GroupBox Header="{DynamicResource hero_Item4}">
                                     <ComboBox Name="EA_Item4" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
-                                <GroupBox Header="Item #5">
+                                <GroupBox Header="{DynamicResource hero_Item5}">
                                     <ComboBox Name="EA_Item5" MouseEnter="UpdateArtifactInfo" MouseLeave="ClearArtifactInfo" ItemsSource="{Binding Path=Items.Names}" SelectionChanged="UpdateEquippedArtifact" />
                                 </GroupBox>
                             </StackPanel>
-                            <GroupBox Name="GroupBoxInventory" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Header="Inventory">
+                            <GroupBox Name="GroupBoxInventory" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" Header="{DynamicResource hero_Inventory}">
                                 <Grid DataContext="{Binding Source={StaticResource constants}}" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
@@ -601,13 +601,13 @@
                                                 <Setter Property="Margin" Value="5" />
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Button Click="AddInventoryItem">Add</Button>
-                                        <Button Click="RemoveInventoryItem">Remove</Button>
-                                        <Button Click="RemoveAllInventoryItems">Remove All</Button>
+                                        <Button Click="AddInventoryItem" Content="{DynamicResource hero_Add}"/>
+                                        <Button Click="RemoveInventoryItem" Content="{DynamicResource hero_Remove}"/>
+                                        <Button Click="RemoveAllInventoryItems" Content="{DynamicResource hero_RemoveAll}"/>
                                     </StackPanel>
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Grid.Row="1" Grid.Column="2" Header="Artifact Info" Name="ArtifactInfo" >
+                            <GroupBox Grid.Row="1" Grid.Column="2" Header="{DynamicResource hero_ArtifactInfo}" Name="ArtifactInfo" >
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*" />
@@ -620,31 +620,31 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="1">
-                                        <Label>Att:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Attack" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoAttack}"/>
+                                        <Label Name="Attack" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" Margin="1">
-                                        <Label>Def:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Defense" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoDefense}"/>
+                                        <Label Name="Defense" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="1">
-                                        <Label>Pow:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Power" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoPower}"/>
+                                        <Label Name="Power" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="1">
-                                        <Label>Know:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Knowledge" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoKnowledge}"/>
+                                        <Label Name="Knowledge" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="1">
-                                        <Label>Morale:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Morale" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoMorale}"/>
+                                        <Label Name="Morale" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="1">
-                                        <Label>Luck:</Label>
-                                        <TextBlock TextWrapping="Wrap" Name="Luck" VerticalAlignment="Center"></TextBlock>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoLuck}"/>
+                                        <Label Name="Luck" VerticalAlignment="Center"></Label>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="2">
-                                        <Label>Effects:</Label>
+                                        <Label Content="{DynamicResource hero_ArtifactInfoEffects}"/>
                                         <TextBlock TextWrapping="WrapWithOverflow" Name="Effects" VerticalAlignment="Stretch" Height="110" Margin="0,5,2,2" Width="175" FontSize="11"/>
                                     </StackPanel>
                                 </Grid>

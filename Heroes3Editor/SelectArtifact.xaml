@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Heroes3Editor"
         mc:Ignorable="d"
-        Title="Select Artifact" Height="80" Width="345"
+        Title="{DynamicResource modal_SelectArtifact}" Height="96" Width="345"
         MinHeight="80"
         MinWidth="300"
         SizeToContent="WidthAndHeight"
@@ -17,11 +17,9 @@
         <Grid.Resources>
             <!-- Default settings for controls -->
             <Style TargetType="{x:Type Label}">
-                <Setter Property="Margin" Value="0,3,5,5" />
+                <Setter Property="Margin" Value="0,8,5,0" />
                 <Setter Property="Padding" Value="0,0,0,5" />
-            </Style>
-            <Style TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="0,5,5,0" />
+                <Setter Property="HorizontalContentAlignment" Value="Right" />
             </Style>
             <Style TargetType="{x:Type ComboBox}">
                 <Setter Property="Margin" Value="0,5,5,0" />
@@ -43,12 +41,12 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <TextBlock Width="40" TextAlignment="Right">Artifact:</TextBlock>
+            <Label Width="{DynamicResource modal_LabelWidth}" Content="{DynamicResource modal_Artifact}"/>
             <ComboBox Name="ComboBoxArtifacts" Width="200" SelectionChanged="ComboBoxArtifacts_OnSelectionChanged" />
-            <Button Name="BtnSelect" Click="BtnSelect_OnClick" Content="Select" /> 
+            <Button Name="BtnSelect" Click="BtnSelect_OnClick" Content="{DynamicResource modal_Select}" /> 
         </StackPanel>
         <StackPanel Name="StackPanelSpells" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-            <TextBlock Width="40" TextAlignment="Right">Spell:</TextBlock>
+            <Label Width="{DynamicResource modal_LabelWidth}" Content="{DynamicResource modal_Spell}"/>
             <ComboBox Name="ComboBoxSpells" Width="200" IsEnabled="False" />
         </StackPanel>
     </Grid>

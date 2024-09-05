@@ -1,0 +1,97 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main window -->
+    <v:String x:Key="main_Title">HoMM3 Éditeur de Sauvegarde de Jeu</v:String>
+    <v:String x:Key="main_MenuFile">_Fichier</v:String>
+    <v:String x:Key="main_MenuOpen">_Ouvert</v:String>
+    <v:String x:Key="main_MenuSave">_Sauvegarder</v:String>
+    <v:String x:Key="main_MenuExit">_Quitter</v:String>
+    <v:String x:Key="main_MenuDebug">_Debug</v:String>
+    <v:String x:Key="main_MenuOptions">O_ptions</v:String>
+    <v:String x:Key="main_MenuLanguage">_Langue</v:String>
+    <v:String x:Key="main_MenuOther">_Autres</v:String>
+    <v:String x:Key="main_MenuUpdateGameLang">Mettre à jour la langue du jeu avec la langue de l'app</v:String>
+    <v:String x:Key="main_LangLabel">Langue du Jeu:</v:String>
+    <v:String x:Key="main_SearchHeroLabel">Héros de Recherche:</v:String>
+    <v:String x:Key="main_Town">Ville:</v:String>
+    <v:String x:Key="main_SearchTown">Rechercher une Ville</v:String>
+    <v:String x:Key="main_gameVersion">| Enregistrer la version du jeu: {0} | Langue du Jeu: {1}</v:String>
+
+    <!-- HeroPanel -->
+    <v:String x:Key="hero_PrimarySkills">Caractéristiques</v:String>
+    <v:String x:Key="hero_Attack">Attaque</v:String>
+    <v:String x:Key="hero_Defense">Défense</v:String>
+    <v:String x:Key="hero_SpellPower">Puissance</v:String>
+    <v:String x:Key="hero_Knowledge">Savoir</v:String>
+    <v:String x:Key="hero_SecondarySkills">Compétences secondaires</v:String>
+    <v:String x:Key="hero_Type">Type</v:String>
+    <v:String x:Key="hero_Mastery">Expertise</v:String>
+    <v:String x:Key="hero_Skill1">Compétence 1:</v:String>
+    <v:String x:Key="hero_Skill2">Compétence 2:</v:String>
+    <v:String x:Key="hero_Skill3">Compétence 3:</v:String>
+    <v:String x:Key="hero_Skill4">Compétence 4:</v:String>
+    <v:String x:Key="hero_Skill5">Compétence 5:</v:String>
+    <v:String x:Key="hero_Skill6">Compétence 6:</v:String>
+    <v:String x:Key="hero_Skill7">Compétence 7:</v:String>
+    <v:String x:Key="hero_Skill8">Compétence 8:</v:String>
+    <v:String x:Key="hero_Clear">Enlever</v:String>
+    <v:String x:Key="hero_Spells">Sorts</v:String>
+    <v:String x:Key="hero_SpellBook">Livre de Sorts</v:String>
+    <v:String x:Key="hero_Exists">Existe</v:String>
+    <v:String x:Key="hero_AllSchools">Toutes les écoles</v:String>
+    <v:String x:Key="hero_AirMagic">Magie d'Air</v:String>
+    <v:String x:Key="hero_EarthMagic">Magie de Terre</v:String>
+    <v:String x:Key="hero_FireMagic">Magie du Feu</v:String>
+    <v:String x:Key="hero_WaterMagic">Magie d'Eau</v:String>
+    <v:String x:Key="hero_Creatures">Créatures</v:String>
+    <v:String x:Key="hero_Quantity">Quantité</v:String>
+    <v:String x:Key="hero_Slot1">Groupe 1:</v:String>
+    <v:String x:Key="hero_Slot2">Groupe 2:</v:String>
+    <v:String x:Key="hero_Slot3">Groupe 3:</v:String>
+    <v:String x:Key="hero_Slot4">Groupe 4:</v:String>
+    <v:String x:Key="hero_Slot5">Groupe 5:</v:String>
+    <v:String x:Key="hero_Slot6">Groupe 6:</v:String>
+    <v:String x:Key="hero_Slot7">Groupe 7:</v:String>
+    <v:String x:Key="hero_Equipment">Équipement</v:String>
+    <v:String x:Key="hero_WarMachines">Machines de Guerre</v:String>
+    <v:String x:Key="hero_EquippedArtifacts">Artefacts</v:String>
+    <v:String x:Key="hero_Helm">Tête</v:String>
+    <v:String x:Key="hero_Neck">Cou</v:String>
+    <v:String x:Key="hero_Armor">Torse</v:String>
+    <v:String x:Key="hero_Cloak">Épaules</v:String>
+    <v:String x:Key="hero_Boots">Pieds</v:String>
+    <v:String x:Key="hero_Weapon">Main droite</v:String>
+    <v:String x:Key="hero_Shield">Main gauche</v:String>
+    <v:String x:Key="hero_LeftRing">Anneau gauche</v:String>
+    <v:String x:Key="hero_RightRing">Anneau droite</v:String>
+    <v:String x:Key="hero_Item1">Divers #1</v:String>
+    <v:String x:Key="hero_Item2">Divers #2</v:String>
+    <v:String x:Key="hero_Item3">Divers #3</v:String>
+    <v:String x:Key="hero_Item4">Divers #4</v:String>
+    <v:String x:Key="hero_Item5">Divers #5</v:String>
+    <v:String x:Key="hero_Inventory">Besace</v:String>
+    <v:String x:Key="hero_ArtifactInfo">Informations Sur l'Artefact</v:String>
+    <v:String x:Key="hero_ArtifactInfoAttack">Attaque:</v:String>
+    <v:String x:Key="hero_ArtifactInfoDefense">Défense:</v:String>
+    <v:String x:Key="hero_ArtifactInfoPower">Puissance:</v:String>
+    <v:String x:Key="hero_ArtifactInfoKnowledge">Savoir:</v:String>
+    <v:String x:Key="hero_ArtifactInfoMorale">Moral:</v:String>
+    <v:String x:Key="hero_ArtifactInfoLuck">Chance:</v:String>
+    <v:String x:Key="hero_ArtifactInfoEffects">Effets:</v:String>
+    <v:String x:Key="hero_Add">Ajouter</v:String>
+    <v:String x:Key="hero_Remove">Supprimer</v:String>
+    <v:String x:Key="hero_RemoveAll">Tout supprimer</v:String>
+    <v:String x:Key="hero_Confirm">Confirmer</v:String>
+    <v:String x:Key="hero_RemoveAllConfirm">Êtes-vous sûr de vouloir retirer tous les articles de votre besace?</v:String>
+
+    <!-- Modal -->
+    <v:String x:Key="modal_SelectSpell">Sélectionner un sort</v:String>
+    <v:String x:Key="modal_Select">Sélectionner</v:String>
+    <v:String x:Key="modal_SelectArtifact">Sélectionner un artefact</v:String>
+    <v:String x:Key="modal_Artifact">Artefact:</v:String>
+    <v:String x:Key="modal_Spell">Sort:</v:String>
+    <v:Double x:Key="modal_LabelWidth">50</v:Double>
+
+</ResourceDictionary>

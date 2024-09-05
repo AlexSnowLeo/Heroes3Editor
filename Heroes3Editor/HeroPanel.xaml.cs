@@ -613,27 +613,31 @@ namespace Heroes3Editor
             var artifact = cboBox.SelectedItem as string;
 
             var artInfo = _hero.UpdateArtifactInfo(artifact, cboBox.Name.Replace("EA_",""));
+            SetArtifactInfo(artInfo);
+        }
 
+        private void SetArtifactInfo(string[] artInfo)
+        {
             if (null != artInfo)
             {
-                Attack.Text = artInfo[1];
-                Defense.Text = artInfo[2];
-                Power.Text = artInfo[3];
-                Knowledge.Text = artInfo[4];
-                Morale.Text = artInfo[5];
-                Luck.Text = artInfo[6];
+                Attack.Content = artInfo[1];
+                Defense.Content = artInfo[2];
+                Power.Content = artInfo[3];
+                Knowledge.Content = artInfo[4];
+                Morale.Content = artInfo[5];
+                Luck.Content = artInfo[6];
                 Effects.Text = artInfo[7];
             }
         }
 
         private void ClearArtifactInfo(object sender, RoutedEventArgs e)
         {
-            Attack.Text = "";
-            Defense.Text = "";
-            Power.Text = "";
-            Knowledge.Text = "";
-            Morale.Text = "";
-            Luck.Text = "";
+            Attack.Content = "";
+            Defense.Content = "";
+            Power.Content = "";
+            Knowledge.Content = "";
+            Morale.Content = "";
+            Luck.Content = "";
             Effects.Text = "";
         }
 
@@ -678,10 +682,13 @@ namespace Heroes3Editor
             if (ListBoxInventory.Items.Count == 0)
                 return;
 
+            var r = App.Current.Resources.MergedDictionaries.First();
+            var removeAllConfirm = (string)r["hero_RemoveAllConfirm"];
+            var confirm = (string)r["hero_Confirm"];
+
             var result = MessageBox.Show(
-                "Are you sure you want to remove all items from Inventory?", 
-                "Please confirm", 
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                removeAllConfirm, confirm, 
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes) 
             {
@@ -700,7 +707,9 @@ namespace Heroes3Editor
 
         private void UpdateInventoryHeader()
         {
-            GroupBoxInventory.Header = $"Inventory ({_hero.Inventory.Count})";
+            var r = App.Current.Resources.MergedDictionaries.First();
+            var inventory = r["hero_Inventory"];
+            GroupBoxInventory.Header = $"{inventory} ({_hero.Inventory.Count})";
         }
 
         private void ListBoxInventory_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -711,16 +720,7 @@ namespace Heroes3Editor
             var artifact = listBox.SelectedItem as string;
             var artInfo = _hero.UpdateArtifactInfo(artifact, null, (byte)listBox.SelectedIndex);
 
-            if (null != artInfo)
-            {
-                Attack.Text = artInfo[1];
-                Defense.Text = artInfo[2];
-                Power.Text = artInfo[3];
-                Knowledge.Text = artInfo[4];
-                Morale.Text = artInfo[5];
-                Luck.Text = artInfo[6];
-                Effects.Text = artInfo[7];
-            }
+            SetArtifactInfo(artInfo);
         }
 
         private void ClearItem(object sender, RoutedEventArgs e)
@@ -754,16 +754,7 @@ namespace Heroes3Editor
             var artifact = listBox.SelectedItem as string;
             var artInfo = _hero.UpdateArtifactInfo(artifact, null, (byte)listBox.SelectedIndex);
 
-            if (null != artInfo)
-            {
-                Attack.Text = artInfo[1];
-                Defense.Text = artInfo[2];
-                Power.Text = artInfo[3];
-                Knowledge.Text = artInfo[4];
-                Morale.Text = artInfo[5];
-                Luck.Text = artInfo[6];
-                Effects.Text = artInfo[7];
-            }
+            SetArtifactInfo(artInfo);
         }
 
         private void CreatureAmounMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)

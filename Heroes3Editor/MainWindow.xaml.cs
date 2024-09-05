@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,8 +25,27 @@ namespace Heroes3Editor
         public MainWindow()
         {
             InitializeComponent();
+
+            MenuUpdateGameLang.IsChecked = Properties.Settings.Default.UpdateGameLangWithAppLang;
+
+            App.LanguageChanged += LanguageChanged;
+
+            CultureInfo currLang = App.Language;
+
+            //Заполняем меню смены языка:
+            MenuLanguage.Items.Clear();
+            foreach (var lang in App.Languages)
+            {
+                MenuItem menuLang = new MenuItem();
+                menuLang.Header = lang.NativeName;
+                menuLang.Tag = lang;
+                menuLang.IsChecked = lang.Equals(currLang);
+                menuLang.Click += ChangeLanguageClick;
+                MenuLanguage.Items.Add(menuLang);
+            }
+
             heroTabs.Visibility = Visibility.Hidden;
-            langCboBox.SelectedValue = Constants.Lang[0];
+            LangCboBox.SelectedValue = Constants.Lang[0];
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
 #if !DEBUG
@@ -33,10 +53,44 @@ namespace Heroes3Editor
 #endif
         }
 
+        private void LanguageChanged(Object sender, EventArgs e)
+        {
+            CultureInfo currLang = App.Language;
+
+            foreach (MenuItem item in MenuLanguage.Items)
+            {
+                if (item.Tag is not CultureInfo ci)
+                    continue;
+
+                item.IsChecked = ci.Equals(currLang);
+            }
+
+            if (Properties.Settings.Default.UpdateGameLangWithAppLang)
+            {
+                var lang = currLang.TwoLetterISOLanguageName.ToUpper();
+                if (LangCboBox.Items.Contains(lang))
+                    LangCboBox.SelectedItem = lang;
+            }
+
+            UpdateGameVersionStatus();
+        }
+
+        private void ChangeLanguageClick(Object sender, EventArgs e)
+        {
+            if (sender is MenuItem mi)
+            {
+                if (mi.Tag is CultureInfo lang)
+                {
+                    App.Language = lang;
+                }
+            }
+
+        }
+
         private void UpdateLangData(object sender, EventArgs eventArgs)
         {
-            LangData.SetInstance((string)langCboBox.SelectedValue);
-            heroCboBox.ItemsSource = Heroes.Names;
+            LangData.SetInstance((string)LangCboBox.SelectedValue);
+            HeroCboBox.ItemsSource = Heroes.Names;
 
             if (heroTabs.Items.Count == 0)
                 return;
@@ -76,12 +130,12 @@ namespace Heroes3Editor
 
                 heroTabs.Items.Clear();
                 heroTabs.Visibility = Visibility.Hidden;
-                heroCboBox.ItemsSource = Heroes.Names;
-                heroCboBox.IsEnabled = true;
+                HeroCboBox.ItemsSource = Heroes.Names;
+                HeroCboBox.IsEnabled = true;
                 heroSearchBtn.IsEnabled = true;
 
                 status.Text = openDlg.FileName;
-                GameVersion.Text = $" | Save Game version: {Game.Version} | Game Lang: {Game.Lang.ToUpper()}";
+                UpdateGameVersionStatus();
 
                 TownCboBox.Items.Clear();
                 if (Game.Towns.Count > 0)
@@ -94,6 +148,16 @@ namespace Heroes3Editor
 
                 TownCboBox.IsEnabled = true;
             }
+        }
+
+        private void UpdateGameVersionStatus()
+        {
+            if (Game == null)
+                return;
+
+            var r = App.Current.Resources.MergedDictionaries.First();
+            var gameVerTpl = (string)r["main_gameVersion"];
+            GameVersion.Text = string.Format(gameVerTpl, Game.Version, Game.Lang.ToUpper());
         }
 
         private void SaveCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -118,9 +182,9 @@ namespace Heroes3Editor
 
         private void SearchHero(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(heroCboBox.Text)) return;
+            if (string.IsNullOrWhiteSpace(HeroCboBox.Text)) return;
 
-            AddHeroTab(heroCboBox.Text);
+            AddHeroTab(HeroCboBox.Text);
         }
 
         private void AddHeroTab(string heroName)
@@ -152,7 +216,7 @@ namespace Heroes3Editor
 
                 heroTabs.Items.Clear();
                 heroTabs.Visibility = Visibility.Hidden;
-                heroCboBox.IsEnabled = true;
+                HeroCboBox.IsEnabled = true;
                 heroSearchBtn.IsEnabled = true;
 
                 status.Text = openDlg.FileName;
@@ -161,6 +225,9 @@ namespace Heroes3Editor
 
         private void SaveBinData(object sender, RoutedEventArgs e)
         {
+            if (Game == null)
+                return;
+
             var fileName = Path.GetFileNameWithoutExtension(Game.FileName);
             var saveDlg = new SaveFileDialog { FileName = fileName, Filter = "Bin game data |*.bin" };
             if (saveDlg.ShowDialog() == true)
@@ -176,7 +243,7 @@ namespace Heroes3Editor
                 return;
 
             var notFoundHeroes = new List<string>();
-            foreach (string hero in heroCboBox.Items)
+            foreach (string hero in HeroCboBox.Items)
             {
                 if (Game.SearchHero(hero, Game.Bytes.Length) == -1)
                 {
@@ -211,6 +278,16 @@ namespace Heroes3Editor
 
             if (town != null)
                 TownCboBox.SelectedItem = town;
+        }
+
+        private void OptSetUpdateGameLang(object sender, RoutedEventArgs e)
+        {
+            if (e.Source is not MenuItem mi)
+                return;
+
+            mi.IsChecked = !mi.IsChecked;
+            Properties.Settings.Default.UpdateGameLangWithAppLang = mi.IsChecked;
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Lang\lang-data.fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -29,9 +38,16 @@
     <None Update="Lang\lang-data.ru.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Resources\lang.ru-RU.xaml">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Page>
     <Page Update="SelectArtifact.xaml">
       <Generator>MSBuild:Compile</Generator>
       <XamlRuntime>Wpf</XamlRuntime>

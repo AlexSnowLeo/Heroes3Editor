@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Heroes3Editor.Models"
         mc:Ignorable="d"
-        Title="HoMM3 Savegame Editor" Height="828" MinHeight="828" Width="800" MinWidth="760">
+        Title="{DynamicResource main_Title}" Height="834" MinHeight="600" Width="800" MinWidth="760">
     <Window.Resources>
         <local:Constants x:Key="constants"/>
     </Window.Resources>
@@ -19,25 +19,31 @@
     </Window.CommandBindings>
     <DockPanel LastChildFill="False">
         <Menu x:Name="menu" DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Command="ApplicationCommands.Open">
+            <MenuItem Header="{DynamicResource main_MenuFile}">
+                <MenuItem Header="{DynamicResource main_MenuOpen}" Command="ApplicationCommands.Open">
                     <MenuItem.Icon>
                         <Image Source="/Resources/VS2019/OpenFile_16x.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="ApplicationCommands.Save">
+                <MenuItem Header="{DynamicResource main_MenuSave}" Command="ApplicationCommands.Save">
                     <MenuItem.Icon>
                         <Image Source="/Resources/VS2019/Save_16x.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="E_xit" Click="Exit">
+                <MenuItem Header="{DynamicResource main_MenuExit}" Click="Exit">
                     <MenuItem.Icon>
                         <Image Source="/Resources/VS2019/Exit_16x.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Name="MenuDebug" Header="_Debug">
+            <MenuItem Name="MenuOptions" Header="{DynamicResource main_MenuOptions}">
+                <MenuItem Name="MenuLanguage" Header="{DynamicResource main_MenuLanguage}" />
+                <MenuItem Name="MenuOther" Header="{DynamicResource main_MenuOther}">
+                    <MenuItem Name="MenuUpdateGameLang" Header="{DynamicResource main_MenuUpdateGameLang}" Click="OptSetUpdateGameLang" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Name="MenuDebug" Header="{DynamicResource main_MenuDebug}">
                 <MenuItem Header="Load bin data"  Click="LoadBinData"/>
                 <MenuItem Header="Save bin data"  Click="SaveBinData"/>
                 <Separator />
@@ -52,18 +58,18 @@
                 <Image Source="/Resources/VS2019/Save_16x.png" Width="16" Height="16"></Image>
             </Button>
             <Separator />
-            <TextBlock Name="langTxtCaption" HorizontalAlignment="Right" VerticalAlignment="Center">Game Lang:</TextBlock>
-            <ComboBox Name="langCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Lang}"
+            <Label Name="LangLabel" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{DynamicResource main_LangLabel}" />
+            <ComboBox Name="LangCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Lang}"
                       Width="40" Margin="5,0,5,0" IsEditable="False" IsEnabled="True" SelectionChanged="UpdateLangData"></ComboBox>
             <Separator />
-            <TextBlock Name="heroTxtCaption" HorizontalAlignment="Right" VerticalAlignment="Center">Search Hero:</TextBlock>
-            <ComboBox Name="heroCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Heroes}"
+            <Label Name="SearchHeroLabel" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{DynamicResource main_SearchHeroLabel}" />
+            <ComboBox Name="HeroCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Heroes}"
                       Width="110" Margin="5,0,5,0" IsEditable="True" IsEnabled="False"></ComboBox>
             <Button Name="heroSearchBtn" IsEnabled="False" Click="SearchHero" ToolTip="Search Hero">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
             </Button>
             <Separator />
-            <TextBlock Name="TownTxtCaption" HorizontalAlignment="Right" VerticalAlignment="Center">Town:</TextBlock>
+            <Label Name="TownLabel" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{DynamicResource main_Town}"/>
             <ComboBox Name="TownCboBox" Width="150" Margin="5,0,5,0" IsEditable="True" IsEnabled="False">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:Town}">
@@ -74,7 +80,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Name="TownSearchBtn" IsEnabled="True" Click="TownSearchBtn_Click" ToolTip="Search Town">
+            <Button Name="TownSearchBtn" IsEnabled="True" Click="TownSearchBtn_Click" ToolTip="{DynamicResource main_SearchTown}">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
             </Button>
         </ToolBar>

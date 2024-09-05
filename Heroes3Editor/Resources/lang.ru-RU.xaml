@@ -1,0 +1,97 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main window -->
+    <v:String x:Key="main_Title">HoMM3 редактор сохраненных игр</v:String>
+    <v:String x:Key="main_MenuFile">_Файл</v:String>
+    <v:String x:Key="main_MenuOpen">_Открыть</v:String>
+    <v:String x:Key="main_MenuSave">_Сохранить</v:String>
+    <v:String x:Key="main_MenuExit">Вы_ход</v:String>
+    <v:String x:Key="main_MenuDebug">_Debug</v:String>
+    <v:String x:Key="main_MenuOptions">_Настройки</v:String>
+    <v:String x:Key="main_MenuLanguage">_Язык</v:String>
+    <v:String x:Key="main_MenuOther">_Другие</v:String>
+    <v:String x:Key="main_MenuUpdateGameLang">Менять язык игры при смене языка</v:String>
+    <v:String x:Key="main_LangLabel">Язык игры:</v:String>
+    <v:String x:Key="main_SearchHeroLabel">Поиск героя:</v:String>
+    <v:String x:Key="main_Town">Город:</v:String>
+    <v:String x:Key="main_SearchTown">Поиск города</v:String>
+    <v:String x:Key="main_gameVersion">| Версия сохранения: {0} | Язык игры: {1}</v:String>
+
+    <!-- HeroPanel -->
+    <v:String x:Key="hero_PrimarySkills">Первичные навыки</v:String>
+    <v:String x:Key="hero_Attack">Атака</v:String>
+    <v:String x:Key="hero_Defense">Защита</v:String>
+    <v:String x:Key="hero_SpellPower">Сила Магии</v:String>
+    <v:String x:Key="hero_Knowledge">Знания</v:String>
+    <v:String x:Key="hero_SecondarySkills">Вторичные умения</v:String>
+    <v:String x:Key="hero_Type">Тип</v:String>
+    <v:String x:Key="hero_Mastery">Мастерство</v:String>
+    <v:String x:Key="hero_Skill1">Умение 1:</v:String>
+    <v:String x:Key="hero_Skill2">Умение 2:</v:String>
+    <v:String x:Key="hero_Skill3">Умение 3:</v:String>
+    <v:String x:Key="hero_Skill4">Умение 4:</v:String>
+    <v:String x:Key="hero_Skill5">Умение 5:</v:String>
+    <v:String x:Key="hero_Skill6">Умение 6:</v:String>
+    <v:String x:Key="hero_Skill7">Умение 7:</v:String>
+    <v:String x:Key="hero_Skill8">Умение 8:</v:String>
+    <v:String x:Key="hero_Clear">Очистить</v:String>
+    <v:String x:Key="hero_Spells">Заклинания</v:String>
+    <v:String x:Key="hero_SpellBook">Книга заклинаний</v:String>
+    <v:String x:Key="hero_Exists">Есть</v:String>
+    <v:String x:Key="hero_AllSchools">Все школы</v:String>
+    <v:String x:Key="hero_AirMagic">Магия Воздуха</v:String>
+    <v:String x:Key="hero_EarthMagic">Магия Земли</v:String>
+    <v:String x:Key="hero_FireMagic">Магия Огня</v:String>
+    <v:String x:Key="hero_WaterMagic">Магия Воды</v:String>
+    <v:String x:Key="hero_Creatures">Существа</v:String>
+    <v:String x:Key="hero_Quantity">Количество</v:String>
+    <v:String x:Key="hero_Slot1">Ячейка 1:</v:String>
+    <v:String x:Key="hero_Slot2">Ячейка 2:</v:String>
+    <v:String x:Key="hero_Slot3">Ячейка 3:</v:String>
+    <v:String x:Key="hero_Slot4">Ячейка 4:</v:String>
+    <v:String x:Key="hero_Slot5">Ячейка 5:</v:String>
+    <v:String x:Key="hero_Slot6">Ячейка 6:</v:String>
+    <v:String x:Key="hero_Slot7">Ячейка 7:</v:String>
+    <v:String x:Key="hero_Equipment">Экипировка</v:String>
+    <v:String x:Key="hero_WarMachines">Боевые машины</v:String>
+    <v:String x:Key="hero_EquippedArtifacts">Артефакты</v:String>
+    <v:String x:Key="hero_Helm">Голова</v:String>
+    <v:String x:Key="hero_Neck">Шея</v:String>
+    <v:String x:Key="hero_Armor">Тело</v:String>
+    <v:String x:Key="hero_Cloak">Плечи</v:String>
+    <v:String x:Key="hero_Boots">Ноги</v:String>
+    <v:String x:Key="hero_Weapon">Правая рука</v:String>
+    <v:String x:Key="hero_Shield">Левая рука</v:String>
+    <v:String x:Key="hero_LeftRing">Левое кольцо</v:String>
+    <v:String x:Key="hero_RightRing">Правое кольцо</v:String>
+    <v:String x:Key="hero_Item1">Разное 1</v:String>
+    <v:String x:Key="hero_Item2">Разное 2</v:String>
+    <v:String x:Key="hero_Item3">Разное 3</v:String>
+    <v:String x:Key="hero_Item4">Разное 4</v:String>
+    <v:String x:Key="hero_Item5">Разное 5</v:String>
+    <v:String x:Key="hero_Inventory">Рюкзак</v:String>
+    <v:String x:Key="hero_ArtifactInfo">Информация об артефакте</v:String>
+    <v:String x:Key="hero_ArtifactInfoAttack">Атака:</v:String>
+    <v:String x:Key="hero_ArtifactInfoDefense">Защита:</v:String>
+    <v:String x:Key="hero_ArtifactInfoPower">Сила Магии:</v:String>
+    <v:String x:Key="hero_ArtifactInfoKnowledge">Знания:</v:String>
+    <v:String x:Key="hero_ArtifactInfoMorale">Боевой Дух:</v:String>
+    <v:String x:Key="hero_ArtifactInfoLuck">Удача:</v:String>
+    <v:String x:Key="hero_ArtifactInfoEffects">Эффекты:</v:String>
+    <v:String x:Key="hero_Add">Добавить</v:String>
+    <v:String x:Key="hero_Remove">Удалить</v:String>
+    <v:String x:Key="hero_RemoveAll">Удалить все</v:String>
+    <v:String x:Key="hero_Confirm">Подтверждение</v:String>
+    <v:String x:Key="hero_RemoveAllConfirm">Вы действительно хотите удалить все предметы из инвентаря?</v:String>
+
+    <!-- Modal -->
+    <v:String x:Key="modal_SelectSpell">Выбрать заклинание</v:String>
+    <v:String x:Key="modal_Select">Выбрать</v:String>
+    <v:String x:Key="modal_SelectArtifact">Выбрать артефакт</v:String>
+    <v:String x:Key="modal_Artifact">Артефакт:</v:String>
+    <v:String x:Key="modal_Spell">Заклинание:</v:String>
+    <v:Double x:Key="modal_LabelWidth">70</v:Double>
+
+</ResourceDictionary>
