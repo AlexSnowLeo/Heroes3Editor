@@ -85,6 +85,10 @@
     <v:String x:Key="hero_RemoveAll">Tout supprimer</v:String>
     <v:String x:Key="hero_Confirm">Confirmer</v:String>
     <v:String x:Key="hero_RemoveAllConfirm">Êtes-vous sûr de vouloir retirer tous les articles de votre besace?</v:String>
+    <v:String x:Key="hero_SlotsNotAvailable">Emplacements non disponibles</v:String>
+    <v:String x:Key="hero_ItemSlotsNotAvailable">{0} emplacements 'Divers' non disponibles</v:String>
+    <v:String x:Key="hero_RingSlotsNotAvailable">Anneau emplacements non disponibles</v:String>
+    <v:String x:Key="hero_SlotNotAvailable">Emplacement '{0}' non disponibles</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Sélectionner un sort</v:String>

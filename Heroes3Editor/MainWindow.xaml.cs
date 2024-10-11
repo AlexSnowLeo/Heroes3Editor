@@ -32,6 +32,8 @@ namespace Heroes3Editor
 
             CultureInfo currLang = App.Language;
 
+            Title = GetTitle();
+
             //Заполняем меню смены языка:
             MenuLanguage.Items.Clear();
             foreach (var lang in App.Languages)
@@ -73,6 +75,13 @@ namespace Heroes3Editor
             }
 
             UpdateGameVersionStatus();
+            Title = GetTitle();
+        }
+
+        private string GetTitle()
+        {
+            var title = LangHepler.Get("main_Title");
+            return $"{title} {GetType().Assembly.GetName().Version}";
         }
 
         private void ChangeLanguageClick(Object sender, EventArgs e)
@@ -91,6 +100,29 @@ namespace Heroes3Editor
         {
             LangData.SetInstance((string)LangCboBox.SelectedValue);
             HeroCboBox.ItemsSource = Heroes.Names;
+
+            Game?.SearchTowns();
+            if (Game?.Towns.Count > 0)
+            {
+                TownCboBox.Items.Clear();
+                if (Game.Towns.Count > 0)
+                {
+                    foreach (var town in Game.Towns)
+                    {
+                        TownCboBox.Items.Add(town);
+                    }
+                }
+            }
+
+            if (TownCboBox.Items.Count > 0)
+            {
+                foreach (Town town in TownCboBox.Items)
+                {
+                    town.FactionLang = Constants.Towns.GetLangFactionValue(town.Faction);
+                }
+
+                TownCboBox.Items.Refresh();
+            }
 
             if (heroTabs.Items.Count == 0)
                 return;
@@ -155,8 +187,7 @@ namespace Heroes3Editor
             if (Game == null)
                 return;
 
-            var r = App.Current.Resources.MergedDictionaries.First();
-            var gameVerTpl = (string)r["main_gameVersion"];
+            var gameVerTpl = LangHepler.Get("main_gameVersion");
             GameVersion.Text = string.Format(gameVerTpl, Game.Version, Game.Lang.ToUpper());
         }
 

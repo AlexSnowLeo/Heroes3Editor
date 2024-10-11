@@ -85,6 +85,10 @@
     <v:String x:Key="hero_RemoveAll">Remove All</v:String>
     <v:String x:Key="hero_Confirm">Confirm</v:String>
     <v:String x:Key="hero_RemoveAllConfirm">Are you sure you want to remove all items from Inventory?</v:String>
+    <v:String x:Key="hero_SlotsNotAvailable">Slots not available</v:String>
+    <v:String x:Key="hero_ItemSlotsNotAvailable">{0} Item slots are not available</v:String>
+    <v:String x:Key="hero_RingSlotsNotAvailable">Ring slots not available</v:String>
+    <v:String x:Key="hero_SlotNotAvailable">Slot '{0}' not available</v:String>
     
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Select Spell</v:String>

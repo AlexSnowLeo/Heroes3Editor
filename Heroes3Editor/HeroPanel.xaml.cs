@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Heroes3Editor;
 using Heroes3Editor.Lang;
 using Heroes3Editor.Models;
 
@@ -413,7 +414,7 @@ namespace Heroes3Editor
             {
                 MessageBox.Show(
                     $"{slotNotAvailable}'",
-                    "Slot(s) not available",
+                    LangHepler.Get("hero_SlotsNotAvailable"),
                     MessageBoxButton.OK,
                     MessageBoxImage.Exclamation);
 
@@ -500,7 +501,6 @@ namespace Heroes3Editor
         /// </summary>
         private string UpdateSlotsEnable(string gear, string slots, bool enable)
         {
-            var affectedSlots = new List<string>();
             var affectedControls = new List<Control>();
             for (byte i = 0; i < slots.Length; i++)
             {
@@ -540,7 +540,7 @@ namespace Heroes3Editor
                         }
 
                         if (items > availableItems)
-                            return $"{slot} Item slots are not available";
+                            return string.Format(LangHepler.Get("hero_ItemSlotsNotAvailable"), slot);
                     }
 
                     for (int j = 5; j >= 1; j--)
@@ -555,8 +555,7 @@ namespace Heroes3Editor
                         
                         if (!_initializing && !enable)
                             itemControl.SelectedItem = "-";
-
-                        //itemControl.IsEnabled = enable;
+                        
                         affectedControls.Add(itemControl);
                         items--;
                         
@@ -578,7 +577,7 @@ namespace Heroes3Editor
                     {
                         var leftRing = slotControl = EA_LeftRing;
                         if (!_initializing && (string)leftRing.SelectedItem != "-")
-                            return "Ring slots not available";
+                            return LangHepler.Get("hero_RingSlotsNotAvailable");
                     }
                 }
                 else
@@ -588,14 +587,14 @@ namespace Heroes3Editor
                 
                 if (slotControl == null)
                     continue;
+
+                if (!_initializing && !enable && (slotControl.IsEnabled == false || (string)slotControl.SelectedItem != "-"))
+                {
+                    var slotName = slotControlName["EA_".Length..];
+                    var slotLangName = LangHepler.Get("hero_" + slotName);
+                    return string.Format(LangHepler.Get("hero_SlotNotAvailable"), slotLangName);
+                }
                 
-                if (!_initializing && !enable && (slotControl.IsEnabled == false ||  (string)slotControl.SelectedItem != "-"))
-                    return $"Slot '{slotControlName["EA_".Length..]}' not available";
-                
-                /*if (!_initializing && !enable)
-                    slotControl.SelectedItem = "-";*/
-                        
-                //slotControl.IsEnabled = enable;
                 affectedControls.Add(slotControl);
             }
 
@@ -681,10 +680,9 @@ namespace Heroes3Editor
         {
             if (ListBoxInventory.Items.Count == 0)
                 return;
-
-            var r = App.Current.Resources.MergedDictionaries.First();
-            var removeAllConfirm = (string)r["hero_RemoveAllConfirm"];
-            var confirm = (string)r["hero_Confirm"];
+            
+            var removeAllConfirm = LangHepler.Get("hero_RemoveAllConfirm");
+            var confirm = LangHepler.Get("hero_Confirm");
 
             var result = MessageBox.Show(
                 removeAllConfirm, confirm, 
@@ -707,8 +705,7 @@ namespace Heroes3Editor
 
         private void UpdateInventoryHeader()
         {
-            var r = App.Current.Resources.MergedDictionaries.First();
-            var inventory = r["hero_Inventory"];
+            var inventory = LangHepler.Get("hero_Inventory");
             GroupBoxInventory.Header = $"{inventory} ({_hero.Inventory.Count})";
         }
 

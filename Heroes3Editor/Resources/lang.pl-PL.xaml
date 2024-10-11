@@ -85,6 +85,10 @@
     <v:String x:Key="hero_RemoveAll">Usuń wszystkie</v:String>
     <v:String x:Key="hero_Confirm">Potwierdź</v:String>
     <v:String x:Key="hero_RemoveAllConfirm">Czy na pewno chcesz usunąć wszystkie przedmioty z sakwa?</v:String>
+    <v:String x:Key="hero_SlotsNotAvailable">Sloty niedostępne</v:String>
+    <v:String x:Key="hero_ItemSlotsNotAvailable">{0} sloty 'Inne' niedostępne</v:String>
+    <v:String x:Key="hero_RingSlotsNotAvailable">Ring sloty niedostępne</v:String>
+    <v:String x:Key="hero_SlotNotAvailable">Slot '{0}' niedostępne</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Wybierz zaklęcie</v:String>

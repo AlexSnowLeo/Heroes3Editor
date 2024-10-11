@@ -85,6 +85,10 @@
     <v:String x:Key="hero_RemoveAll">Удалить все</v:String>
     <v:String x:Key="hero_Confirm">Подтверждение</v:String>
     <v:String x:Key="hero_RemoveAllConfirm">Вы действительно хотите удалить все предметы из инвентаря?</v:String>
+    <v:String x:Key="hero_SlotsNotAvailable">Слоты недоступны</v:String>
+    <v:String x:Key="hero_ItemSlotsNotAvailable">{0} слот(а) 'Разное' недоступны</v:String>
+    <v:String x:Key="hero_RingSlotsNotAvailable">Слоты колец недоступны</v:String>
+    <v:String x:Key="hero_SlotNotAvailable">Слот '{0}' недоступен</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Выбрать заклинание</v:String>

@@ -173,13 +173,14 @@ namespace Heroes3Editor.Models
 
         public void SearchTowns()
         {
+            Towns.Clear();
+
             var position = Bytes.Length;
             foreach (var faction in Models.Towns.Factions)
             {
                 foreach (var town in Constants.Towns[faction])
                 {
-                    var factionLang = Constants.Towns.GetLangFactionValue(faction);
-                    SearchTown(town, factionLang, position);
+                    SearchTown(town, faction, position);
                 }
             }
         }
@@ -193,6 +194,7 @@ namespace Heroes3Editor.Models
                 encoding = Encoding.GetEncoding("windows-1251");
             }
 
+            var factionLang = Constants.Towns.GetLangFactionValue(faction);
             byte[] pattern = encoding.GetBytes(town);
 
             for (int i = position - pattern.Length; i > 0; --i)
@@ -221,6 +223,7 @@ namespace Heroes3Editor.Models
                     var newTown = new Town
                     {
                         Faction = faction,
+                        FactionLang = factionLang,
                         Name = town,
                         Position = i,
                     };
@@ -678,6 +681,7 @@ namespace Heroes3Editor.Models
     {
         public string Name { get; set; }
         public string Faction { get; set; }
+        public string FactionLang { get; set; }
         public int Position { get; set; }
 
         public override string ToString()

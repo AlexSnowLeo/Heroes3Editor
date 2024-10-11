@@ -75,7 +75,7 @@
                     <DataTemplate DataType="{x:Type local:Town}">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontWeight="Bold" Width="120" Text="{Binding Path=Name}" />
-                            <TextBlock FontStyle="Italic" HorizontalAlignment="Right" Text="{Binding Path=Faction}" />
+                            <TextBlock FontStyle="Italic" HorizontalAlignment="Right" Text="{Binding Path=FactionLang}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
