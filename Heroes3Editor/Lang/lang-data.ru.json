@@ -1,8 +1,9 @@
 {
   "Heroes": {
+    // Замок
     "Christian": "Кристиан",
     "Edric": "Эдрик",
-    "Orrin": "Оррин",
+    "Orrin": "Орин",
     "Sylvia": "Сильвия",
     "Valeska": "Валеска",
     "Sorsha": "Сорша",
@@ -10,54 +11,53 @@
     "Lord Haart": "Лорд Хаарт",
     "Catherine": "Катерина",
     "Roland": "Роланд",
-    "Sir Mullich": "Сэр Мюллих",
-    "Adela": "Адель",
+    "Sir Mullich": "Сэр Мюллич",
+    "Adela": "Адела",
     "Adelaide": "Аделаида",
     "Caitlin": "Кейтлин",
     "Cuthbert": "Катберт",
-    "Ingham": "Инхам",
+    "Ingham": "Ингэм",
     "Loynis": "Лойнис",
     "Rion": "Рион",
-    "Sanya": "Сания",
-
-    "Jenova": "Енова",
-    "Kyrre": "Киррь",
+    "Sanya": "Соня",
+    // Бастион
+    "Jenova": "Янова",
+    "Kyrre": "Кайри",
     "Ivor": "Ивор",
     "Ufretin": "Уфретин",
     "Clancy": "Клэнси",
     "Thorgrim": "Торгрим",
     "Ryland": "Риланд",
     "Mephala": "Мефала",
-    "Gelu": "Джелу",
+    "Gelu": "Гело",
     "Aeris": "Аэрис",
     "Alagar": "Алагар",
-    "Coronius": "Короний",
-    "Elleshar": "Эллешар",
+    "Coronius": "Корониус",
+    "Elleshar": "Эльшар",
     "Malcom": "Малком",
-    "Melodia": "Мелодиа",
-    "Gem": "Джэм",
+    "Melodia": "Мелодия",
+    "Gem": "Жемчужина",
     "Uland": "Уланд",
-    "Giselle": "Жизель",
-
+    // Башня
     "Fafner": "Фафнер",
     "Iona": "Иона",
     "Josephine": "Жозефина",
     "Neela": "Нила",
     "Piquedram": "Пикедрам",
-    "Rissa": "Ризза",
+    "Rissa": "Рисса",
     "Thane": "Тан",
     "Torosar ": "Торосар",
-    "Aine": "Айне",
+    "Aine": "Эйне",
     "Astral": "Астрал",
-    "Cyra": "Кира",
-    "Daremyth": "Дейрмиф",
+    "Cyra": "Сайра",
+    "Daremyth": "Дэрмит",
     "Halon": "Халон",
     "Serena": "Серена",
-    "Solmyr": "Солмир",
+    "Solmyr": "Сольмир",
     "Theodorus": "Теодор",
-    "Dracon": "Дракон",
-
-    "Calh": "Калх",
+    "Dracon": "Дракон (Dracon)",
+    // Инферно
+    "Calh": "Кэлх",
     "Fiona": "Фиона",
     "Ignatius": "Игнат",
     "Marius": "Мариус",
@@ -65,8 +65,8 @@
     "Octavia": "Октавия",
     "Pyre": "Пайр",
     "Rashka": "Рашка",
-    "Xeron": "Ксерон",
-    "Ash": "Аш",
+    "Xeron": "Зерон",
+    "Ash": "Пепелина",
     "Axsis": "Аксис",
     "Ayden": "Айден",
     "Calid": "Калид",
@@ -74,11 +74,11 @@
     "Xyron": "Ксирон",
     "Xarfax": "Ксарфакс",
     "Zydar": "Зидар",
-
+    // Некрополь
     "Charna": "Чарна",
-    "Clavius": "Клавий",
+    "Clavius": "Клавиус",
     "Galthran": "Галтран",
-    "Isra": "Исра",
+    "Isra": "Изра",
     "Moandor": "Моандор",
     "Straker": "Стракер",
     "Tamika": "Тамика",
@@ -87,35 +87,35 @@
     "Nagash": "Нагаш",
     "Nimbus": "Нимбус",
     "Sandro": "Сандро",
-    "Septienna": "Септиенна",
+    "Septienna": "Септинна",
     "Thant": "Тант",
     "Vidomina": "Видомина",
     "Xsi": "Кси",
-
+    // Подземелье
     "Ajit": "Аджит",
-    "Arlach": "Арлах",
-    "Dace": "Дас",
+    "Arlach": "Арлак",
+    "Dace": "Дейс",
     "Damacon": "Дамакон",
     "Gunnar": "Гуннар",
-    "Lorelei": "Лорелей",
+    "Lorelei": "Лорилей",
     "Shakti": "Шакти",
     "Synca": "Синка",
-    "Mutare": "Мутаре",
-    "Mutare Drake": "Мутаре Дрэйк",
+    "Mutare": "Мутара",
+    "Mutare Drake": "Мутара Дрейк",
     "Alamar": "Аламар",
     "Darkstorn": "Дарксторн",
     "Deemer": "Димер",
     "Geon": "Геон",
-    "Jaegar": "Ягар",
-    "Jeddite": "Джеддит",
+    "Jaegar": "Ягер",
+    "Jeddite": "Джедитта",
     "Malekith": "Малекит",
     "Sephinroth": "Сефинрот",
-
-    "Crag Hack": "Крэг Хэк",
-    "Gretchin": "Гретчин",
+    // Твердыня
+    "Crag Hack": "Крэг Хак",
+    "Gretchin": "Гретхен",
     "Gurnisson": "Гурниссон",
-    "Jabarkas": "Жабаркас",
-    "Krellion": "Креллион",
+    "Jabarkas": "Ябаркас",
+    "Krellion": "Крельон",
     "Shiva": "Шива",
     "Tyraxor": "Тираксор",
     "Yog": "Йог",
@@ -125,48 +125,48 @@
     "Gird": "Гирд",
     "Gundula": "Гундула",
     "Oris": "Орис",
-    "Saurug": "Сауруг",
+    "Saurug": "Соруг",
     "Terek": "Терек",
     "Vey": "Вей",
     "Zubin": "Зубин",
-
+    // Крепость
     "Alkin": "Алкин",
-    "Broghild": "Брохильд",
+    "Broghild": "Брогхильд",
     "Bron": "Брон",
-    "Drakon": "Дрэйкон",
+    "Drakon": "Дракон (Drakon)",
     "Gerwulf": "Гервульф",
     "Korbac": "Корбак",
     "Tazar": "Тазар",
-    "Wystan": "Вистан",
+    "Wystan": "Вестан",
     "Andra": "Андра",
     "Merist": "Мерист",
     "Mirlanda": "Мирланда",
-    "Rosic": "Розик",
+    "Rosic": "Росик",
     "Styg": "Стиг",
     "Tiva": "Тива",
     "Verdish": "Вердиш",
-    "Voy": "Вой",
+    "Voy": "Воя",
     "Adrienne": "Адриэн",
-    "Kinkeria": "Кинкерия",
-
+    // Колония
     "Erdamon": "Эрдамон",
-    "Fiur": "Фьюр",
+    "Fiur": "Фиур",
     "Ignissa": "Игнисса",
     "Kalt": "Кальт",
     "Lacus": "Лакус",
     "Monere": "Монер",
     "Pasis": "Пасис",
     "Thunar": "Тунар",
-    "Aenain": "Анаин",
+    "Aenain": "Эниан",
     "Brissa": "Брисса",
-    "Ciele": "Циэль",
-    "Gelare": "Джелар",
+    "Ciele": "Сийла",
+    "Gelare": "Гелар",
     "Grindan": "Гриндан",
     "Inteus": "Интей",
     "Labetha": "Лабета",
-    "Luna": "Луна",
-
-    "Gen. Kendal": "Ген. Кендал",
+    "Luna": "Луна"
+  },
+  "HotaHeroes": {
+    // Причал
     "Anabel": "Анабель",
     "Cassiopeia": "Кассиопея",
     "Corkes": "Коркес",
@@ -186,7 +186,7 @@
     "Spint": "Спинт",
     "Casmetra": "Касметра",
     "Tark": "Тарк",
-
+    // Фабрика
     "Henrietta": "Генриетта",
     "Sam": "Сэм",
     "Tancred": "Танкред",
@@ -207,7 +207,88 @@
     "Eanswythe": "Энсвита",
     "Frederick": "Фредерик",
 
-    "Tarnum": "Тарнум"
+    // Измененные имена в HotA
+    // Замок
+    "Adela": "Адель",
+    "Beatrice": "Беатрис",
+    "Ingham": "Инхам",
+    "Orrin": "Оррин",
+    "Sanya": "Сания",
+    "Sir Mullich": "Сэр Мюллих",
+    // Башня
+    "Aine": "Айне",
+    "Daremyth": "Дейрмиф",
+    "Dracon": "Дракон",
+    "Cyra": "Кира",
+    "Rissa": "Ризза",
+    "Solmyr": "Солмир",
+    // Слпряжение
+    "Aenain": "Анаин",
+    "Gelare": "Джелар",
+    "Fiur": "Фьюр",
+    "Ciele": "Циэль",
+    // Темница
+    "Arlach": "Арлах",
+    "Dace": "Дас",
+    "Jeddite": "Джеддит",
+    "Lorelei": "Лорелей",
+    "Mutare": "Мутаре",
+    "Mutare Drake": "Мутаре Дрэйк",
+    "Jaegar": "Ягар",
+    // Инферно
+    "Ash": "Аш",
+    "Calh": "Калх",
+    "Xeron": "Ксерон",
+    // Крепость
+    "Broghild": "Брохильд",
+    "Wystan": "Вистан",
+    "Voy": "Вой",
+    "Kinkeria": "Кинкерия",
+    "Drakon": "Дрэйкон",
+    "Rosic": "Розик",
+    // Цитадель
+    "Gretchin": "Гретчин",
+    "Jabarkas": "Жабаркас",
+    "Krellion": "Креллион",
+    "Crag Hack": "Крэг Хэк",
+    "Saurug": "Сауруг",
+    // Оплот
+    "Gelu": "Джелу",
+    "Gem": "Джем",
+    "Giselle": "Жизель",
+    "Jenova": "Енова",
+    "Kyrre": "Киррь",
+    "Coronius": "Короний",
+    "Malcom": "Мальком",
+    "Melodia": "Мелодиа",
+    "Elleshar": "Эллешар",
+    // Некрополис
+    "Isra": "Исра",
+    "Clavius": "Клавий",
+    "Ranloo": "Ранлу",
+    "Septienna": "Септиенна"
+  },
+  "UniqueHeroes": {
+    "Gen. Kendal": "Ген. Кендал",
+    "Tarnum": "Тарнум",
+    "Ordwald": "Орвальд",
+    "Boyd": "Бойд",
+    "Maximus": "Максимус",
+    "Finneas": "Финнеас",
+    "Kydoimos": "Кидим",
+    "Miseria": "Мизерия",
+    "Athe": "Атэ",
+    "Gruezak": "Грюцак",
+    "Zog": "Зог",
+    "Areshrak": "Арешрак",
+    "Pactal": "Пакталь",
+    "Balfour": "Балфор",
+    "Jangaard": "Янгард",
+    "Stina": "Стина",
+    "Valquest": "Валкест",
+    "Winzells": "Винцельс",
+    "Elderian": "Элдериан",
+    "Umender": "Юмендер"
   },
   "Skills": {
     "Pathfinding": "Поиск пути",
@@ -697,6 +778,7 @@
     "Cloak of Undead King": "Составной артефакт: Некромантия +15%, Возрождает другие типы существ."
   },
   "Creatures": {
+    // Замок
     "Pikeman": "Копейщик",
     "Halberdier": "Алебардщик",
     "Archer": "Арбалетчик",
@@ -711,6 +793,7 @@
     "Champion": "Чемпион",
     "Angel": "Ангел",
     "Archangel": "Архангел",
+    // Оплот
     "Centaur": "Кентавр",
     "Centaur Captain": "Капитан Кентавров",
     "Dwarf": "Гном",
@@ -725,6 +808,7 @@
     "War Unicorn": "Боевой Единорог",
     "Green Dragon": "Зелёный Дракон",
     "Gold Dragon": "Золотой Дракон",
+    // Башня
     "Gremlin": "Гремлин",
     "Master Gremlin": "Гремлин-Мастер",
     "Stone Gargoyle": "Каменная Горгулья",
@@ -739,6 +823,7 @@
     "Naga Queen": "Нага-Королева",
     "Giant": "Гигант",
     "Titan": "Титан",
+    // Инферно
     "Imp": "Бес",
     "Familiar": "Чёрт",
     "Gog": "Гог",
@@ -753,6 +838,7 @@
     "Efreet Sultan": "Ифрит-Султан",
     "Devil": "Дьявол",
     "Arch Devil": "Архидьявол",
+    // Некрополис
     "Skeleton": "Скелет",
     "Skeleton Warrior": "Скелет-Воин",
     "Walking Dead": "Ходячий Мертвец",
@@ -767,6 +853,7 @@
     "Dread Knight": "Рыцарь Ужаса",
     "Bone Dragon": "Костяной Дракон",
     "Ghost Dragon": "Призрачный Дракон",
+    // Темница
     "Troglodyte": "Троглодит",
     "Infernal Troglodyte": "Троглодит-Охотник",
     "Harpy": "Гарпия",
@@ -781,6 +868,7 @@
     "Scorpicore": "Скорпикора",
     "Red Dragon": "Красный Дракон",
     "Black Dragon": "Чёрный Дракон",
+    // Цитадель
     "Goblin": "Гоблин",
     "Hobgoblin": "Хобгоблин",
     "Wolf Rider": "Наездник на Волке",
@@ -795,6 +883,7 @@
     "Cyclop King": "Циклоп-Король",
     "Behemoth": "Чедище",
     "Ancient Behemoth": "Древнее Чудище",
+    // Крепость
     "Gnoll": "Гнолл",
     "Gnoll Marauder": "Гнолл-Мародёр",
     "Lizardman": "Ящер",
@@ -809,6 +898,7 @@
     "Wyvern Monarch": "Виверна-Монарх",
     "Hydra": "Гидра",
     "Chaos Hydra": "Гидра Хаоса",
+    // Сопряжение
     "Pixie": "Пикси",
     "Sprite": "Фея",
     "Air Elemental": "Воздушный Элементаль",
@@ -823,6 +913,7 @@
     "Magic Elemental": "Элементаль Магии",
     "Firebird": "Огненная Птица",
     "Phoenix": "Феникс",
+    // Причал
     "Nymph": "Нимфа",
     "Oceanid": "Океанида",
     "Crew Mate": "Матрос",
@@ -838,6 +929,7 @@
     "Nix Warrior": "Никс-Воин",
     "Sea Serpent": "Морской Змей",
     "Haspid": "Аспид",
+    // Фабрика
     "Halfling": "Полурослик",
     "Halfling Grenadier": "Полурослик-Гренадёр",
     "Mechanic": "Механик",
@@ -854,6 +946,7 @@
     "Crimson Couatl": "Багровый Коатль",
     "Dreadnought": "Дредноут",
     "Juggernaut": "Джагернаут",
+    // Нейтралы
     "Peasant": "Крестьянин",
     "Boar": "Наездник на Кабане",
     "Rogue": "Вор",
@@ -898,6 +991,7 @@
     "Factory": "Фабрика"
   },
   "Towns": {
+    // Замок
     "Castellatus": "Кастеллат",
     "Cornerstone": "Корнерстон",
     "Claxton": "Клэкстон",
@@ -914,7 +1008,7 @@
     "Brettonia": "Бреттония",
     "Alexandretta": "Александретта",
     "Whitestone": "Вайтстон",
-
+    // Колония
     "Elementon": "Элементон",
     "Styriam": "Стириам",
     "Ventu": "Венту",
@@ -931,7 +1025,7 @@
     "Solium": "Солиум",
     "Massein": "Маззейн",
     "Magmetin": "Магметин",
-
+    // Подземелье
     "Veks": "Векс",
     "Sorrow Crown": "Сорроу Кровн",
     "Dragonnade": "Драгоннад",
@@ -948,7 +1042,7 @@
     "Scar": "Скар",
     "Malev": "Малев",
     "Castigare": "Кастигар",
-
+    // Крепость
     "Marshank": "Маршанк",
     "Deadfall": "Дедфол",
     "Drakenmoor": "Дракенмур",
@@ -965,7 +1059,7 @@
     "Deadwood": "Дедвуд",
     "Edgewater": "Эджевотер",
     "Stillbog": "Стилбог",
-
+    // Инферно
     "Abaddon": "Аваддон",
     "Acheron": "Ахерон",
     "Ashcombe": "Ашкомбе",
@@ -982,7 +1076,7 @@
     "Enkindle": "Энкиндл",
     "Gehenna": "Геенна",
     "Firebrand": "Файрбранд",
-
+    // Некрополь
     "Haunt's Wind": "Хаунт Винд",
     "Cessacioun": "Кассацион",
     "Coldreign": "Солдринг",
@@ -999,7 +1093,7 @@
     "Grave Raven": "Рэйв Равен",
     "Dark Cloud": "Дарклауд",
     "Coldsoul": "Колдсоул",
-
+    // Бастион
     "Wise Oak": "Вайсоак",
     "Forest": "Форест",
     "Strongglen.Rampart": "Стронгглен",
@@ -1016,7 +1110,7 @@
     "Gladeroot": "Гладерут",
     "Forest Glen": "Форест Глен",
     "Rainhaven": "Райнхавен",
-
+    // Твердыня
     "Kragg": "Крэг",
     "Drago Breach": "Драгонбрич",
     "Tormina": "Тормина",
@@ -1033,7 +1127,7 @@
     "Battlement": "Баттлемент",
     "Bocc": "Bокк",
     "Slau": "Слау",
-
+    // Башня
     "Machina": "Макина",
     "Stronggale": "Стронггэйл",
     "Tirith": "Тирит",
@@ -1052,6 +1146,7 @@
     "Valtara": "Вальтара"
   },
   "HotaTowns": {
+    // Замок
     "Castellatus": "Кастеллатус",
     "Cornerstone": "Корнерстоун",
     "Claxton": "Клакстон",
@@ -1068,7 +1163,7 @@
     "Brettonia": "Бреттония",
     "Alexandretta": "Александретта",
     "Whitestone": "Уайтстоун",
-
+    // Сопряжение
     "Elementon": "Элементон",
     "Styriam": "Стириам",
     "Ventu": "Венту",
@@ -1085,7 +1180,7 @@
     "Solium": "Солиум",
     "Massein": "Массейн",
     "Magmetin": "Магметин",
-
+    // Темница
     "Veks": "Векс",
     "Sorrow Crown": "Венец Скорби",
     "Dragonnade": "Драгоннейд",
@@ -1102,7 +1197,7 @@
     "Scar": "Утёс",
     "Malev": "Малев",
     "Castigare": "Кастигар",
-
+    // Крепость
     "Marshank": "Маршанк",
     "Deadfall": "Бурелом",
     "Drakenmoor": "Дракенмур",
@@ -1119,7 +1214,7 @@
     "Deadwood": "Валежник",
     "Edgewater": "Эджуотер",
     "Stillbog": "Стиллбог",
-
+    // Инферно
     "Abaddon": "Аваддон",
     "Acheron": "Ахерон",
     "Ashcombe": "Ашкомб",
@@ -1136,7 +1231,7 @@
     "Enkindle": "Энкиндль",
     "Gehenna": "Геенна",
     "Firebrand": "Фирбранд",
-
+    // Некрополис
     "Haunt's Wind": "Ветер Теней",
     "Cessacioun": "Цессацион",
     "Coldreign": "Колдрейн",
@@ -1153,7 +1248,7 @@
     "Grave Raven": "Вороний Пир",
     "Dark Cloud": "Покров Тьмы",
     "Coldsoul": "Колдсоул",
-
+    // Оплот
     "Wise Oak": "Мудрый Дуб",
     "Forest": "Форест",
     "Strongglen.Rampart": "Лесистый Холм",
@@ -1170,7 +1265,7 @@
     "Gladeroot": "Глэйдрут",
     "Forest Glen": "Лесная Долина",
     "Rainhaven": "Рэйнхейвен",
-
+    // Цитадель
     "Kragg": "Крэгг",
     "Drago Breach": "Пролом Драконов",
     "Tormina": "Тормина",
@@ -1187,7 +1282,7 @@
     "Battlement": "Зубчатый Вал",
     "Bocc": "Бокк",
     "Slau": "Слау",
-
+    // Башня
     "Machina": "Машина",
     "Stronggale": "Стронгаль",
     "Tirith": "Тирит",
@@ -1204,7 +1299,7 @@
     "Equinox": "Эквинокс",
     "Athenaeum": "Афиниум",
     "Valtara": "Вальтара",
-
+    // Причал
     "Tartaglia": "Тарталья",
     "Lewindale": "Левиндейл",
     "Westland Pier": "Вестленд Пир",
@@ -1221,7 +1316,7 @@
     "Downhaven": "Даунхавен",
     "Lakenshire": "Лейкеншир",
     "Noral": "Норал",
-
+    // Фабрика
     "Salda": "Салда",
     "Burton": "Бёртон",
     "Prospero": "Просперо",

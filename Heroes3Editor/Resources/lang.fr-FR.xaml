@@ -6,6 +6,7 @@
     <v:String x:Key="main_Title">HoMM3 Éditeur de Sauvegarde de Jeu</v:String>
     <v:String x:Key="main_MenuFile">_Fichier</v:String>
     <v:String x:Key="main_MenuOpen">_Ouvert</v:String>
+    <v:String x:Key="main_MenuRecentFiles">Fichiers Récents</v:String>
     <v:String x:Key="main_MenuSave">_Sauvegarder</v:String>
     <v:String x:Key="main_MenuExit">_Quitter</v:String>
     <v:String x:Key="main_MenuDebug">_Debug</v:String>
@@ -13,11 +14,13 @@
     <v:String x:Key="main_MenuLanguage">_Langue</v:String>
     <v:String x:Key="main_MenuOther">_Autres</v:String>
     <v:String x:Key="main_MenuUpdateGameLang">Mettre à jour la langue du jeu avec la langue de l'app</v:String>
+    <v:String x:Key="main_MenuUseUniqueHeroes">Utiliser les noms des héros uniques</v:String>
     <v:String x:Key="main_LangLabel">Langue du Jeu:</v:String>
     <v:String x:Key="main_SearchHeroLabel">Héros de Recherche:</v:String>
     <v:String x:Key="main_Town">Ville:</v:String>
     <v:String x:Key="main_SearchTown">Rechercher une Ville</v:String>
     <v:String x:Key="main_gameVersion">| Enregistrer la version du jeu: {0} | Langue du Jeu: {1}</v:String>
+    <v:String x:Key="main_SaveInfo">Informations sur l'enregistrement du jeu</v:String>
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Caractéristiques</v:String>

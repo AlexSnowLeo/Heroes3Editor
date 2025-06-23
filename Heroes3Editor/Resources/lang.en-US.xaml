@@ -6,6 +6,7 @@
     <v:String x:Key="main_Title">HoMM3 SaveGame Editor</v:String>
     <v:String x:Key="main_MenuFile">_File</v:String>
     <v:String x:Key="main_MenuOpen">_Open</v:String>
+    <v:String x:Key="main_MenuRecentFiles">Recent Files</v:String>
     <v:String x:Key="main_MenuSave">_Save</v:String>
     <v:String x:Key="main_MenuExit">E_xit</v:String>
     <v:String x:Key="main_MenuDebug">_Debug</v:String>
@@ -13,11 +14,13 @@
     <v:String x:Key="main_MenuLanguage">_Language</v:String>
     <v:String x:Key="main_MenuOther">_Other</v:String>
     <v:String x:Key="main_MenuUpdateGameLang">Update Game Lang with App Lang</v:String>
+    <v:String x:Key="main_MenuUseUniqueHeroes">Use unique heroes names</v:String>
     <v:String x:Key="main_LangLabel">Game Lang:</v:String>
     <v:String x:Key="main_SearchHeroLabel">Search Hero:</v:String>
     <v:String x:Key="main_Town">Town:</v:String>
     <v:String x:Key="main_SearchTown">Search Town</v:String>
     <v:String x:Key="main_gameVersion">| Save Game version: {0} | Game Lang: {1}</v:String>
+    <v:String x:Key="main_SaveInfo">Information about game save</v:String>
     
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Primary Skills</v:String>

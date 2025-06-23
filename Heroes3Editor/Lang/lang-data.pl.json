@@ -36,8 +36,7 @@
     "Malcom": "Malcom",
     "Melodia": "Melodia",
     "Gem": "Gem",
-    "Uland": "Uland",
-    "Giselle": "Giselle",
+    "Uland": "Uland",    
 
     "Fafner": "Fafner",
     "Iona": "Iona",
@@ -146,8 +145,7 @@
     "Tiva": "Tiva",
     "Verdish": "Verdish",
     "Voy": "Voy",
-    "Adrienne": "Adrienne",
-    "Kinkeria": "Kinkeria",
+    "Adrienne": "Adrienne",   
 
     "Erdamon": "Erdamon",
     "Fiur": "Fiur",
@@ -164,9 +162,9 @@
     "Grindan": "Grindan",
     "Inteus": "Inteus",
     "Labetha": "Labetha",
-    "Luna": "Luna",
-
-    "Gen. Kendal": "Gen. Kendal",
+    "Luna": "Luna"
+  },
+  "HotaHeroes": {
     "Anabel": "Anabel",
     "Cassiopeia": "Cassiopeia",
     "Corkes": "Corkes",
@@ -207,7 +205,8 @@
     "Eanswythe": "Eanswythe",
     "Frederick": "Frederick",
 
-    "Tarnum": "Tarnum"
+    "Kinkeria": "Kinkeria",
+    "Giselle": "Giselle"
   },
   "Skills": {
     "Pathfinding": "Znajd. drogi",

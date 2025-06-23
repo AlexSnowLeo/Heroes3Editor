@@ -6,6 +6,7 @@
     <v:String x:Key="main_Title">HoMM3 Zapisz Gry Edytor</v:String>
     <v:String x:Key="main_MenuFile">_Plik</v:String>
     <v:String x:Key="main_MenuOpen">_Open</v:String>
+    <v:String x:Key="main_MenuRecentFiles">Najnowsze Pliki</v:String>
     <v:String x:Key="main_MenuSave">_Zapisz</v:String>
     <v:String x:Key="main_MenuExit">_Wyjdź</v:String>
     <v:String x:Key="main_MenuDebug">_Debug</v:String>
@@ -13,11 +14,13 @@
     <v:String x:Key="main_MenuLanguage">_Język</v:String>
     <v:String x:Key="main_MenuOther">_Inne</v:String>
     <v:String x:Key="main_MenuUpdateGameLang">Aktualizacja gry Język z App Język</v:String>
+    <v:String x:Key="main_MenuUseUniqueHeroes">Użyj nazw unikalnych bohaterów</v:String>
     <v:String x:Key="main_LangLabel">Gry Język:</v:String>
     <v:String x:Key="main_SearchHeroLabel">Szukaj Bohatera:</v:String>
     <v:String x:Key="main_Town">Miasto:</v:String>
     <v:String x:Key="main_SearchTown">Szukaj Miasta</v:String>
     <v:String x:Key="main_gameVersion">| Zapisz gry wersję: {0} | Gry Język: {1}</v:String>
+    <v:String x:Key="main_SaveInfo">Informacje o zapisaniu gry</v:String>
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Umiejętności podstawowe</v:String>

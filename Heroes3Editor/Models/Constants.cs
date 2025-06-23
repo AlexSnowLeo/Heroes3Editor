@@ -94,7 +94,7 @@ namespace Heroes3Editor.Models
             Items.LoadHotaReferenceCodes();
             Creatures.LoadHotaReferenceCodes();
             Skills.LoadHotaReferenceCodes();
-            Heroes.LoadHota();
+            Heroes.LoadHotaValues();
             Towns.LoadHotaValues();
 
             ArtifactInfo.UpdateHotaDescriptions();
@@ -114,7 +114,7 @@ namespace Heroes3Editor.Models
             Items.RemoveHotaReferenceCodes();
             Creatures.RemoveHotaReferenceCodes();
             Skills.RemoveHotaReferenceCodes();
-            Heroes.RemoveHota();
+            Heroes.RemoveHotaValues();
             Towns.RemoveHotaValues();
         }
 
@@ -136,12 +136,13 @@ namespace Heroes3Editor.Models
     public static class Heroes
     {
         public const string CatherinePL = "Katarzyna";
-        public const string AdelaRU = "Адель";
+        public const string AdelaRU = "Адела";
+        public const string AdelaRUHota = "Адель";
         private static readonly List<string> _heroes =
         [
             // Castle
             "Christian", "Edric", "Orrin", "Sylvia", "Valeska", "Sorsha", "Tyris", "Lord Haart", "Catherine", "Roland",
-            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion", "Gen. Kendal",
+            "Sir Mullich", "Adela", "Adelaide", "Caitlin", "Cuthbert", "Ingham", "Loynis", "Rion", 
             // Rampart
             "Sanya", "Jenova", "Kyrre", "Ivor", "Ufretin", "Clancy", "Thorgrim", "Ryland", "Mephala", "Gelu", "Aeris",
             "Alagar", "Coronius", "Elleshar", "Malcom", "Melodia", "Gem", "Uland", 
@@ -162,18 +163,22 @@ namespace Heroes3Editor.Models
             "Kilgor", "Dessa", "Gird", "Gundula", "Oris", "Saurug", "Terek", "Vey", "Zubin",
             // Fortress
             "Alkin", "Broghild", "Bron", "Drakon", "Gerwulf", "Korbac", "Tazar", "Wystan", "Andra", "Merist",
-            "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne", "Kinkeria",
+            "Mirlanda", "Rosic", "Styg", "Tiva", "Verdish", "Voy", "Adrienne",
             // Conflux
             "Erdamon", "Fiur", "Ignissa", "Kalt",
             "Lacus", "Monere", "Pasis", "Thunar", "Aenain", "Brissa", "Ciele", "Gelare", "Grindan", "Inteus", "Labetha",
             "Luna",
-            // Heroes Chronicles
-            "Tarnum"
         ];
 
         private static readonly string[] _heroesHota = [
+            // Castle
+            "Beatrice", // replace Sylvia
             // Rampart
-            "Giselle",
+            "Giselle", // replace Thorgrim
+            // Fortress
+            "Kinkeria", // replace Voy
+            // Necropolis
+            "Ranloo", // replace Galthran
             // Cove
             "Anabel", "Cassiopeia", "Corkes", "Derek", "Elmore", "Illor", "Leena", "Miriam",
             "Andal", "Astra", "Dargem", "Eovacius", "Manfred", "Zilare", "Jeremy", "Bidley", "Spint", "Casmetra",
@@ -183,22 +188,121 @@ namespace Heroes3Editor.Models
             "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
         ];
 
-        public static readonly Dictionary<string, string> TestDescriptions = new Dictionary<string, string> {
-            { "Gen. Kendal", "General Kendal is a campaign exclusive hero and is not playable in custom made maps." },
-            { "Kinkeria", "In Horn of the Abyss, Kinkeria replaces Voy on maps without water." },
-            { "Giselle", "In Horn of the Abyss, Giselle replaces Thorgrim by default." },
-            { "Tarnum", "The main hero throughout the eight campaigns of the Heroes Chronicles. Available only in the Heroes Chronicles maps." },
-        };
+        public static readonly UniqueHeroDto[] UuniqueHeroes = [
+            new(){
+                Name = "Gen. Kendal",
+            },
+            new(){
+                Name = "Tarnum",
+                Expansion = GameExpansion.Chronicles
+            },
+            new(){
+                Name = "Ordwald",
+                BasedOn = "Coronius"
+            },
+            new(){
+                Name = "Boyd",
+                Expansion = GameExpansion.HotA
+            },
+            new(){
+                Name = "Maximus",
+                Expansion = GameExpansion.HotA
+            },
+            new(){
+                Name = "Finneas",
+                Expansion = GameExpansion.SoD
+            },
+            new(){
+                Name = "Kydoimos",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Mutare"
+            },
+            new(){
+                Name = "Miseria",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Alamar"
+            },
+            new(){
+                Name = "Athe",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Malekith"
+            },
+            new(){
+                Name = "Gruezak",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Gurnisson"
+            },
+            new(){
+                Name = "Zog",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Vey"
+            },
+            new(){
+                Name = "Areshrak",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Gerwulf"
+            },
+            new(){
+                Name = "Pactal",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Tazar"
+            },
+            new(){
+                Name = "Balfour",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Zilare"
+            },
+            new(){
+                Name = "Jangaard",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Tancred"
+            },
+            new(){
+                Name = "Stina",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Sam"
+            },
+            new(){
+                Name = "Valquest",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Floribert"
+            },
+            new(){
+                Name = "Winzells",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Tavin"
+            },
+            new(){
+                Name = "Elderian",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Todd"
+            },
+            new(){
+                Name = "Umender",
+                Expansion = GameExpansion.HotA,
+                BasedOn = "Frederick"
+            },
+            ];
 
-        public static string[] Names => LangData.Instance != null
-            ? [.. _heroes.Select(x => LangData.Instance.Heroes[x]).OrderBy(x => x)]
+        private static Dictionary<string, string> LangSaved { get; set; } = [];
+        private static Dictionary<string, string> Lang { get; set; }
+        private static Dictionary<string, string> LangInverted { get; set; }
+        private static Dictionary<string, string> LangHota { get; set; }
+        private static Dictionary<string, string> LangUnique { get; set; }
+
+        public static string[] Names => Lang != null
+            ? [.. _heroes.Select(x => Lang.ContainsKey(x) ? Lang[x] : x).OrderBy(x => x)]
             : [.. _heroes.OrderBy(x => x)];
 
-        public static string GetLangValue(string key) => LangData.Instance != null && LangData.Instance.Heroes.ContainsKey(key)
-            ? LangData.Instance.Heroes[key]
+        public static string GetLangValue(string key) => Lang != null && Lang.ContainsKey(key)
+            ? Lang[key]
             : key;
 
-        public static void LoadHota()
+        public static string GetOriginalValue(string key) => LangInverted != null && LangInverted.ContainsKey(key)
+            ? LangInverted[key]
+            : key;
+
+        public static void LoadHotaValues()
         {
             foreach (var h in _heroesHota)
             {
@@ -207,13 +311,133 @@ namespace Heroes3Editor.Models
             }
         }
 
-        public static void RemoveHota()
+        public static void LoadHotaLang()
+        {
+            if (Lang != null && LangHota != null)
+            {
+                LangSaved.Clear();
+
+                foreach (var kvp in LangHota)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        if (Lang[kvp.Key] != kvp.Value)
+                        {
+                            LangSaved.Add(kvp.Key, Lang[kvp.Key]);
+                            Lang[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    else
+                    {
+                        Lang.Add(kvp.Key, kvp.Value);
+                    }
+                }
+
+                LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            }
+        }
+
+        public static void RemoveHotaLang()
+        {
+            if (Lang != null)
+            {
+                foreach (var kvp in LangSaved)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        Lang[kvp.Key] = kvp.Value;
+                    }
+                }
+
+                LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            }
+
+            LangSaved.Clear();
+        }
+
+        public static void LoadUniqueLang()
+        {
+            if (Lang != null && LangUnique != null)
+            {
+                foreach (var kvp in LangUnique)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        if (Lang[kvp.Key] != kvp.Value)
+                        {
+                            Lang[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    else
+                    {
+                        Lang.Add(kvp.Key, kvp.Value);
+                    }
+                }
+
+                LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            }
+        }
+
+        public static void RemoveUniqueLang()
+        {
+            if (Lang != null)
+            {
+                foreach (var kvp in LangUnique)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        Lang[kvp.Key] = kvp.Value;
+                    }
+                }
+
+                LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            }
+        }
+
+        public static void SetLang(
+            Dictionary<string, string> lang, 
+            Dictionary<string, string> langHota,
+            Dictionary<string, string> langUnique)
+        {
+            Lang = lang?.ToDictionary(x => x.Key, x => x.Value);
+            LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            LangHota = langHota?.ToDictionary(x => x.Key, x => x.Value);
+            LangUnique = langUnique?.ToDictionary(x => x.Key, x => x.Value);
+            LangSaved.Clear();
+        }
+
+        public static void RemoveHotaValues()
         {
             foreach (var h in _heroesHota)
             {
                 _heroes.Remove(h);
             }
         }
+        public static void LoadUniqueValues()
+        {
+            foreach (var h in UuniqueHeroes)
+            {
+                if (!_heroes.Contains(h.Name))
+                    _heroes.Add(h.Name);
+            }
+        }
+
+        public static void RemoveUniqueValues()
+        {
+            foreach (var h in UuniqueHeroes)
+            {
+                _heroes.Remove(h.Name);
+            }
+        }
+
+    }
+
+    public class UniqueHeroDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; } = "Campaign exclusive hero.";
+        public string BasedOn { get; set; }
+        public GameExpansion Expansion { get; set; }
     }
 
     public class Skills : BaseProp
@@ -1196,8 +1420,14 @@ namespace Heroes3Editor.Models
 
                 _towns.Add(code.Key, code.Value);
             }
+        }
 
+        public void LoadHotaLang()
+        {
             if (Lang != null && LangHota != null)
+            {
+                LangSaved.Clear();
+
                 foreach (var kvp in LangHota)
                 {
                     if (Lang.ContainsKey(kvp.Key))
@@ -1213,8 +1443,12 @@ namespace Heroes3Editor.Models
                         Lang.Add(kvp.Key, kvp.Value);
                     }
                 }
+            }
 
             if (LangFactions != null && LangFactionsHota != null)
+            {
+                LangFactionsSaved.Clear();
+
                 foreach (var kvp in LangFactionsHota)
                 {
                     if (LangFactions.ContainsKey(kvp.Key))
@@ -1230,6 +1464,7 @@ namespace Heroes3Editor.Models
                         LangFactions.Add(kvp.Key, kvp.Value);
                     }
                 }
+            }
         }
 
         public void RemoveHotaValues()
@@ -1241,7 +1476,10 @@ namespace Heroes3Editor.Models
                     _towns.Remove(kvp.Key);
                 }
             }
+        }
 
+        public void RemoveHotaLang()
+        {
             if (Lang != null)
                 foreach (var kvp in LangSaved)
                 {
@@ -1275,6 +1513,8 @@ namespace Heroes3Editor.Models
             LangHota = langHota;
             LangFactions = langFactions;
             LangFactionsHota = langFactionsHota;
+            LangSaved.Clear();
+            LangFactionsSaved.Clear();
         }
 
         public string GetLangValue(string town, string faction)

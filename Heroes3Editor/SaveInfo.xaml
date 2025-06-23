@@ -1,0 +1,13 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Heroes3Editor"
+        xmlns:System="clr-namespace:System;assembly=System.Runtime" x:Class="Heroes3Editor.SaveInfo"
+        mc:Ignorable="d"
+        Title="SaveInfo" Height="450" Width="400">
+    <Grid>
+        <TextBox Name="TextInfo" TextWrapping="Wrap" Text="TextBox" Height="414" Width="380" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" UseLayoutRounding="False" FontFamily="Consolas" FontSize="14"/>
+    </Grid>
+</Window>

@@ -23,7 +23,8 @@ namespace Heroes3Editor.Lang
             {
                 var langFolder = Path.Combine(Environment.CurrentDirectory, "Lang");
                 Instance = JsonSerializer.Deserialize<LangData>(
-                    File.ReadAllText(Path.Combine(langFolder, $"lang-data.{CurrentLang}.json")));
+                    File.ReadAllText(Path.Combine(langFolder, $"lang-data.{CurrentLang}.json")),
+                    new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip });
             }
             
             Constants.Skills.SetLang(Instance?.Skills);
@@ -47,12 +48,16 @@ namespace Heroes3Editor.Lang
             Constants.ArtifactInfo.HotaLangDescriptions = Instance?.HotaArtifactDescriptions;
             Constants.Towns.SetLang(Instance?.Towns, Instance?.HotaTowns, Instance?.Factions, Instance?.HotaFactions);
 
+            Models.Heroes.SetLang(Instance?.Heroes, Instance?.HotaHeroes, Instance?.UniqueHeroes);
+
             //Constants.Artifacts.AppendLang(Instance.Weapons);
             //Constants.Artifacts.AppendLang(Instance.Shields);
             //Constants.Artifacts.AppendLang(Instance.Creatures);
         }
 
         public Dictionary<string, string> Heroes { get; set; }
+        public Dictionary<string, string> HotaHeroes { get; set; } = [];
+        public Dictionary<string, string> UniqueHeroes { get; set; } = [];
         public Dictionary<string, string> Skills { get; set; }
         public Dictionary<string, string> SkillLevels { get; set; }
         public Dictionary<string, string> CommonArtifacts { get; set; }

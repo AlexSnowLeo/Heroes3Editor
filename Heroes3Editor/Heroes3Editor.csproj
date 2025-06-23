@@ -7,8 +7,8 @@
     <ApplicationIcon>App.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <AssemblyVersion>2.0.0.61</AssemblyVersion>
-    <FileVersion>2.0.0.61</FileVersion>
+    <AssemblyVersion>2.0.0.62</AssemblyVersion>
+    <FileVersion>2.0.0.62</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\VS2019\Exit_16x.png" />
+    <Resource Include="Resources\VS2019\Info_16x.png" />
     <Resource Include="Resources\VS2019\OpenFile_16x.png" />
     <Resource Include="Resources\VS2019\Save_16x.png" />
     <Resource Include="Resources\VS2019\Search_16x.png" />

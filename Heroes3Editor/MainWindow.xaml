@@ -19,11 +19,13 @@
     </Window.CommandBindings>
     <DockPanel LastChildFill="False">
         <Menu x:Name="menu" DockPanel.Dock="Top">
-            <MenuItem Header="{DynamicResource main_MenuFile}">
+            <MenuItem x:Name="menuFile" Header="{DynamicResource main_MenuFile}">
                 <MenuItem Header="{DynamicResource main_MenuOpen}" Command="ApplicationCommands.Open">
                     <MenuItem.Icon>
                         <Image Source="/Resources/VS2019/OpenFile_16x.png"/>
                     </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="menuRecentFiles" Header="{DynamicResource main_MenuRecentFiles}">
                 </MenuItem>
                 <MenuItem Header="{DynamicResource main_MenuSave}" Command="ApplicationCommands.Save">
                     <MenuItem.Icon>
@@ -41,6 +43,7 @@
                 <MenuItem Name="MenuLanguage" Header="{DynamicResource main_MenuLanguage}" />
                 <MenuItem Name="MenuOther" Header="{DynamicResource main_MenuOther}">
                     <MenuItem Name="MenuUpdateGameLang" Header="{DynamicResource main_MenuUpdateGameLang}" Click="OptSetUpdateGameLang" />
+                    <MenuItem Name="MenuUseUniqueHeroes" Header="{DynamicResource main_MenuUseUniqueHeroes}" Click="OptSetUseUniqueHeroes" />
                 </MenuItem>
             </MenuItem>
             <MenuItem Name="MenuDebug" Header="{DynamicResource main_MenuDebug}">
@@ -82,6 +85,10 @@
             </ComboBox>
             <Button Name="TownSearchBtn" IsEnabled="True" Click="TownSearchBtn_Click" ToolTip="{DynamicResource main_SearchTown}">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
+            </Button>
+            <Separator />
+            <Button Name="SaveInfo" Click="SaveInfo_Click" ToolTip="{DynamicResource main_SaveInfo}">
+                <Image Source="/Resources/VS2019/Info_16x.png" Width="16" Height="16"></Image>
             </Button>
         </ToolBar>
         <!--<StackPanel DockPanel.Dock="Top">-->

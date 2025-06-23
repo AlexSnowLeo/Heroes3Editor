@@ -49,9 +49,6 @@ namespace Heroes3Editor.Models
             var gameVersionMinor = Bytes[12];
             
             FileName = fileInfo.Name;
-            Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
-                ? "pl"
-                : SearchHero(Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
             {
@@ -61,6 +58,10 @@ namespace Heroes3Editor.Models
             {
                 SetClassic();
             }
+
+            Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
+               ? "pl"
+               : SearchHero(IsHOTA ? Models.Heroes.AdelaRUHota : Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
 
             Version = $"{gameVersionMajor}.{gameVersionMinor}{(IsHOTA ? " HotA" : "")}";
 
@@ -143,13 +144,17 @@ namespace Heroes3Editor.Models
 
         public int SearchHero(string name, int startPosition)
         {
+            var idx = name.IndexOf(" (");
+            if (idx != -1)
+                name = name[..(idx)];
+
             byte[] pattern = new byte[13];
             Encoding.ASCII.GetBytes(name).CopyTo(pattern, 0);
             if (Regex.IsMatch(name, @"\p{IsCyrillic}"))
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 Encoding win1251 = Encoding.GetEncoding("windows-1251");
-                pattern = win1251.GetBytes(name);
+                win1251.GetBytes(name).CopyTo(pattern, 0);
             }
 
             for (int i = startPosition - pattern.Length; i > 0; --i)

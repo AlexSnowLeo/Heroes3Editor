@@ -6,6 +6,7 @@
     <v:String x:Key="main_Title">HoMM3 редактор сохраненных игр</v:String>
     <v:String x:Key="main_MenuFile">_Файл</v:String>
     <v:String x:Key="main_MenuOpen">_Открыть</v:String>
+    <v:String x:Key="main_MenuRecentFiles">Последние файлы</v:String>
     <v:String x:Key="main_MenuSave">_Сохранить</v:String>
     <v:String x:Key="main_MenuExit">Вы_ход</v:String>
     <v:String x:Key="main_MenuDebug">_Debug</v:String>
@@ -13,11 +14,13 @@
     <v:String x:Key="main_MenuLanguage">_Язык</v:String>
     <v:String x:Key="main_MenuOther">_Другие</v:String>
     <v:String x:Key="main_MenuUpdateGameLang">Менять язык игры при смене языка</v:String>
+    <v:String x:Key="main_MenuUseUniqueHeroes">Использовать имена уникальных героев</v:String>
     <v:String x:Key="main_LangLabel">Язык игры:</v:String>
     <v:String x:Key="main_SearchHeroLabel">Поиск героя:</v:String>
     <v:String x:Key="main_Town">Город:</v:String>
     <v:String x:Key="main_SearchTown">Поиск города</v:String>
     <v:String x:Key="main_gameVersion">| Версия сохранения: {0} | Язык игры: {1}</v:String>
+    <v:String x:Key="main_SaveInfo">Информация о сохраненной игре</v:String>
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Первичные навыки</v:String>
