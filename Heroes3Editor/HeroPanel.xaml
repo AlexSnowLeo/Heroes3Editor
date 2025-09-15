@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Heroes3Editor.Models"
              xmlns:heroes3Editor="clr-namespace:Heroes3Editor"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
              mc:Ignorable="d" d:DesignWidth="800" Height="685">
     <UserControl.Resources>
         <local:Constants x:Key="constants"/>
@@ -29,7 +30,7 @@
     </UserControl.Resources>
     <StackPanel>
         <GroupBox Header="{DynamicResource hero_PrimarySkills}">
-            <Grid>
+            <Grid DataContext="{Binding Source={StaticResource constants}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -38,20 +39,28 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                    <Label Content="{DynamicResource hero_Attack}"/>
+                <StackPanel Margin="0 0 0 5" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Label MinWidth="50" Content="{DynamicResource hero_Level}"/>
+                    <TextBox Name="Level" MaxLength="2" TextChanged="LevelChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <Label Content="{DynamicResource hero_Experience}"/>
+                    <TextBox Name="Experience" MinWidth="100" MaxLength="10" TextChanged="ExperienceChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <ComboBox Name="ExpLevels" Margin="5 0 0 0" ItemsSource="{Binding Path=ExpLevels}" SelectionChanged="ExpLevels_OnSelectionChanged"></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                    <Label MinWidth="50" Content="{DynamicResource hero_Attack}"/>
                     <TextBox Name="Attribute0" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                     <Label Content="{DynamicResource hero_Defense}"/>
                     <TextBox Name="Attribute1" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="2">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
                     <Label Content="{DynamicResource hero_SpellPower}"/>
                     <TextBox Name="Attribute2" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="3">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="3">
                     <Label Content="{DynamicResource hero_Knowledge}"/>
                     <TextBox Name="Attribute3" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
@@ -141,7 +150,7 @@
             </TabItem>
             <TabItem Header="{DynamicResource hero_Spells}" Name="TabSpells">
                 <StackPanel>
-                    <Grid>
+                    <Grid Name="GridSpells">
                         <Grid.Resources>
                             <Style TargetType="ToolTip">
                                 <Style.Resources>
@@ -158,6 +167,7 @@
                             </Style>
                             <Style TargetType="CheckBox">
                                 <Setter Property="Margin" Value="3" />
+                                <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                             </Style>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
@@ -167,6 +177,7 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
@@ -236,8 +247,8 @@
                                 <CheckBox ToolTip="Summons allied Air Elementals for the duration of combat." Name="Air_Elemental" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Air Elemental
                                 </CheckBox>
-                                <CheckBox Name="Titan__s_Lightning_Bolt" ToolTip="Inflicts 600 magic damage on a single enemy. Requires Titan's Thunder." Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Titan's Lightning Bolt
+                                <CheckBox Name="Titan__s_Lightning_Bolt" ToolTip="Inflicts 600 magic damage on a single enemy. Requires Titan's Thunder. Adds a spell book if there is none." IsEnabled="False">
+                                    Titan's Lightning Bolt *
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
@@ -258,13 +269,13 @@
                                 <CheckBox ToolTip="Inflicts magic damage on all living creatures." Name="Death_Ripple" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Death Ripple
                                 </CheckBox>
-                                <CheckBox Name="Quick_Sand" ToolTip="Places quicksand at random locations on the battlefield. Only visible to caster and creatures native to the terrain." Checked="AddSpell" Unchecked="RemoveSpell">
-                                    Quick Sand
+                                <CheckBox Name="Quicksand" ToolTip="Places quicksand at random locations on the battlefield. Only visible to caster and creatures native to the terrain." Checked="AddSpell" Unchecked="RemoveSpell">
+                                    Quicksand
                                 </CheckBox>
                                 <CheckBox Name="Animate_Dead" ToolTip="Reanimates killed undead creatures. Reanimated creatures are not lost when combat ends." Checked="AddSpell" Unchecked="RemoveSpell">
                                     Animate Dead
                                 </CheckBox>
-                                <CheckBox ToolTip="Grants spell immunity to a single creature." Name="Anti_Magic" Checked="AddSpell" Unchecked="RemoveSpell">
+                                <CheckBox ToolTip="Grants spell immunity to a single creature." Name="Anti___Magic" Checked="AddSpell" Unchecked="RemoveSpell">
                                     Anti-Magic
                                 </CheckBox>
                                 <CheckBox ToolTip="Inflicts damage on random castle wall sections during a siege." Name="Earthquake" Checked="AddSpell" Unchecked="RemoveSpell">
@@ -403,6 +414,7 @@
                                 </CheckBox>
                             </StackPanel>
                         </GroupBox>
+                        <Label Grid.Row="2" Grid.ColumnSpan="4" Content="{DynamicResource hero_ArtifactSpellInfo}"></Label>
                     </Grid>
                 </StackPanel>
             </TabItem>
@@ -528,6 +540,7 @@
                             <Grid.Resources>
                                 <Style TargetType="ComboBox">
                                     <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
                                 </Style>
                                 <Style TargetType="GroupBox">
                                     <Setter Property="Margin" Value="0 0 0 0" />
@@ -602,8 +615,10 @@
                                             </Style>
                                         </StackPanel.Resources>
                                         <Button Click="AddInventoryItem" Content="{DynamicResource hero_Add}"/>
-                                        <Button Click="RemoveInventoryItem" Content="{DynamicResource hero_Remove}"/>
-                                        <Button Click="RemoveAllInventoryItems" Content="{DynamicResource hero_RemoveAll}"/>
+                                        <Button Name="ButtonUpInventoryItem" Click="UpInventoryItem" Content="{DynamicResource hero_Up}" IsEnabled="False"/>
+                                        <Button Name="ButtonDownInventoryItem" Click="DownInventoryItem" Content="{DynamicResource hero_Down}" IsEnabled="False"/>
+                                        <Button Click="RemoveInventoryItem" Content="{DynamicResource hero_Remove}" TextBlock.Foreground="Crimson"/>
+                                        <Button Click="RemoveAllInventoryItems" Content="{DynamicResource hero_RemoveAll}" TextBlock.Foreground="Crimson"/>
                                     </StackPanel>
                                 </Grid>
                             </GroupBox>

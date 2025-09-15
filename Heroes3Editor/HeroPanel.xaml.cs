@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,12 +37,17 @@ namespace Heroes3Editor
                 {
                     SetClassicSettings();
                 }
+
                 for (int i = 0; i < 4; ++i)
                 {
                     var txtBox = FindName("Attribute" + i) as TextBox;
                     var attr = _hero.Attributes[i] < 0 ? "0" : _hero.Attributes[i].ToString();
                     txtBox.Text = attr;
                 }
+
+                Level.Text = _hero.Level.ToString();
+                Experience.Text = _hero.Experience.ToString();
+                ExpLevels.SelectedValue = Constants.ExpLevels.First(x => x.Key == _hero.Level);
 
                 for (int i = 0; i < 8; ++i)
                 {
@@ -67,11 +73,7 @@ namespace Heroes3Editor
 
                 SpellBook.IsChecked = _hero.SpellBookExist;
 
-                foreach (var spell in _hero.Spells)
-                {
-                    var chkBox = FindName(Constants.Spells.GetOriginalValue(spell).ToControlName()) as CheckBox;
-                    chkBox.IsChecked = true;
-                }
+                RefreshSpells();
 
                 for (int i = 0; i < 7; ++i)
                 {
@@ -114,7 +116,7 @@ namespace Heroes3Editor
                     
                     var artInfo = _hero.UpdateArtifactInfo(artifact, gear);
                     if (artInfo?.Length == 9 && !string.IsNullOrEmpty(artInfo[8]))
-                        UpdateSlotsEnable(gear, artInfo[8], false);
+                        UpdateSlotsEnable(gear, artInfo[8], false, artifact);
                 }
 
                 foreach (var art in _hero.Inventory)
@@ -125,6 +127,40 @@ namespace Heroes3Editor
                 UpdateInventoryHeader();
 
                 _initializing = false;
+            }
+        }
+
+        private void RefreshSpells()
+        {
+            foreach (var spell in Constants.Spells.OriginalNames)
+            {
+                if (FindName(spell.ToControlName()) is not CheckBox spellCheckBox)
+                    continue;
+
+                var spellKey = Constants.Spells[spell];
+                spellCheckBox.IsEnabled = spellKey is not Spells.TitansLightningBolt;
+                spellCheckBox.IsChecked = false;
+                var content = spellCheckBox.Content.ToString();
+                if (content.Contains('*'))
+                    spellCheckBox.Content = Constants.Spells.GetLangValue(spell);
+            } 
+
+            foreach (var spell in _hero.Spells)
+            {
+                var chkBox = FindName(Constants.Spells.GetOriginalValue(spell).ToControlName()) as CheckBox;
+                chkBox.IsChecked = true;
+            }
+
+            foreach (var spell in _hero.SpellBook)
+            {
+                var chkBox = FindName(Constants.Spells.GetOriginalValue(spell).ToControlName()) as CheckBox;
+                chkBox.IsChecked = true;
+                if (!_hero.Spells.Contains(spell))
+                {
+                    var content = chkBox.Content.ToString();
+                    chkBox.Content = $"{content} *";
+                    chkBox.IsEnabled = false;
+                }
             }
         }
 
@@ -299,8 +335,15 @@ namespace Heroes3Editor
                 return;
             
             var chkBox = e.Source as CheckBox;
+
+            if (chkBox.Content.ToString().Contains('*'))
+            {
+                chkBox.IsChecked = true;
+                return;
+            }
+
             var spell = chkBox.Name.FromControlName();
-            _hero.AddSpell(Constants.Spells.GetLangValue(spell));
+            _hero.AddSpellToSpells(Constants.Spells.GetLangValue(spell));
 
             if (SpellBook.IsChecked != true)
                 SpellBook.IsChecked = true;
@@ -308,9 +351,24 @@ namespace Heroes3Editor
 
         private void RemoveSpell(object sender, RoutedEventArgs e)
         {
+            if (_initializing)
+                return;
+
             var chkBox = e.Source as CheckBox;
+
+            if (chkBox.Content.ToString().Contains('*'))
+            {
+                chkBox.IsChecked = true;
+                return;
+            }
+                
+
             var spell = chkBox.Name.FromControlName();
-            _hero.RemoveSpell(Constants.Spells.GetLangValue(spell));
+            _hero.RemoveSpellFromSpells(Constants.Spells.GetLangValue(spell));
+
+            _initializing = true;
+            RefreshSpells();
+            _initializing = false;
         }
 
         private void UpdateCreature(object sender, RoutedEventArgs e)
@@ -397,18 +455,21 @@ namespace Heroes3Editor
             var artifact = cboBox.SelectedItem as string;
             
             var prevArt = _hero.EquippedArtifacts[gear];
+            var prevArtKey = Constants.Artifacts[prevArt];
             if (prevArt is not ("-" or ""))
             {
                 var prevArtInfo = _hero.UpdateArtifactInfo(prevArt, gear);
                 UpdatePrimarySkills(prevArtInfo, false);
                 if (prevArtInfo?.Length == 9 && !string.IsNullOrEmpty(prevArtInfo[8]))
-                    UpdateSlotsEnable(gear, prevArtInfo[8], true);
+                    UpdateSlotsEnable(gear, prevArtInfo[8], true, prevArt);
+
+                _hero.UpdateRemovedSpells(prevArtKey, gear);
             }
 
             string slotNotAvailable = null;
             var artInfo = _hero.UpdateArtifactInfo(artifact, gear);
             if (artInfo?.Length == 9 && !string.IsNullOrEmpty(artInfo[8]))
-                slotNotAvailable = UpdateSlotsEnable(gear, artInfo[8], false);
+                slotNotAvailable = UpdateSlotsEnable(gear, artInfo[8], false, artifact);
 
             if (slotNotAvailable != null)
             {
@@ -424,7 +485,7 @@ namespace Heroes3Editor
                     var prevArtInfo = _hero.UpdateArtifactInfo(prevArt, gear);
                     UpdatePrimarySkills(prevArtInfo, true);
                     if (prevArtInfo?.Length == 9 && !string.IsNullOrEmpty(prevArtInfo[8]))
-                        UpdateSlotsEnable(gear, prevArtInfo[8], false);
+                        UpdateSlotsEnable(gear, prevArtInfo[8], false, prevArt);
                 } else
                 {
                     UpdatePrimarySkills(artInfo, false);
@@ -437,7 +498,7 @@ namespace Heroes3Editor
 
             var artKey = Constants.Artifacts[artifact];
             string spell = "";
-            if (artKey == Constants.SPELL_SCROLL)
+            if (artKey == Items.SpellScroll)
             {
                 spell = _hero.EquippedSpellScrolls[gear];
 
@@ -456,13 +517,23 @@ namespace Heroes3Editor
             }
 
             // 0x87, "Titan's Thunder" automatically add Spell Book
-            if (artKey == 0x87)
+            if (artKey == Weapons.TitansThunder)
             {
                 if (SpellBook.IsChecked != true)
                     SpellBook.IsChecked = true;
             }
-            
+
             _hero.UpdateEquippedArtifact(gear, artifact, spell);
+
+            var prevOrArtKey = prevArtKey == BaseArtifact.Empty ? artKey : prevArtKey;
+            if (prevOrArtKey == Items.SpellScroll || Spells.ItemSpells.ContainsKey(prevOrArtKey))
+            {
+                _initializing = true;
+
+                RefreshSpells();
+
+                _initializing = false;
+            }
         }
 
         private void UpdatePrimarySkills(string[] artInfo, bool increase)
@@ -499,9 +570,9 @@ namespace Heroes3Editor
         /// slots - First letters of slots which blocked:
         /// H: Helm, N: Neck, A: Armor, C: Cloak, B: Boots, W: Weapon, S: Shield, L,R,r: Left/Right Ring, r - any Ring, 1-4: for Items it's number of slots
         /// </summary>
-        private string UpdateSlotsEnable(string gear, string slots, bool enable)
+        private string UpdateSlotsEnable(string gear, string slots, bool enable, string art)
         {
-            var affectedControls = new List<Control>();
+            var affectedControls = new List<ComboBox>();
             for (byte i = 0; i < slots.Length; i++)
             {
                 var slot = slots[i];
@@ -601,6 +672,9 @@ namespace Heroes3Editor
             foreach (var control in affectedControls)
             {
                 control.IsEnabled = enable;
+                control.ToolTip = enable 
+                    ? null 
+                    : string.Format(LangHepler.Get("hero_OccupiedBy"), art);
             }
 
             return null;
@@ -714,6 +788,9 @@ namespace Heroes3Editor
             if (e.Source is not ListBox listBox)
                 return;
 
+            ButtonUpInventoryItem.IsEnabled = listBox.SelectedIndex != 0 && listBox.SelectedIndex <= listBox.Items.Count;
+            ButtonDownInventoryItem.IsEnabled = listBox.SelectedIndex != (listBox.Items.Count - 1) && listBox.SelectedIndex >= 0;
+
             var artifact = listBox.SelectedItem as string;
             var artInfo = _hero.UpdateArtifactInfo(artifact, null, (byte)listBox.SelectedIndex);
 
@@ -771,18 +848,136 @@ namespace Heroes3Editor
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        private void UpInventoryItem(object sender, RoutedEventArgs e)
+        {
+            var idx = (byte)ListBoxInventory.SelectedIndex;
+            if (idx == 0)
+                return;
+
+            (ListBoxInventory.Items[idx], ListBoxInventory.Items[idx - 1]) = (ListBoxInventory.Items[idx - 1], ListBoxInventory.Items[idx]);
+
+            if (_hero.Inventory[idx] == Constants.Items[Items.SpellScroll])
+            {
+                var prevIdx = (byte)(idx - 1);
+                if (_hero.InventorySpellScrolls.ContainsKey(prevIdx))
+                    (_hero.InventorySpellScrolls[idx], _hero.InventorySpellScrolls[prevIdx]) = (_hero.InventorySpellScrolls[prevIdx], _hero.InventorySpellScrolls[idx]);
+                else
+                {
+                    _hero.InventorySpellScrolls.Add(prevIdx, _hero.InventorySpellScrolls[idx]);
+                    _hero.InventorySpellScrolls.Remove(idx);
+                }
+            }
+
+            (_hero.Inventory[idx], _hero.Inventory[idx - 1]) = (_hero.Inventory[idx - 1], _hero.Inventory[idx]);
+
+            _hero.UpdateInventory();
+
+            ListBoxInventory.SelectedIndex = idx - 1;
+        }
+
+        private void DownInventoryItem(object sender, RoutedEventArgs e)
+        {
+            var idx = (byte)ListBoxInventory.SelectedIndex;
+            if (idx == ListBoxInventory.Items.Count - 1)
+                return;
+
+            (ListBoxInventory.Items[idx + 1], ListBoxInventory.Items[idx]) = (ListBoxInventory.Items[idx], ListBoxInventory.Items[idx + 1]);
+
+            if (_hero.Inventory[idx] == Constants.Items[Items.SpellScroll])
+            {
+                var nextIdx = (byte)(idx + 1);
+                if (_hero.InventorySpellScrolls.ContainsKey(nextIdx))
+                    (_hero.InventorySpellScrolls[nextIdx], _hero.InventorySpellScrolls[idx]) = (_hero.InventorySpellScrolls[idx], _hero.InventorySpellScrolls[nextIdx]);
+                else
+                {
+                    _hero.InventorySpellScrolls.Add(nextIdx, _hero.InventorySpellScrolls[idx]);
+                    _hero.InventorySpellScrolls.Remove(idx);
+                }
+            }
+
+            (_hero.Inventory[idx + 1], _hero.Inventory[idx]) = (_hero.Inventory[idx], _hero.Inventory[idx + 1]);
+
+            _hero.UpdateInventory();
+
+            ListBoxInventory.SelectedIndex = idx + 1;
+        }
+
+        private void ExpLevels_OnSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (_initializing)
+                return;
+            
+            if (sender is not ComboBox comboBox)
+                return;
+            
+            var selectedIndex = (KeyValuePair<byte, int>) comboBox.SelectedValue;
+
+            _hero.UpdateLevel(selectedIndex.Key);
+            _hero.UpdateExperience(selectedIndex.Value);
+
+            _initializing = true;
+            Level.Text = selectedIndex.Key.ToString();
+            Experience.Text = selectedIndex.Value.ToString();
+            _initializing = false;
+        }
+
+        private void ExperienceChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_initializing)
+                return;
+
+            var maxExpLevel = Constants.ExpLevels.Last();
+
+            if (!int.TryParse(Experience.Text, out var exp))
+                exp = Experience.Text.Length == 0 ? 0 : maxExpLevel.Value;
+
+            var expLevel = Constants.ExpLevels.LastOrDefault(x => exp >= x.Value);
+            if (expLevel is { Key: 0, Value: 0 })
+                expLevel = maxExpLevel;
+
+            _hero.UpdateLevel(expLevel.Key);
+            _hero.UpdateExperience(exp);
+
+            _initializing = true;
+            ExpLevels.SelectedValue = expLevel;
+            Level.Text = expLevel.Key.ToString();
+            Experience.Text = exp.ToString();
+            _initializing = false;
+        }
+
+        private void LevelChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_initializing)
+                return;
+
+            if (Level.Text.Length == 0)
+                Level.Text = "1";
+
+            var lvl = byte.Parse(Level.Text);
+
+            var expLevel = Constants.ExpLevels.FirstOrDefault(x => x.Key == lvl);
+
+            _hero.UpdateLevel(lvl);
+            _hero.UpdateExperience(expLevel.Value);
+
+            _initializing = true;
+            ExpLevels.SelectedValue = expLevel;
+            Experience.Text = expLevel.Value.ToString();
+            _initializing = false;
+        }
     }
 
     public static class StringExtensions
     {
         public static string ToControlName(this string val)
         {
-            return val.Replace(" ", "_").Replace("'", "__");
+            return val.Replace(" ", "_").Replace("'", "__").Replace("-", "___");
         }
 
         public static string FromControlName(this string val)
         {
-            return val.Replace("__", "'").Replace("_", " ");
+            return val.Replace("___", "-").Replace("__", "'").Replace("_", " ");
         }
     }
 }

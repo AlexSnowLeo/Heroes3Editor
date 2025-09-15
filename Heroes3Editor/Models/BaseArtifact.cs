@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Heroes3Editor.Lang;
 
 namespace Heroes3Editor.Models
 {
@@ -7,9 +8,11 @@ namespace Heroes3Editor.Models
     {
         protected Dictionary<string, string> Lang { get; set; }
         protected Dictionary<string, string> LangInverted { get; set; }
-        
-        protected Dictionary<byte, string> NamesByCode { get; set; } = new();
-        protected Dictionary<byte, string> HOTANamesByCode { get; set; } = new();
+        protected Dictionary<string, string> OriginalLang { get; set; }
+        protected Dictionary<string, string> HotaLang { get; set; }
+
+        protected Dictionary<byte, string> NamesByCode { get; set; } = [];
+        protected Dictionary<byte, string> HOTANamesByCode { get; set; } = [];
 
         internal Dictionary<string, byte> CodesByName => NamesByCode?.ToDictionary(i => i.Value, i => i.Key);
 
@@ -47,6 +50,20 @@ namespace Heroes3Editor.Models
                 }
                 NamesByCode.Add(code.Key, code.Value);
             }
+
+            if (OriginalLang != null && HotaLang != null)
+            {
+                Lang = OriginalLang.ToDictionary(key => key.Key, value => value.Value);
+                foreach (var hlang in HotaLang)
+                {
+                    if (Lang.ContainsKey(hlang.Key))
+                        Lang[hlang.Key] = hlang.Value;
+                    else
+                        Lang.Add(hlang.Key, hlang.Value);
+                }
+
+                LangInverted = Lang.ToDictionary(key => key.Value, value => value.Key);
+            }
         }
 
         public void RemoveHotaReferenceCodes()
@@ -58,9 +75,14 @@ namespace Heroes3Editor.Models
                     NamesByCode.Remove(kvp.Key);
                 }
             }
+
+            if (OriginalLang != null)
+            {
+                Lang = OriginalLang.ToDictionary(key => key.Key, value => value.Value);
+            }
         }
 
-        public void SetLang(Dictionary<string, string> langData)
+        public void SetLang(Dictionary<string, string> langData, Dictionary<string, string> hotaLangData = null)
         {
             if (langData == null)
             {
@@ -69,13 +91,16 @@ namespace Heroes3Editor.Models
                 return;
             }
 
-            Lang = langData;
+            Lang = langData.ToDictionary(key => key.Key, value => value.Value);
+            OriginalLang = langData.ToDictionary(key => key.Key, value => value.Value);
+            HotaLang = hotaLangData?.ToDictionary(key => key.Key, value => value.Value);
             LangInverted = langData.ToDictionary(key => key.Value, value => value.Key);
         }
     }
     
     public abstract class BaseArtifact : BaseProp
     {
+        public const int Empty = 0xFF;
         public Dictionary<byte, string> GetArtifacts => Lang != null
             ? NamesByCode.Where(x => x.Value != "-")
                 .ToDictionary(x => x.Key, x => Lang.TryGetValue(x.Value, out var value) ? value : x.Value)

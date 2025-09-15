@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Heroes3Editor.Models
 {
     public enum GameExpansion
     {
-        [Description("The Restoration Of Erathia")]
+        [Description("The Restoration of Erathia")]
         RoE,
         [Description("The Shadow of Death")]
         SoD,

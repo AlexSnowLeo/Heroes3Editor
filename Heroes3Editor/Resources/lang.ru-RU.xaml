@@ -84,6 +84,8 @@
     <v:String x:Key="hero_ArtifactInfoLuck">Удача:</v:String>
     <v:String x:Key="hero_ArtifactInfoEffects">Эффекты:</v:String>
     <v:String x:Key="hero_Add">Добавить</v:String>
+    <v:String x:Key="hero_Up">Выше</v:String>
+    <v:String x:Key="hero_Down">Ниже</v:String>
     <v:String x:Key="hero_Remove">Удалить</v:String>
     <v:String x:Key="hero_RemoveAll">Удалить все</v:String>
     <v:String x:Key="hero_Confirm">Подтверждение</v:String>
@@ -92,6 +94,9 @@
     <v:String x:Key="hero_ItemSlotsNotAvailable">{0} слот(а) 'Разное' недоступны</v:String>
     <v:String x:Key="hero_RingSlotsNotAvailable">Слоты колец недоступны</v:String>
     <v:String x:Key="hero_SlotNotAvailable">Слот '{0}' недоступен</v:String>
+    <v:String x:Key="hero_AddsSpell">Добавляет заклинание '{0}' в Книгу заклинаний</v:String>
+    <v:String x:Key="hero_ArtifactSpellInfo">(*) Заклинание получено из артефакта или свитка заклинаний (здесь его нельзя добавить или удалить)</v:String>
+    <v:String x:Key="hero_OccupiedBy">Занято частью '{0}'</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Выбрать заклинание</v:String>

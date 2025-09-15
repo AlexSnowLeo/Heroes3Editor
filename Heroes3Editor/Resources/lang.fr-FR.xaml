@@ -84,6 +84,8 @@
     <v:String x:Key="hero_ArtifactInfoLuck">Chance:</v:String>
     <v:String x:Key="hero_ArtifactInfoEffects">Effets:</v:String>
     <v:String x:Key="hero_Add">Ajouter</v:String>
+    <v:String x:Key="hero_Up">Haut</v:String>
+    <v:String x:Key="hero_Down">Bas</v:String>
     <v:String x:Key="hero_Remove">Supprimer</v:String>
     <v:String x:Key="hero_RemoveAll">Tout supprimer</v:String>
     <v:String x:Key="hero_Confirm">Confirmer</v:String>
@@ -92,6 +94,9 @@
     <v:String x:Key="hero_ItemSlotsNotAvailable">{0} emplacements 'Divers' non disponibles</v:String>
     <v:String x:Key="hero_RingSlotsNotAvailable">Anneau emplacements non disponibles</v:String>
     <v:String x:Key="hero_SlotNotAvailable">Emplacement '{0}' non disponibles</v:String>
+    <v:String x:Key="hero_AddsSpell">Ajoute le sort '{0}' au livre de sorts</v:String>
+    <v:String x:Key="hero_ArtifactSpellInfo">(*) Sort provenant d'un Artefact ou d'un Parchemin de Sort (impossible d'ajouter ou de supprimer ici)</v:String>
+    <v:String x:Key="hero_OccupiedBy">Occupé par une partie de '{0}'</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Sélectionner un sort</v:String>

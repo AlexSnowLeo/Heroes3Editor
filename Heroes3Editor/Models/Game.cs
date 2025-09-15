@@ -3,11 +3,9 @@ using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Xml.Linq;
 using Heroes3Editor.Lang;
 using ICSharpCode.SharpZipLib.GZip;
 
@@ -52,16 +50,24 @@ namespace Heroes3Editor.Models
 
             if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
             {
+                Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
+                    ? "pl"
+                    : SearchHero(Models.Heroes.AdelaRUHota, Bytes.Length) > 0 ? "ru" : "en";
+
+                LangData.SetInstance(Lang);
+
                 SetHOTA();
             }
             else
             {
+                Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
+                    ? "pl"
+                    : SearchHero(Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
+
+                LangData.SetInstance(Lang);
+
                 SetClassic();
             }
-
-            Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
-               ? "pl"
-               : SearchHero(IsHOTA ? Models.Heroes.AdelaRUHota : Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
 
             Version = $"{gameVersionMajor}.{gameVersionMinor}{(IsHOTA ? " HotA" : "")}";
 
@@ -114,7 +120,7 @@ namespace Heroes3Editor.Models
             var result = new List<string>();
             foreach (var hero in Heroes)
             {
-                if (hero.EquippedArtifacts["Weapon"] == Constants.Artifacts[Constants.TITANS_THUNDER] && !hero.SpellBookExist)
+                if (hero.EquippedArtifacts["Weapon"] == Constants.Artifacts[Weapons.TitansThunder] && !hero.SpellBookExist)
                 {
                     result.Add($"{hero.Name}: must have Spell Book with Titan's Thunder");
                 }
@@ -249,6 +255,10 @@ namespace Heroes3Editor.Models
 
         private Game _game;
 
+        public byte Level { get; set; }
+        public int Mana { get; set; }
+        public int Experience { get; set; }
+
         public bool IsHOTAGame => _game.IsHOTA;
         public int BytePosition { get; }
 
@@ -258,6 +268,7 @@ namespace Heroes3Editor.Models
         public byte[] SkillLevels { get; } = new byte[8];
 
         public ISet<string> Spells { get; } = new HashSet<string>();
+        public ISet<string> SpellBook { get; } = new HashSet<string>();
         public bool SpellBookExist { get; private set; }
 
         public string[] Creatures { get; } = new string[7];
@@ -306,6 +317,10 @@ namespace Heroes3Editor.Models
             _game = game;
             BytePosition = bytePosition;
 
+            Level = _game.Bytes[BytePosition + Constants.HeroOffsets["HeroLevel"]];
+            Mana = _game.Bytes[BytePosition + Constants.HeroOffsets["ManaPoints"]];
+            Experience = _game.Bytes.GetInt(BytePosition + Constants.HeroOffsets["Experience"]);
+
             for (int i = 0; i < 4; ++i)
             {
                 var attr = _game.Bytes[BytePosition + Constants.HeroOffsets["Attributes"] + i];
@@ -330,6 +345,12 @@ namespace Heroes3Editor.Models
                 if (_game.Bytes[BytePosition + Constants.HeroOffsets["Spells"] + i] == 1)
                     Spells.Add(Constants.Spells[i]);
             }
+            
+            for (byte i = 0; i < 70; ++i)
+            {
+                if (_game.Bytes[BytePosition + Constants.HeroOffsets["SpellBook"] + i] == 1)
+                    SpellBook.Add(Constants.Spells[i]);
+            }
 
             for (int i = 0; i < 7; ++i)
             {
@@ -337,8 +358,7 @@ namespace Heroes3Editor.Models
                 if (code != OFF)
                 {
                     Creatures[i] = Constants.Creatures[code];
-                    var amountBytes = _game.Bytes.AsSpan().Slice(BytePosition + Constants.HeroOffsets["CreatureAmounts"] + i * 4, 4);
-                    CreatureAmounts[i] = BinaryPrimitives.ReadInt16LittleEndian(amountBytes);
+                    CreatureAmounts[i] = _game.Bytes.GetInt(BytePosition + Constants.HeroOffsets["CreatureAmounts"] + i * 4);
                 }
                 else
                 {
@@ -360,7 +380,7 @@ namespace Heroes3Editor.Models
                 if (code == OFF) continue;
 
                 EquippedArtifacts[gear] = Constants.Artifacts[code];
-                if (gear.StartsWith("Item") && code == Constants.SPELL_SCROLL)
+                if (gear.StartsWith("Item") && code == Items.SpellScroll)
                 {
                     var spellCode = _game.Bytes[gearPos + 4];
                     EquippedSpellScrolls[gear] = Constants.Spells[spellCode];
@@ -375,7 +395,7 @@ namespace Heroes3Editor.Models
 
                 Inventory.Add(Constants.Artifacts[code]);
 
-                if (code == Constants.SPELL_SCROLL)
+                if (code == Items.SpellScroll)
                 {
                     var spellCode = _game.Bytes[inventoryPos + i * 8 + 4];
                     InventorySpellScrolls.TryAdd(i, Constants.Spells[spellCode]);
@@ -439,23 +459,33 @@ namespace Heroes3Editor.Models
             _game.Bytes[BytePosition + Constants.HeroOffsets["Skills"] + Constants.Skills[Skills[slot]]] = level;
         }
 
-        public void AddSpell(string spell)
+        public void AddSpellToSpellBook(string spell)
         {
-            if (!Spells.Add(spell)) return;
-
-            int spellPosition = BytePosition + Constants.HeroOffsets["Spells"] + Constants.Spells[spell];
-            _game.Bytes[spellPosition] = 1;
+            if (!SpellBook.Add(spell)) return;
 
             int spellBookPosition = BytePosition + Constants.HeroOffsets["SpellBook"] + Constants.Spells[spell];
             _game.Bytes[spellBookPosition] = 1;
         }
 
-        public void RemoveSpell(string spell)
+        public void AddSpellToSpells(string spell)
+        {
+            if (!Spells.Add(spell)) return;
+
+            int spellPosition = BytePosition + Constants.HeroOffsets["Spells"] + Constants.Spells[spell];
+            _game.Bytes[spellPosition] = 1;
+        }
+
+        public void RemoveSpellFromSpells(string spell)
         {
             if (!Spells.Remove(spell)) return;
 
             int spellPosition = BytePosition + Constants.HeroOffsets["Spells"] + Constants.Spells[spell];
             _game.Bytes[spellPosition] = 0;
+        }
+
+        public void RemoveSpellFromSpellBook(string spell)
+        {
+            if (!SpellBook.Remove(spell)) return;
 
             int spellBookPosition = BytePosition + Constants.HeroOffsets["SpellBook"] + Constants.Spells[spell];
             _game.Bytes[spellBookPosition] = 0;
@@ -532,7 +562,10 @@ namespace Heroes3Editor.Models
         public void UpdateEquippedArtifact(string gear, string artifact, string spell)
         {
             var currentBytePos = BytePosition + Constants.HeroOffsets[gear];
-            
+
+            var equippedArt = EquippedArtifacts[gear];
+            var equippedArtKey = Constants.Artifacts[Constants.Artifacts.GetOriginalValue(equippedArt)];
+
             if (artifact is not "-")
             {
                 EquippedArtifacts[gear] = artifact;
@@ -543,7 +576,7 @@ namespace Heroes3Editor.Models
                 _game.Bytes[currentBytePos + 2] = ON;
                 _game.Bytes[currentBytePos + 3] = ON;
                 
-                if (artKey == Constants.SPELL_SCROLL)
+                if (artKey == Items.SpellScroll)
                 {
                     if (string.IsNullOrEmpty(spell))
                         throw new ArgumentNullException(nameof(spell));
@@ -554,10 +587,23 @@ namespace Heroes3Editor.Models
                     _game.Bytes[currentBytePos + 7] = ON;
                     
                     EquippedSpellScrolls[gear] = spell;
+
+                    AddSpellToSpellBook(spell);
+                }
+
+                if (Models.Spells.ItemSpells.ContainsKey(artKey))
+                {
+                    var tome = Models.Spells.ItemSpells[artKey];
+                    foreach (var s in tome)
+                    {
+                        AddSpellToSpellBook(Constants.Spells.GetLangValue(s));
+                    }
                 }
             }
             else
             {
+                UpdateRemovedSpells(equippedArtKey, gear);
+                
                 EquippedArtifacts[gear] = "-";
                 
                 _game.Bytes[currentBytePos] = OFF;
@@ -575,6 +621,58 @@ namespace Heroes3Editor.Models
                 }
             }
         }
+
+        public void UpdateRemovedSpells(int equippedArtKey, string gear)
+        {
+            var equippedSpells = GetAllEquippedSpells(exceptGear: gear);
+
+            if (Models.Spells.ItemSpells.ContainsKey(equippedArtKey))
+            {
+                var spells = Models.Spells.ItemSpells[equippedArtKey];
+                foreach (var s in spells)
+                {
+                    if (equippedSpells.Contains(s))
+                        continue;
+
+                    RemoveSpellFromSpellBook(Constants.Spells.GetLangValue(s));
+                }
+            }
+
+            if (gear.StartsWith("Item") && equippedArtKey == Items.SpellScroll)
+            {
+                if (!equippedSpells.Contains(Constants.Spells.GetOriginalValue(EquippedSpellScrolls[gear])))
+                    RemoveSpellFromSpellBook(EquippedSpellScrolls[gear]);
+            }
+        }
+
+        private string[] GetAllEquippedSpells(string exceptGear = null)
+        {
+            var spells = new List<string>();
+
+            foreach (var art in EquippedArtifacts)
+            {
+                if (exceptGear != null && art.Key == exceptGear)
+                    continue;
+
+                if (art.Value != "-")
+                {
+                    var artKey = Constants.Artifacts[Constants.Artifacts.GetOriginalValue(art.Value)];
+                    if (Models.Spells.ItemSpells.ContainsKey(artKey))
+                    {
+                        spells.AddRange(Models.Spells.ItemSpells[artKey]);
+                    }
+
+                    if (art.Key.StartsWith("Item") && artKey == Items.SpellScroll)
+                    {
+                        var spell = Constants.Spells.GetOriginalValue(EquippedSpellScrolls[art.Key]);
+                        spells.Add(spell);
+                    }
+                        
+                }
+            }
+
+            return [.. spells.Distinct()];
+        }
         
         public void UpdateInventory(string newArtifact = null, string spell = null, int? index = null)
         {
@@ -582,7 +680,7 @@ namespace Heroes3Editor.Models
             {
                 Inventory.Add(newArtifact);
                 var artKey = Constants.Artifacts[newArtifact];
-                if (artKey == Constants.SPELL_SCROLL)
+                if (artKey == Items.SpellScroll)
                 {
                     if (string.IsNullOrEmpty(spell))
                         throw new ArgumentNullException(nameof(spell));
@@ -608,7 +706,7 @@ namespace Heroes3Editor.Models
                     _game.Bytes[currentBytePos + 6] = ON;
                     _game.Bytes[currentBytePos + 7] = ON;
                 
-                    if (artKey == Constants.SPELL_SCROLL)
+                    if (artKey == Items.SpellScroll)
                     {
                         spell = InventorySpellScrolls[i];
                         _game.Bytes[currentBytePos + 4] = Constants.Spells[spell];
@@ -662,13 +760,14 @@ namespace Heroes3Editor.Models
             if (!string.IsNullOrEmpty(artifact) && !"-".Equals(artifact))
             {
                 var infoKey = Constants.Artifacts[artifact];
-                if (infoKey == Constants.SPELL_SCROLL)
+                if (infoKey == Items.SpellScroll)
                 {
                     var spell = inventory.HasValue
                         ? Constants.Spells.GetLangValue(InventorySpellScrolls[inventory.Value])
                         : Constants.Spells.GetLangValue(EquippedSpellScrolls[slotName]);
                     
-                    return [artifact, "", "", "", "", "", "", $"Add spell \'{spell}'" ];
+                    var addsSpell = string.Format(LangHepler.Get("hero_AddsSpell"), spell);
+                    return [artifact, "", "", "", "", "", "", addsSpell];
                 }
 
                 var artInfo = Constants.ArtifactInfo[infoKey].Split("|");
@@ -679,6 +778,20 @@ namespace Heroes3Editor.Models
                 return artInfo;
             }
             return null;
+        }
+
+        public void UpdateLevel(byte value)
+        {
+            Level = value;
+            _game.Bytes[BytePosition + Constants.HeroOffsets["HeroLevel"]] = (byte)value;
+        }
+
+        public void UpdateExperience(int value)
+        {
+            Experience = value;
+
+            var amountBytes = _game.Bytes.AsSpan().Slice(BytePosition + Constants.HeroOffsets["Experience"], 4);
+            BinaryPrimitives.WriteInt32LittleEndian(amountBytes, value);
         }
     }
 

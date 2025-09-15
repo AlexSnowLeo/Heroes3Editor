@@ -13,7 +13,8 @@ public partial class SelectArtifact : Window
     {
         InitializeComponent();
 
-        ComboBoxSpells.ItemsSource = Constants.Spells.Names;
+        var titansLightningBolt = Constants.Spells[Spells.TitansLightningBolt];
+        ComboBoxSpells.ItemsSource = Constants.Spells.Names.Except([titansLightningBolt]);
         ComboBoxArtifacts.ItemsSource = Constants.Artifacts.Names;
         
         ComboBoxArtifacts.SelectedIndex = 0;
@@ -33,8 +34,8 @@ public partial class SelectArtifact : Window
             return;
 
         var artCode = Constants.Artifacts[(string)cBox.SelectedValue];
-        ComboBoxSpells.IsEnabled = artCode == Constants.SPELL_SCROLL;
-        if (artCode == Constants.SPELL_SCROLL)
+        ComboBoxSpells.IsEnabled = artCode == Items.SpellScroll;
+        if (artCode == Items.SpellScroll)
         {
             ComboBoxSpells.SelectedIndex = 0;
             SelectedSpell = (string)ComboBoxSpells.SelectedValue;

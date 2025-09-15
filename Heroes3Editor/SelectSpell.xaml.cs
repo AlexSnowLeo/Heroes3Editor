@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using Heroes3Editor.Models;
 
 namespace Heroes3Editor;
@@ -10,7 +11,8 @@ public partial class SelectSpell : Window
     {
         InitializeComponent();
 
-        ComboBoxSpells.ItemsSource = Constants.Spells.Names;
+        var titansLightningBolt = Constants.Spells[Spells.TitansLightningBolt];
+        ComboBoxSpells.ItemsSource = Constants.Spells.Names.Except([titansLightningBolt]);
 
         ComboBoxSpells.SelectedIndex = 0;
         SelectedSpell = (string)ComboBoxSpells.SelectedValue;

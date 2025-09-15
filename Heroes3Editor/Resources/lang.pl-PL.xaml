@@ -84,6 +84,8 @@
     <v:String x:Key="hero_ArtifactInfoLuck">Szczęście:</v:String>
     <v:String x:Key="hero_ArtifactInfoEffects">Efekty:</v:String>
     <v:String x:Key="hero_Add">Dodaj</v:String>
+    <v:String x:Key="hero_Up">Wyższy</v:String>
+    <v:String x:Key="hero_Down">Niższy</v:String>
     <v:String x:Key="hero_Remove">Usunąć</v:String>
     <v:String x:Key="hero_RemoveAll">Usuń wszystkie</v:String>
     <v:String x:Key="hero_Confirm">Potwierdź</v:String>
@@ -92,6 +94,9 @@
     <v:String x:Key="hero_ItemSlotsNotAvailable">{0} sloty 'Inne' niedostępne</v:String>
     <v:String x:Key="hero_RingSlotsNotAvailable">Ring sloty niedostępne</v:String>
     <v:String x:Key="hero_SlotNotAvailable">Slot '{0}' niedostępne</v:String>
+    <v:String x:Key="hero_AddsSpell">Dodaje zaklęcie '{0}' do księgi zaklęć</v:String>
+    <v:String x:Key="hero_ArtifactSpellInfo">(*) Zaklęcie pochodzi z artefaktu lub zwoju zaklęć (nie można go tutaj dodać ani usunąć)</v:String>
+    <v:String x:Key="hero_OccupiedBy">Zajęte przez część '{0}'</v:String>
 
     <!-- Modal -->
     <v:String x:Key="modal_SelectSpell">Wybierz zaklęcie</v:String>
