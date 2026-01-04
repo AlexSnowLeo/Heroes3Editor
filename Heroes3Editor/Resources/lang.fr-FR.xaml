@@ -24,6 +24,9 @@
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Caractéristiques</v:String>
+    <v:String x:Key="hero_Level">Niveau</v:String>
+    <v:String x:Key="hero_Experience">Exp</v:String>
+    <v:String x:Key="hero_Mana">Mana</v:String>
     <v:String x:Key="hero_Attack">Attaque</v:String>
     <v:String x:Key="hero_Defense">Défense</v:String>
     <v:String x:Key="hero_SpellPower">Puissance</v:String>

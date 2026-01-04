@@ -24,6 +24,9 @@
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Umiejętności podstawowe</v:String>
+    <v:String x:Key="hero_Level">Poziom</v:String>
+    <v:String x:Key="hero_Experience">Exp</v:String>
+    <v:String x:Key="hero_Mana">Mana</v:String>
     <v:String x:Key="hero_Attack">Atak</v:String>
     <v:String x:Key="hero_Defense">Obrona</v:String>
     <v:String x:Key="hero_SpellPower">Moc zaklęć</v:String>

@@ -1,5 +1,6 @@
 {
   "Heroes": {
+    // Zamek
     "Christian": "Christian",
     "Edric": "Edric",
     "Orrin": "Orrin",
@@ -20,6 +21,7 @@
     "Rion": "Rion",
     "Sanya": "Sanya",
 
+    // Bastion
     "Jenova": "Jenova",
     "Kyrre": "Kyrre",
     "Ivor": "Ivor",
@@ -36,8 +38,9 @@
     "Malcom": "Malcom",
     "Melodia": "Melodia",
     "Gem": "Gem",
-    "Uland": "Uland",    
+    "Uland": "Uland",
 
+    // Forteca
     "Fafner": "Fafner",
     "Iona": "Iona",
     "Josephine": "Josephine",
@@ -56,6 +59,7 @@
     "Theodorus": "Theodorus",
     "Dracon": "Dracon",
 
+    // Inferno
     "Calh": "Calh",
     "Fiona": "Fiona",
     "Ignatius": "Ignatius",
@@ -74,6 +78,7 @@
     "Xarfax": "Xarfax",
     "Zydar": "Zydar",
 
+    // Nekropolis
     "Charna": "Charna",
     "Clavius": "Clavius",
     "Galthran": "Galthran",
@@ -91,6 +96,7 @@
     "Vidomina": "Vidomina",
     "Xsi": "Xsi",
 
+    // Lochy
     "Ajit": "Ajit",
     "Arlach": "Arlach",
     "Dace": "Dace",
@@ -110,6 +116,7 @@
     "Malekith": "Malekith",
     "Sephinroth": "Sephinroth",
 
+    // Twierdza
     "Crag Hack": "Crag Hack",
     "Gretchin": "Gretchin",
     "Gurnisson": "Gurnisson",
@@ -129,6 +136,7 @@
     "Vey": "Vey",
     "Zubin": "Zubin",
 
+    // Cytadela
     "Alkin": "Alkin",
     "Broghild": "Broghild",
     "Bron": "Bron",
@@ -145,8 +153,9 @@
     "Tiva": "Tiva",
     "Verdish": "Verdish",
     "Voy": "Voy",
-    "Adrienne": "Adrienne",   
+    "Adrienne": "Adrienne",
 
+    // Wrota żywiołów
     "Erdamon": "Erdamon",
     "Fiur": "Fiur",
     "Ignissa": "Ignissa",
@@ -165,6 +174,7 @@
     "Luna": "Luna"
   },
   "HotaHeroes": {
+    // Zatoka
     "Anabel": "Anabel",
     "Cassiopeia": "Cassiopeia",
     "Corkes": "Corkes",
@@ -185,6 +195,7 @@
     "Casmetra": "Casmetra",
     "Tark": "Tark",
 
+    // Factory
     "Henrietta": "Henrietta",
     "Sam": "Sam",
     "Tancred": "Tancred",
@@ -204,6 +215,25 @@
     "Victoria": "Victoria",
     "Eanswythe": "Eanswythe",
     "Frederick": "Frederick",
+
+    // Bulwark
+    "Dhuin": "Dhuin",
+    "Oidana": "Oidana",
+    "Neia": "Neia",
+    "Eikthurn": "Eikthurn",
+    "Creyle": "Creyle",
+    "Spadum": "Spadum",
+    "Kynr": "Kynr",
+    "Ergon": "Ergon",
+    "Kriv": "Kriv",
+    "Glacius": "Glacius",
+    "Sial": "Sial",
+    "Dalton": "Dalton",
+    "Biarma": "Biarma",
+    "Akka": "Akka",
+    "Vehr": "Vehr",
+    "Allora": "Allora",
+    "Haugir": "Haugir",
 
     "Kinkeria": "Kinkeria",
     "Giselle": "Giselle"
@@ -237,7 +267,8 @@
     "Sorcery": "T. magiczny",
     "Resistance": "Odporność",
     "First Aid": "Pierw. pomoc",
-    "Interference": "Zakłócanie"
+    "Interference": "Zakłócanie",
+    "Runes": "Runy"
   },
   "SkillLevels": {
     "Basic": "Podstawowy",
@@ -688,12 +719,8 @@
     "Sleepkeeper": "Give your units mind spells immunity"
   },
   "HotaArtifactDescriptions": {
-    "Amulet of the Undertaker": "Nekromacji +2.5%",
-    "Vampire's Cowl": "Nekromacji +5%",
-    "Dead Man's Boots": "Nekromacji +7.5%",
     "Equestrian's Gloves": "Zasięg bohatera na lądzie +200",
-    "Boots of Speed": "Zasięg bohatera na lądzie +400",
-    "Cloak of Undead King": "Złożony artefakt: 15% poległych jest wskrzeszane jako szkielety. W przypadku, gdy bohater posiada umiejętność 'nekromancja', jest ona zwiększana. Na poziomie podstawowym wskrzeszane są zombie, na zaawanowanym - upiory, a na mistrzowskim - lisze."
+    "Boots of Speed": "Zasięg bohatera na lądzie +400"
   },
   "Creatures": {
     "Pikeman": "Pikinier",
@@ -885,6 +912,7 @@
   },
   "HotaFactions": {
     "Cove": "Zatoka",
-    "Factory": "Factory"
+    "Factory": "Factory",
+    "Bulwark": "Bulwark"
   }
 }

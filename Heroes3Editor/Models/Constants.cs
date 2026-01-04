@@ -266,7 +266,10 @@ namespace Heroes3Editor.Models
             "Tark",
             // Factory
             "Henrietta", "Sam", "Tancred", "Melchior", "Floribert", "Wynona", "Dury", "Morton", "Tavin", "Murdoch",
-            "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick"
+            "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick",
+            // Bulwark
+            "Dhuin", "Oidana", "Neia", "Eikthurn", "Creyle", "Spadum", "Kynr", "Ergon", "Kriv", "Glacius", "Sial",
+            "Dalton", "Biarma", "Akka", "Vehr", "Allora", "Haugir"
         ];
 
         public static readonly UniqueHeroDto[] UuniqueHeroes = [
@@ -558,7 +561,8 @@ namespace Heroes3Editor.Models
             };
             HOTANamesByCode = new Dictionary<byte, string>
             {
-                {28, "Interference"}
+                {28, "Interference"},
+                {29, "Runes"}
             };
         }
     }
@@ -1079,12 +1083,8 @@ namespace Heroes3Editor.Models
 
         private static readonly Dictionary<byte, string> _hotaNamesByCode = new()
         {
-            {0x36, "Amulet of the Undertaker|||||||Necromancy +2.5%" },
-            {0x37, "Vampire's Cowl|||||||Necromancy 5%" },
-            {0x38, "Dead Man's Boots|||||||Necromancy 7.5%" },
             {0x46, "Equestrian's Gloves|||||||Hero Movement Points +200" },
             {0x62, "Boots of Speed|||||||Hero Movement Points +400" },
-            {0x82, "Cloak of Undead King|||||||Combination Artifact: Necromancy +15%, Raise more Creature Types|NB" },
         };
 
         private static readonly Dictionary<string, byte> _codesByName = _namesByCode.ToDictionary(i => i.Value, i => i.Key);
@@ -1467,6 +1467,21 @@ namespace Heroes3Editor.Models
                 {183, "Crimson Couatl"},
                 {184, "Dreadnought"},
                 {185, "Juggernaut"},
+                // Bulwark
+                {186, "Kobold"},
+                {187, "Kobold Foremen"},
+                {188, "Mountain Ram"},
+                {189, "Argali"},
+                {190, "Snow Elf"},
+                {191, "Steel Elf"},
+                {192, "Yeti"},
+                {193, "Yeti Runemaster"},
+                {194, "Shaman"},
+                {195, "Greate Shaman"},
+                {196, "Mammoth"},
+                {197, "War Mammoth"},
+                {198, "Jotunn"},
+                {199, "Jotunn Warlord"}
             };
         }
     }
@@ -1550,6 +1565,12 @@ namespace Heroes3Editor.Models
                 "Factory", [
                     "Salda", "Burton", "Prospero", "Mount Copper", "Ardon", "New Dolere", "Corakstone", "Kergar", "Dardentor",
                     "Arcadia", "Endurance", "Vulcan", "Aurichalcum", "Fort Rotwang", "Volta", "Ridder",
+                ]
+            },
+            {
+                "Bulwark", [
+                    "Ellesmere", "Anabar", "Tundara", "White Mouth", "Varand", "Alfheim", "Meghion", "Thulekh", "Everwinter",
+                    "Borea", "Stonefang", "Winterkill", "Windskalir", "Ketpall", "Jotunngard", "Halsmere",
                 ]
             }
         };

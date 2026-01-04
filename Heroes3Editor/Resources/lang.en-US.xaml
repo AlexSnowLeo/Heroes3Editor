@@ -27,6 +27,7 @@
     <v:String x:Key="hero_PrimarySkills">Primary Skills</v:String>
     <v:String x:Key="hero_Level">Level</v:String>
     <v:String x:Key="hero_Experience">Exp</v:String>
+    <v:String x:Key="hero_Mana">Mana</v:String>
     <v:String x:Key="hero_Attack">Attack</v:String>
     <v:String x:Key="hero_Defense">Defense</v:String>
     <v:String x:Key="hero_SpellPower">Spell Power</v:String>

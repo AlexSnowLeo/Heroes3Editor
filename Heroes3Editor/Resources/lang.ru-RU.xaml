@@ -24,6 +24,9 @@
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Первичные навыки</v:String>
+    <v:String x:Key="hero_Level">Уровень</v:String>
+    <v:String x:Key="hero_Experience">Опыт</v:String>
+    <v:String x:Key="hero_Mana">Мана</v:String>
     <v:String x:Key="hero_Attack">Атака</v:String>
     <v:String x:Key="hero_Defense">Защита</v:String>
     <v:String x:Key="hero_SpellPower">Сила Магии</v:String>

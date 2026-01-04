@@ -48,6 +48,7 @@ namespace Heroes3Editor
                 Level.Text = _hero.Level.ToString();
                 Experience.Text = _hero.Experience.ToString();
                 ExpLevels.SelectedValue = Constants.ExpLevels.First(x => x.Key == _hero.Level);
+                Mana.Text = _hero.Mana.ToString();
 
                 for (int i = 0; i < 8; ++i)
                 {
@@ -965,6 +966,15 @@ namespace Heroes3Editor
             ExpLevels.SelectedValue = expLevel;
             Experience.Text = expLevel.Value.ToString();
             _initializing = false;
+        }
+
+        private void ManaChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_initializing)
+                return;
+
+            var mana = int.Parse(Mana.Text);
+            _hero.UpdateMana(mana);
         }
     }
 

@@ -206,6 +206,24 @@
     "Victoria": "Виктория",
     "Eanswythe": "Энсвита",
     "Frederick": "Фредерик",
+    // Кронверк
+    "Dhuin": "Дуин",
+    "Oidana": "Ойдана",
+    "Neia": "Нэя",
+    "Eikthurn": "Эйктурн",
+    "Creyle": "Крейле",
+    "Spadum": "Спадум",
+    "Kynr": "Кинр",
+    "Ergon": "Эргон",
+    "Kriv": "Крив",
+    "Glacius": "Глаций",
+    "Sial": "Сияль",
+    "Dalton": "Далтон",
+    "Biarma": "Биарма",
+    "Akka": "Акка",
+    "Vehr": "Вехр",
+    "Allora": "Аллора",
+    "Haugir": "Гаугир",
 
     // Измененные имена в HotA
     // Замок
@@ -319,7 +337,8 @@
     "Sorcery": "Волшебство",
     "Resistance": "Сопротивление",
     "First Aid": "Первая помощь",
-    "Interference": "Помехи"
+    "Interference": "Помехи",
+    "Runes": "Руны"
   },
   "SkillLevels": {
     "Basic": "Базовый",
@@ -922,12 +941,8 @@
     "Sleepkeeper": "Добавляет вашим существам иммунитет к магии разума"
   },
   "HotaArtifactDescriptions": {
-    "Amulet of the Undertaker": "Некромантия +2.5%",
-    "Vampire's Cowl": "Некромантия +5%",
-    "Dead Man's Boots": "Некромантия +7.5%",
     "Equestrian's Gloves": "Очки передвижения героя по суше +200",
-    "Boots of Speed": "Очки передвижения героя по суше +400",
-    "Cloak of Undead King": "Составной артефакт: Некромантия +15%, Возрождает другие типы существ."
+    "Boots of Speed": "Очки передвижения героя по суше +400"
   },
   "Creatures": {
     // Замок
@@ -1098,6 +1113,21 @@
     "Crimson Couatl": "Багровый Коатль",
     "Dreadnought": "Дредноут",
     "Juggernaut": "Джагернаут",
+    // Кронверк
+    "Kobold": "Кобольд",
+    "Kobold Foremen": "Кобольд-Старшина",
+    "Mountain Ram": "Горный Баран",
+    "Argali": "Архар",
+    "Snow Elf": "Снежный Эльф",
+    "Steel Elf": "Стальной Эльф",
+    "Yeti": "Йети",
+    "Yeti Runemaster": "Йети Рунотворец",
+    "Shaman": "Шаман",
+    "Greate Shaman": "Великий Шаман",
+    "Mammoth": "Маммонт",
+    "War Mammoth": "Боевой Маммонт",
+    "Jotunn": "Ётун",
+    "Jotunn Warlord": "Ётун-Воевода",
     // Нейтралы
     "Peasant": "Крестьянин",
     "Boar": "Наездник на Кабане",
@@ -1140,7 +1170,8 @@
     "Stronghold": "Цитадель",
     "Tower": "Башня",
     "Cove": "Причал",
-    "Factory": "Фабрика"
+    "Factory": "Фабрика",
+    "Bulwark": "Кронверк"
   },
   "Towns": {
     // Замок
@@ -1484,6 +1515,23 @@
     "Aurichalcum": "Орихалк",
     "Fort Rotwang": "Форт Ротванг",
     "Volta": "Вольта",
-    "Ridder": "Риддер"
+    "Ridder": "Риддер",
+    // Кронверк
+    "Ellesmere": "Эльсмир",
+    "Anabar": "Анабар",
+    "Tundara": "Тундара",
+    "White Mouth": "Белое Устье",
+    "Varand": "Варанд",
+    "Alfheim": "Альфхайм",
+    "Meghion": "Мегион",
+    "Thulekh": "Тулех",
+    "Everwinter": "Вечнозимье",
+    "Borea": "Борея",
+    "Stonefang": "Каменный Клык",
+    "Winterkill": "Винтеркилл",
+    "Windskalir": "Виндскалир",
+    "Ketpall": "Кетпалл",
+    "Jotunngard": "Ётунгард",
+    "Halsmere": "Хальмер"
   }
 }

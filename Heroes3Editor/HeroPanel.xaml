@@ -45,8 +45,12 @@
                     <Label MinWidth="50" Content="{DynamicResource hero_Level}"/>
                     <TextBox Name="Level" MaxLength="2" TextChanged="LevelChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                     <Label Content="{DynamicResource hero_Experience}"/>
-                    <TextBox Name="Experience" MinWidth="100" MaxLength="10" TextChanged="ExperienceChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <TextBox Name="Experience" MinWidth="80" MaxLength="10" TextChanged="ExperienceChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                     <ComboBox Name="ExpLevels" Margin="5 0 0 0" ItemsSource="{Binding Path=ExpLevels}" SelectionChanged="ExpLevels_OnSelectionChanged"></ComboBox>
+                </StackPanel>
+                <StackPanel Margin="0 0 0 5" Orientation="Horizontal" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+                    <Label MinWidth="50" Content="{DynamicResource hero_Mana}"/>
+                    <TextBox Name="Mana" MaxLength="2" TextChanged="ManaChanged" PreviewTextInput="NumberPreviewTextInput"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                     <Label MinWidth="50" Content="{DynamicResource hero_Attack}"/>

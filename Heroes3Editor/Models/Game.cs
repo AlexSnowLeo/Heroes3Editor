@@ -783,7 +783,7 @@ namespace Heroes3Editor.Models
         public void UpdateLevel(byte value)
         {
             Level = value;
-            _game.Bytes[BytePosition + Constants.HeroOffsets["HeroLevel"]] = (byte)value;
+            _game.Bytes[BytePosition + Constants.HeroOffsets["HeroLevel"]] = value;
         }
 
         public void UpdateExperience(int value)
@@ -791,6 +791,14 @@ namespace Heroes3Editor.Models
             Experience = value;
 
             var amountBytes = _game.Bytes.AsSpan().Slice(BytePosition + Constants.HeroOffsets["Experience"], 4);
+            BinaryPrimitives.WriteInt32LittleEndian(amountBytes, value);
+        }
+
+        public void UpdateMana(int value)
+        {
+            Mana = value;
+
+            var amountBytes = _game.Bytes.AsSpan().Slice(BytePosition + Constants.HeroOffsets["ManaPoints"], 4);
             BinaryPrimitives.WriteInt32LittleEndian(amountBytes, value);
         }
     }
