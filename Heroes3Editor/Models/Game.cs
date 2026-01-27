@@ -626,9 +626,8 @@ namespace Heroes3Editor.Models
         {
             var equippedSpells = GetAllEquippedSpells(exceptGear: gear);
 
-            if (Models.Spells.ItemSpells.ContainsKey(equippedArtKey))
+            if (Models.Spells.ItemSpells.TryGetValue(equippedArtKey, out var spells))
             {
-                var spells = Models.Spells.ItemSpells[equippedArtKey];
                 foreach (var s in spells)
                 {
                     if (equippedSpells.Contains(s))

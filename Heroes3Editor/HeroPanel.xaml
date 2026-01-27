@@ -55,18 +55,22 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                     <Label MinWidth="50" Content="{DynamicResource hero_Attack}"/>
                     <TextBox Name="Attribute0" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <Label Name="Attribute0Change" MinWidth="36" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
                     <Label Content="{DynamicResource hero_Defense}"/>
                     <TextBox Name="Attribute1" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <Label Name="Attribute1Change" MinWidth="36" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
                     <Label Content="{DynamicResource hero_SpellPower}"/>
                     <TextBox Name="Attribute2" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <Label Name="Attribute2Change" MinWidth="36" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="3">
                     <Label Content="{DynamicResource hero_Knowledge}"/>
                     <TextBox Name="Attribute3" TextChanged="UpdateAttribute" PreviewTextInput="NumberPreviewTextInput"></TextBox>
+                    <Label Name="Attribute3Change" MinWidth="36" />
                 </StackPanel>
             </Grid>
         </GroupBox>

@@ -107,6 +107,8 @@ namespace Heroes3Editor
                     
                     var artifact = _hero.EquippedArtifacts[gear];
                     cboBox.SelectedItem = artifact;
+                    var artInfo = _hero.UpdateArtifactInfo(artifact, gear);
+                    UpdatePrimarySkills(artInfo, true, updateAttr: false);
                 }
 
                 foreach (var gear in gears)
@@ -526,8 +528,8 @@ namespace Heroes3Editor
 
             _hero.UpdateEquippedArtifact(gear, artifact, spell);
 
-            var prevOrArtKey = prevArtKey == BaseArtifact.Empty ? artKey : prevArtKey;
-            if (prevOrArtKey == Items.SpellScroll || Spells.ItemSpells.ContainsKey(prevOrArtKey))
+            if (artKey == Items.SpellScroll || Spells.ItemSpells.ContainsKey(artKey) ||
+                prevArtKey == Items.SpellScroll || Spells.ItemSpells.ContainsKey(prevArtKey))
             {
                 _initializing = true;
 
@@ -537,7 +539,15 @@ namespace Heroes3Editor
             }
         }
 
-        private void UpdatePrimarySkills(string[] artInfo, bool increase)
+        private readonly Dictionary<string, int> _attrChanges = new()
+        {
+                { "Attribute0Change", 0 },
+                { "Attribute1Change", 0 },
+                { "Attribute2Change", 0 },
+                { "Attribute3Change", 0 }
+            };
+
+        private void UpdatePrimarySkills(string[] artInfo, bool increase, bool updateAttr = true)
         {
             if (artInfo == null || artInfo.Length == 0)
                 return;
@@ -559,11 +569,23 @@ namespace Heroes3Editor
 
                 var value = (sbyte) (_hero.Attributes[i] + updateValue);
                 
-                _initializing = true;
-                attrControl.Text = (value < 0 ? 0 : value).ToString();
-                _initializing = false;
+                if (updateAttr)
+                {
+                    _initializing = true;
+                    attrControl.Text = (value < 0 ? 0 : value).ToString();
+                    _initializing = false;
 
-                _hero.UpdateAttribute(i, value);
+                    _hero.UpdateAttribute(i, value);
+                }
+
+                if (FindName($"Attribute{i}Change") is not System.Windows.Controls.Label attrChange)
+                    continue;
+
+                _attrChanges[attrChange.Name] += updateValue;
+                var attrValue = _hero.Attributes[i] - _attrChanges[attrChange.Name];
+                attrChange.Content = _attrChanges[attrChange.Name] != 0
+                    ? $"({attrValue}){_attrChanges[attrChange.Name]:+#;-#;0}"
+                    : string.Empty;
             }
         }
 

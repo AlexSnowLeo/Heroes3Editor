@@ -7,8 +7,8 @@
     <ApplicationIcon>App.ico</ApplicationIcon>
     <LangVersion>latest</LangVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <AssemblyVersion>2.0.0.64</AssemblyVersion>
-    <FileVersion>2.0.0.62</FileVersion>
+    <AssemblyVersion>2.0.1.65</AssemblyVersion>
+    <FileVersion>2.0.1.65</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
