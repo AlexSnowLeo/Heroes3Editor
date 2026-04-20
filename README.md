@@ -28,8 +28,8 @@ Support Horn of the Abyss (HotA) savegames as of Version 1.0.
 
 ## Known Issues
 
-Combination Artifacts (e.g. Cloak of the Undead King) and spell scrolls are not supported. The program may crash if
-you try to edit a hero equipped with a combo artifact or a spell scroll.
+~Combination Artifacts (e.g. Cloak of the Undead King) and spell scrolls are not supported. The program may crash if
+you try to edit a hero equipped with a combo artifact or a spell scroll.~
 
 ## About Savegame File Format
 
