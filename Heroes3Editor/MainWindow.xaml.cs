@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,8 @@ namespace Heroes3Editor
 
         private const string SaveGamesFilter = "HoMM3 Save games |*.*GM;*.GM*";
 
+        private bool _init { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +37,8 @@ namespace Heroes3Editor
             CultureInfo currLang = App.Language;
 
             Title = GetTitle();
+
+            _init = true;
 
             //Заполняем меню смены языка:
             MenuLanguage.Items.Clear();
@@ -62,6 +67,8 @@ namespace Heroes3Editor
             LangCboBox.SelectedValue = Constants.Lang[0];
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            _init = false;
+
 #if !DEBUG
             MenuDebug.Visibility = Visibility.Hidden;
 #endif
@@ -77,6 +84,12 @@ namespace Heroes3Editor
                     continue;
 
                 item.IsChecked = ci.Equals(currLang);
+            }
+
+            if (heroTabs.Items.Count > 0)
+            {
+                var saveInfoTab = heroTabs.Items[0] as TabItem;
+                saveInfoTab.Content = GetGameSaveInfo();
             }
 
             if (Properties.Settings.Default.UpdateGameLangWithAppLang)
@@ -110,6 +123,9 @@ namespace Heroes3Editor
 
         private void UpdateLangData(object sender, EventArgs eventArgs)
         {
+            if (_init)
+                return;
+
             LangData.SetInstance((string)LangCboBox.SelectedValue);
 
             if (Properties.Settings.Default.UseUniqueHeroes)
@@ -125,28 +141,39 @@ namespace Heroes3Editor
 
             UpdateHotaLangData();
 
-            if (heroTabs.Items.Count == 0)
+            if (heroTabs.Items.Count <= 1)
                 return;
 
             var selected = heroTabs.SelectedIndex;
-            var heroes = new List<string>();
-            foreach (TabItem item in heroTabs.Items)
-            {
-                heroes.Add((string)item.Header);
-                item.Visibility = Visibility.Hidden;
-            }
+            var heroes = Game.Heroes.Select(x => x.Name).ToList();
+
+            while (heroTabs.Items.Count > 1)
+                heroTabs.Items.RemoveAt(1);
 
             if (Game == null)
                 return;
 
             Game.Heroes.Clear();
-            heroTabs.Items.Clear();
             foreach (var hero in heroes)
             {
                 AddHeroTab(hero);
             }
 
             heroTabs.SelectedIndex = selected;
+        }
+
+        private void UpdateHeroList()
+        {
+            if (Game == null) return;
+
+            var foundHeroes = new List<string>();
+            foreach (string hero in Heroes.Names)
+            {
+                if (Game.SearchHeroExt(hero) != -1)
+                    foundHeroes.Add(hero);
+            }
+
+            HeroCboBox.ItemsSource = foundHeroes;
         }
 
         private void UpdateHotaLangData()
@@ -159,10 +186,14 @@ namespace Heroes3Editor
             else
             {
                 Constants.Towns.RemoveHotaLang();
-                Heroes.RemoveHotaLang();
+                if (Game?.Expansion != GameExpansion.RoEHD)
+                    Heroes.RemoveLangUpdates();
             }
 
-            HeroCboBox.ItemsSource = Heroes.Names;
+            if (Game?.Expansion == GameExpansion.RoEHD)
+                Heroes.LoadRoeHdLang();
+
+            UpdateHeroList();
 
             Game?.SearchTowns();
             if (Game?.Towns.Count > 0)
@@ -211,8 +242,8 @@ namespace Heroes3Editor
                     menuRecentFiles.Items.Insert(0, mItem);
                 }
                     
-                if (Properties.Settings.Default.RecentFiles.Count > 5)
-                    Properties.Settings.Default.RecentFiles.RemoveAt(5);
+                if (Properties.Settings.Default.RecentFiles.Count > 10)
+                    Properties.Settings.Default.RecentFiles.RemoveAt(10);
                 Properties.Settings.Default.Save();
 
                 LoadFile(openDlg.FileName);
@@ -242,6 +273,43 @@ namespace Heroes3Editor
             UpdateGameVersionStatus();
 
             TownCboBox.IsEnabled = true;
+
+            var infoTab = new TabItem();
+            infoTab.SetResourceReference(HeaderedContentControl.HeaderProperty, "main_saveInfo");
+
+            var saveInfo = GetGameSaveInfo();
+
+            infoTab.Content = saveInfo;
+            heroTabs.Items.Add(infoTab);
+            heroTabs.Visibility = Visibility.Visible;
+            infoTab.IsSelected = true;
+        }
+
+        private TextBox GetGameSaveInfo()
+        {
+            var saveInfoText = Game == null
+                ? string.Empty
+                : $"""
+                    {LangHepler.Get("main_fileName")}: {Game.FileName}
+                    {LangHepler.Get("main_gameVersion")}: {Game.VersionText}
+                    {LangHepler.Get("main_LangLabel")} {Game.Lang.ToUpper()}
+                    {LangHepler.Get("main_heroesFound")}: {HeroCboBox.Items.Count}
+
+                    {LangHepler.Get("main_mapName")}: {Game.MapName}
+                    {LangHepler.Get("main_mapDescription")}: {Game.MapDescription}
+                    """;
+
+            var saveInfo = new TextBox
+            {
+                TextWrapping = TextWrapping.WrapWithOverflow,
+                FontFamily = new System.Windows.Media.FontFamily("Consolas"),
+                FontSize = 14,
+                Text = saveInfoText,
+                Margin = new Thickness(5)
+
+            };
+
+            return saveInfo;
         }
 
         private void UpdateGameVersionStatus()
@@ -249,8 +317,7 @@ namespace Heroes3Editor
             if (Game == null)
                 return;
 
-            var gameVerTpl = LangHepler.Get("main_gameVersion");
-            GameVersion.Text = string.Format(gameVerTpl, Game.Version, Game.Lang.ToUpper());
+            GameVersion.Text = Game.VersionText;
         }
 
         private void SaveCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -348,12 +415,15 @@ namespace Heroes3Editor
                 return;
 
             var notFoundHeroes = new List<string>();
-            foreach (string hero in HeroCboBox.Items)
+            foreach (string hero in Heroes.Names)
             {
-                if (Game.SearchHero(hero, Game.Bytes.Length) == -1)
+                var uniqueHero = Heroes.UuniqueHeroes.FirstOrDefault(x => x.Name == Heroes.GetOriginalValue(hero));
+                if (uniqueHero?.Expansion > Game.Expansion)
+                    continue;
+
+                if (Game.SearchHeroExt(hero) == -1)
                 {
                     var originalName = Heroes.GetOriginalValue(hero);
-                    var uniqueHero = Heroes.UuniqueHeroes.FirstOrDefault(x => x.Name == Heroes.GetOriginalValue(hero));
                     var heroInfo = uniqueHero != null
                         ? $"{hero}: {uniqueHero.Description} ({uniqueHero.Expansion})"
                         : hero;
@@ -370,7 +440,7 @@ namespace Heroes3Editor
             {
                 mess = notFoundHeroes.Count == 0
                     ? "All characters of the selected language have been successfully found on the loaded map."
-                    : $"The number of heroes has been found on this map is {HeroCboBox.Items.Count - notFoundHeroes.Count}\n\n" +
+                    : $"The number of heroes has been found on this map is {Heroes.Names.Length - notFoundHeroes.Count}\n\n" +
                       $"Heroes that were not found on the loaded map ({notFoundHeroes.Count}):" + 
                     "\n\n - " + string.Join("\n - ", notFoundHeroes);
 
@@ -420,7 +490,7 @@ namespace Heroes3Editor
                 Heroes.RemoveUniqueLang();
             }
 
-            HeroCboBox.ItemsSource = Heroes.Names;
+            UpdateHeroList();
         }
 
         private void RecentFileLoadClick(Object sender, EventArgs e)
@@ -432,21 +502,6 @@ namespace Heroes3Editor
                     LoadFile(fileName);
                 }
             }
-        }
-
-        private void SaveInfo_Click(object sender, RoutedEventArgs e)
-        {
-            if (Game == null)
-                return;
-
-            var saveInfo = new SaveInfo { Owner = this };
-
-            saveInfo.TextInfo.Text = $"""
-                File Name: {Game.FileName}
-                Version:   {Game.Version}
-                """;
-
-            saveInfo.ShowDialog();
         }
     }
 }

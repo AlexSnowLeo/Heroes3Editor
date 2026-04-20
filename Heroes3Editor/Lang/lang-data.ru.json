@@ -308,6 +308,45 @@
     "Elderian": "Элдериан",
     "Umender": "Юмендер"
   },
+  // Измененные имена в RoEHD
+  "RoEHDHeroes": {
+    "Adrienne": null, // AB
+    "Boragus": null, // AB
+    "Gelu": null, // AB
+    "Gird": "Гирда",
+    "Xeron": null, // AB
+    "Ignatius": "Игнатиус",
+    "Calid": "Калида",
+    "Caitlin": "Кейтлина",
+    "Kilgor": null, // AB
+    "Marius": "Мариусса",
+    "Merist": "Мериста",
+    "Mutare": null, // AB
+    "Mutare Drake": null, // AB
+    "Nymus": "Нимусса",
+    "Pyre": "Пайра",
+    "Roland": null, // AB
+    "Sir Mullich": null, // AB
+    "Theodorus": "Теодорус",
+    "Aislinn": "Эйслинна",
+
+    "Erdamon": null,
+    "Fiur": null,
+    "Ignissa": null,
+    "Kalt": null,
+    "Lacus": null,
+    "Monere": null,
+    "Pasis": null,
+    "Thunar": null,
+    "Aenain": null,
+    "Brissa": null,
+    "Ciele": null,
+    "Gelare": null,
+    "Grindan": null,
+    "Inteus": null,
+    "Labetha": null,
+    "Luna": null
+  },
   "Skills": {
     "Pathfinding": "Поиск пути",
     "Archery": "Стрельба",

@@ -96,6 +96,11 @@ namespace Heroes3Editor.Models
             HotaLang = hotaLangData?.ToDictionary(key => key.Key, value => value.Value);
             LangInverted = langData.ToDictionary(key => key.Value, value => value.Key);
         }
+
+        public void RemoveByKey(byte key)
+        {
+            NamesByCode.Remove(key);
+        }
     }
     
     public abstract class BaseArtifact : BaseProp

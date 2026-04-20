@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace Heroes3Editor
@@ -35,6 +36,8 @@ namespace Heroes3Editor
             }
 
             Language = Heroes3Editor.Properties.Settings.Default.DefaultLanguage;
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         public static event EventHandler LanguageChanged;

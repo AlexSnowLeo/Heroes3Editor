@@ -19,8 +19,12 @@
     <v:String x:Key="main_SearchHeroLabel">Héros de Recherche:</v:String>
     <v:String x:Key="main_Town">Ville:</v:String>
     <v:String x:Key="main_SearchTown">Rechercher une Ville</v:String>
-    <v:String x:Key="main_gameVersion">| Enregistrer la version du jeu: {0} | Langue du Jeu: {1}</v:String>
-    <v:String x:Key="main_SaveInfo">Informations sur l'enregistrement du jeu</v:String>
+    <v:String x:Key="main_gameVersion">Version du jeu</v:String>
+    <v:String x:Key="main_saveInfo">Enregistrer les informations du jeu</v:String>
+    <v:String x:Key="main_fileName">Nom du fichier</v:String>
+    <v:String x:Key="main_mapName">Nom de la carte</v:String>
+    <v:String x:Key="main_mapDescription">Description de la carte</v:String>
+    <v:String x:Key="main_heroesFound">Héros trouvés</v:String>
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Caractéristiques</v:String>

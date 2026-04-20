@@ -32,6 +32,11 @@ namespace Heroes3Editor.Models
 
         public static string[] Lang { get; } = ["EN", "RU", "PL", "FR"];
 
+        public static readonly Dictionary<string, int> HeaderOffsets = new()
+        {
+            {"MapName", 0x3A}
+        };
+
         public static readonly Dictionary<string, int> HeroOffsets = new()
         {
             {"Attributes", 69}, // Primary Skills
@@ -161,7 +166,7 @@ namespace Heroes3Editor.Models
             { 75, 1810034207 }
         };
 
-        public static void LoadHOTAItems()
+        public static void LoadHOTAItems(bool withBulwark = true)
         {
             WarMachines.LoadHotaReferenceCodes();
             Weapons.LoadHotaReferenceCodes();
@@ -175,8 +180,8 @@ namespace Heroes3Editor.Models
             Items.LoadHotaReferenceCodes();
             Creatures.LoadHotaReferenceCodes();
             Skills.LoadHotaReferenceCodes();
-            Heroes.LoadHotaValues();
-            Towns.LoadHotaValues();
+            Heroes.LoadHotaValues(withBulwark);
+            Towns.LoadHotaValues(withBulwark);
 
             ArtifactInfo.UpdateHotaDescriptions();
         }
@@ -219,6 +224,8 @@ namespace Heroes3Editor.Models
         public const string CatherinePL = "Katarzyna";
         public const string AdelaRU = "Адела";
         public const string AdelaRUHota = "Адель";
+        public const string Tarnum = "Tarnum";
+        public const string TarnumRU = "Тарнум";
         private static readonly List<string> _heroes =
         [
             // Castle
@@ -251,6 +258,11 @@ namespace Heroes3Editor.Models
             "Luna",
         ];
 
+        private static readonly string[] _heroesHotaBulwark = [
+            "Dhuin", "Oidana", "Neia", "Eikthurn", "Creyle", "Spadum", "Kynr", "Ergon", "Kriv", "Glacius", "Sial",
+            "Dalton", "Biarma", "Akka", "Vehr", "Allora", "Haugir"
+        ];
+
         private static readonly string[] _heroesHota = [
             // Castle
             "Beatrice", // replace Sylvia
@@ -268,8 +280,7 @@ namespace Heroes3Editor.Models
             "Henrietta", "Sam", "Tancred", "Melchior", "Floribert", "Wynona", "Dury", "Morton", "Tavin", "Murdoch",
             "Celestine", "Todd", "Agar", "Bertram", "Wrathmont", "Ziph", "Victoria", "Eanswythe", "Frederick",
             // Bulwark
-            "Dhuin", "Oidana", "Neia", "Eikthurn", "Creyle", "Spadum", "Kynr", "Ergon", "Kriv", "Glacius", "Sial",
-            "Dalton", "Biarma", "Akka", "Vehr", "Allora", "Haugir"
+            .. _heroesHotaBulwark
         ];
 
         public static readonly UniqueHeroDto[] UuniqueHeroes = [
@@ -277,7 +288,11 @@ namespace Heroes3Editor.Models
                 Name = "Gen. Kendal",
             },
             new(){
-                Name = "Tarnum",
+                Name = Tarnum,
+                Expansion = GameExpansion.Chronicles
+            },
+            new(){
+                Name = "Sir Tarnum", // from Chronicles Preview
                 Expansion = GameExpansion.Chronicles
             },
             new(){
@@ -373,24 +388,23 @@ namespace Heroes3Editor.Models
         private static Dictionary<string, string> LangInverted { get; set; }
         private static Dictionary<string, string> LangHota { get; set; }
         private static Dictionary<string, string> LangUnique { get; set; }
+        private static Dictionary<string, string> LangRoeHD { get; set; }
 
         public static string[] Names => Lang != null
-            ? [.. _heroes.Select(x => Lang.ContainsKey(x) ? Lang[x] : x).OrderBy(x => x)]
+            ? [.. Lang.Values.OrderBy(x => x)] //[.. _heroes.Select(x => Lang.TryGetValue(x, out var value) ? value : x).OrderBy(x => x)]
             : [.. _heroes.OrderBy(x => x)];
 
-        public static string GetLangValue(string key) => Lang != null && Lang.ContainsKey(key)
-            ? Lang[key]
-            : key;
+        public static string GetLangValue(string key) => Lang != null && Lang.TryGetValue(key, out var value)
+            ? value : key;
 
-        public static string GetOriginalValue(string key) => LangInverted != null && LangInverted.ContainsKey(key)
-            ? LangInverted[key]
-            : key;
+        public static string GetOriginalValue(string key) => LangInverted != null && LangInverted.TryGetValue(key, out var value)
+            ? value : key;
 
-        public static void LoadHotaValues()
+        public static void LoadHotaValues(bool withBulwark = true)
         {
             foreach (var h in _heroesHota)
             {
-                if (!_heroes.Contains(h))
+                if (!_heroes.Contains(h) && (withBulwark || !_heroesHotaBulwark.Contains(h)))
                     _heroes.Add(h);
             }
         }
@@ -421,7 +435,7 @@ namespace Heroes3Editor.Models
             }
         }
 
-        public static void RemoveHotaLang()
+        public static void RemoveLangUpdates()
         {
             if (Lang != null)
             {
@@ -437,6 +451,32 @@ namespace Heroes3Editor.Models
             }
 
             LangSaved.Clear();
+        }
+
+        public static void LoadRoeHdLang()
+        {
+            if (Lang != null && LangRoeHD != null)
+            {
+                LangSaved.Clear();
+
+                foreach (var kvp in LangRoeHD)
+                {
+                    if (Lang.ContainsKey(kvp.Key))
+                    {
+                        if (Lang[kvp.Key] != kvp.Value)
+                        {
+                            LangSaved.Add(kvp.Key, Lang[kvp.Key]);
+
+                            if (kvp.Value == null)
+                                Lang.Remove(kvp.Key);
+                            else
+                                Lang[kvp.Key] = kvp.Value;
+                        }
+                    }
+                }
+
+                LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
+            }
         }
 
         public static void LoadUniqueLang()
@@ -481,12 +521,14 @@ namespace Heroes3Editor.Models
         public static void SetLang(
             Dictionary<string, string> lang, 
             Dictionary<string, string> langHota,
-            Dictionary<string, string> langUnique)
+            Dictionary<string, string> langUnique,
+            Dictionary<string, string> langRoeHD)
         {
             Lang = lang?.ToDictionary(x => x.Key, x => x.Value);
             LangInverted = Lang?.ToDictionary(key => key.Value, value => value.Key);
             LangHota = langHota?.ToDictionary(x => x.Key, x => x.Value);
             LangUnique = langUnique?.ToDictionary(x => x.Key, x => x.Value);
+            LangRoeHD = langRoeHD?.ToDictionary(x => x.Key, x => x.Value);
             LangSaved.Clear();
         }
 
@@ -526,6 +568,7 @@ namespace Heroes3Editor.Models
 
     public class Skills : BaseProp
     {
+        public const byte RunesKey = 29;
         public Skills()
         {
             NamesByCode = new Dictionary<byte, string>
@@ -562,7 +605,7 @@ namespace Heroes3Editor.Models
             HOTANamesByCode = new Dictionary<byte, string>
             {
                 {28, "Interference"},
-                {29, "Runes"}
+                {RunesKey, "Runes"}
             };
         }
     }
@@ -1282,6 +1325,7 @@ namespace Heroes3Editor.Models
 
     public class Creatures : BaseProp
     {
+        public const byte BulwarkStartCode = 186;
         public Creatures()
         {
             NamesByCode = new Dictionary<byte, string>
@@ -1468,7 +1512,7 @@ namespace Heroes3Editor.Models
                 {184, "Dreadnought"},
                 {185, "Juggernaut"},
                 // Bulwark
-                {186, "Kobold"},
+                {BulwarkStartCode, "Kobold"},
                 {187, "Kobold Foremen"},
                 {188, "Mountain Ram"},
                 {189, "Argali"},
@@ -1490,6 +1534,7 @@ namespace Heroes3Editor.Models
     {
         private const string Strongglen = "Strongglen";
         private const string RampartFaction = "Rampart";
+        private const string BulwarkFaction = "Bulwark";
 
         private static readonly Dictionary<string, string[]> _towns = new()
         {
@@ -1568,7 +1613,7 @@ namespace Heroes3Editor.Models
                 ]
             },
             {
-                "Bulwark", [
+                BulwarkFaction, [
                     "Ellesmere", "Anabar", "Tundara", "White Mouth", "Varand", "Alfheim", "Meghion", "Thulekh", "Everwinter",
                     "Borea", "Stonefang", "Winterkill", "Windskalir", "Ketpall", "Jotunngard", "Halsmere",
                 ]
@@ -1586,10 +1631,13 @@ namespace Heroes3Editor.Models
         private Dictionary<string, string> LangFactions { get; set; }
         private Dictionary<string, string> LangFactionsHota { get; set; }
 
-        public void LoadHotaValues()
+        public void LoadHotaValues(bool withBulwark = true)
         {
             foreach (var code in _hotaTowns)
             {
+                if (!withBulwark && code.Key == BulwarkFaction)
+                    continue;
+
                 if (_towns.ContainsKey(code.Key))
                 {
                     continue;

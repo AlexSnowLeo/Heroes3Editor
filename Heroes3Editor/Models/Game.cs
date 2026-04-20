@@ -11,13 +11,17 @@ using ICSharpCode.SharpZipLib.GZip;
 
 namespace Heroes3Editor.Models
 {
-    public class Game
+    public partial class Game
     {
         public bool IsHOTA { get; set; }
-        public string Version { get; set; }
+        public string VersionText { get; set; }
+        public (byte minor, byte major) Version { get; set; }
+        public GameExpansion Expansion { get; set; }
         public string Lang { get; set; }
         public byte[] Bytes { get; }
         public string FileName { get; set; }
+        public string MapName { get; set; }
+        public string MapDescription { get; set; }
 
         public IList<Hero> Heroes { get; } = [];
 
@@ -43,16 +47,20 @@ namespace Heroes3Editor.Models
             }
 
             Bytes = memoryStream.ToArray();
-            var gameVersionMajor = Bytes[8];
-            var gameVersionMinor = Bytes[12];
-            
+
+            var pattern = new byte[9];
+            Encoding.ASCII.GetBytes("HCHRONSVG").CopyTo(pattern, 0);
+            Version = Bytes.StartsWith(pattern)
+                ? (Bytes[0x0C + 1], Bytes[0x08 + 1])
+                : (Bytes[0x0C], Bytes[0x08]);
+
             FileName = fileInfo.Name;
 
-            if (gameVersionMajor >= 44 && gameVersionMinor >= 5)
+            if (Version.major >= 44 && Version.minor >= 5)
             {
-                Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
+                Lang = SearchHeroExt(Models.Heroes.CatherinePL) > 0
                     ? "pl"
-                    : SearchHero(Models.Heroes.AdelaRUHota, Bytes.Length) > 0 ? "ru" : "en";
+                    : SearchHeroExt(Models.Heroes.AdelaRUHota) > 0 ? "ru" : "en";
 
                 LangData.SetInstance(Lang);
 
@@ -60,33 +68,81 @@ namespace Heroes3Editor.Models
             }
             else
             {
-                Lang = SearchHero(Models.Heroes.CatherinePL, Bytes.Length) > 0
+                Lang = SearchHeroExt(Models.Heroes.CatherinePL) > 0
                     ? "pl"
-                    : SearchHero(Models.Heroes.AdelaRU, Bytes.Length) > 0 ? "ru" : "en";
+                    : SearchHeroExt(Models.Heroes.AdelaRU) > 0 ? "ru" : "en";
 
                 LangData.SetInstance(Lang);
 
                 SetClassic();
             }
 
-            Version = $"{gameVersionMajor}.{gameVersionMinor}{(IsHOTA ? " HotA" : "")}";
+            MapName = GetStringByOffset(Constants.HeaderOffsets["MapName"]);
+            MapDescription = GetStringByOffset(Constants.HeaderOffsets["MapName"] + 2 + MapName.Length);
+
+            VersionText = $"{Version.major}.{Version.minor} ({Expansion.GetDescription()})";
 
             Constants.LoadAllArtifacts();
 
             SearchTowns();
         }
 
+        private string GetStringByOffset(int offset)
+        {
+            var encoding = Lang == "ru" 
+                ? Encoding.GetEncoding("windows-1251")
+                : Encoding.ASCII;
+            var stringLength = Bytes.GetInt(offset);
+
+            return (stringLength <= 0)
+                ? string.Empty
+                : encoding.GetString(Bytes.AsSpan(offset + 2, stringLength));
+        }
+
         public void SetHOTA()
         {
             IsHOTA = true;
-            Constants.LoadHOTAItems();
+            var withBulwark = Version.minor >= 10;
+            Expansion = GameExpansion.HotA;
+            Constants.LoadHOTAItems(withBulwark);
             Constants.HeroOffsets["SkillSlots"] = 923;
+
+            Constants.HeaderOffsets["MapName"] = Version.minor >= 9 ? 0x5F : 0x44;
+            if (!withBulwark)
+            {
+                Constants.Skills.RemoveByKey(Skills.RunesKey);
+                var bulwarkCodes = Enumerable.Range(Creatures.BulwarkStartCode, 14).Select(x => (byte)x);
+                foreach (var code in bulwarkCodes)
+                    Constants.Creatures.RemoveByKey(code);
+            }
         }
         public void SetClassic()
         {
             IsHOTA = false;
             Constants.HeroOffsets["SkillSlots"] = 41;
             Constants.RemoveHOTAReferenceCodes();
+
+            if (Version.major == 42 && Version.minor > 0)
+                Expansion = GameExpansion.SoD;
+            if (Version.major == 42 && Version.minor == 0 ||
+                Version.major == 43 && Version.minor >= 5)
+            {
+                Expansion = GameExpansion.Chronicles;
+                Constants.HeaderOffsets["MapName"] = 0x3B;
+            }
+
+            // HD Edition
+            if (Version.major == 18)
+            {
+                Expansion = GameExpansion.RoEHD;
+                Constants.HeaderOffsets["MapName"] = 0x36;
+
+                Models.Heroes.LoadRoeHdLang();
+            }
+            else
+            {
+                Models.Heroes.RemoveLangUpdates();
+            }
         }
         public void Save(string file, bool binData = false)
         {
@@ -138,7 +194,7 @@ namespace Heroes3Editor.Models
                     startPosition = hero.BytePosition - 1;
             }
 
-            var bytePosition = SearchHero(name, startPosition);
+            var bytePosition = SearchHeroExt(name);
             if (bytePosition > 0)
             {
                 Heroes.Add(new Hero(name, this, bytePosition));
@@ -148,6 +204,9 @@ namespace Heroes3Editor.Models
                 return false;
         }
 
+        [GeneratedRegex(@"\p{IsCyrillic}")]
+        private static partial Regex CyrillicRegex();
+
         public int SearchHero(string name, int startPosition)
         {
             var idx = name.IndexOf(" (");
@@ -156,7 +215,7 @@ namespace Heroes3Editor.Models
 
             byte[] pattern = new byte[13];
             Encoding.ASCII.GetBytes(name).CopyTo(pattern, 0);
-            if (Regex.IsMatch(name, @"\p{IsCyrillic}"))
+            if (CyrillicRegex().IsMatch(name))
             {
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 Encoding win1251 = Encoding.GetEncoding("windows-1251");
@@ -180,6 +239,23 @@ namespace Heroes3Editor.Models
                 }
             }
             return -1;
+        }
+
+        public int SearchHeroExt(string name)
+        {
+            var idx = name.IndexOf(" (");
+            if (idx != -1)
+                name = name[..(idx)];
+
+            byte[] pattern = new byte[13];
+            Encoding.ASCII.GetBytes(name).CopyTo(pattern, 0);
+            if (CyrillicRegex().IsMatch(name))
+            {
+                Encoding win1251 = Encoding.GetEncoding("windows-1251");
+                win1251.GetBytes(name).CopyTo(pattern, 0);
+            }
+
+            return Bytes.IndexOf(pattern);
         }
 
         public void SearchTowns()
@@ -331,7 +407,7 @@ namespace Heroes3Editor.Models
             for (byte i = 0; i < Constants.Skills.Names.Length; ++i)
             {
                 var skillSlotIndex = _game.Bytes[BytePosition + Constants.HeroOffsets["SkillSlots"] + i];
-                if (skillSlotIndex != 0)
+                if (skillSlotIndex != 0 && skillSlotIndex <= 8)
                 {
                     Skills[skillSlotIndex - 1] = Constants.Skills[i];
                     SkillLevels[skillSlotIndex - 1] = _game.Bytes[BytePosition + Constants.HeroOffsets["Skills"] + i];
@@ -391,7 +467,7 @@ namespace Heroes3Editor.Models
             for (byte i = 0; i < 64; i++)
             {
                 var code = _game.Bytes[inventoryPos + i*8];
-                if (code == OFF) continue;
+                if (code == OFF || code == ON) continue;
 
                 Inventory.Add(Constants.Artifacts[code]);
 

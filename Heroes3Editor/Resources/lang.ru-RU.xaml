@@ -19,8 +19,12 @@
     <v:String x:Key="main_SearchHeroLabel">Поиск героя:</v:String>
     <v:String x:Key="main_Town">Город:</v:String>
     <v:String x:Key="main_SearchTown">Поиск города</v:String>
-    <v:String x:Key="main_gameVersion">| Версия сохранения: {0} | Язык игры: {1}</v:String>
-    <v:String x:Key="main_SaveInfo">Информация о сохраненной игре</v:String>
+    <v:String x:Key="main_gameVersion">Версия сохранения</v:String>
+    <v:String x:Key="main_saveInfo">Информация о сохранении</v:String>
+    <v:String x:Key="main_fileName">Имя файла</v:String>
+    <v:String x:Key="main_mapName">Название карты</v:String>
+    <v:String x:Key="main_mapDescription">Описание карты</v:String>
+    <v:String x:Key="main_heroesFound">Найдено героев</v:String>
 
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Первичные навыки</v:String>

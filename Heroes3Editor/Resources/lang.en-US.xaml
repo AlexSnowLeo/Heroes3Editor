@@ -20,8 +20,12 @@
     <v:String x:Key="main_SearchHeroLabel">Search Hero:</v:String>
     <v:String x:Key="main_Town">Town:</v:String>
     <v:String x:Key="main_SearchTown">Search Town</v:String>
-    <v:String x:Key="main_gameVersion">| Save Game version: {0} | Game Lang: {1}</v:String>
-    <v:String x:Key="main_SaveInfo">Information about game save</v:String>
+    <v:String x:Key="main_gameVersion">Game version</v:String>
+    <v:String x:Key="main_saveInfo">Save game info</v:String>
+    <v:String x:Key="main_fileName">File name</v:String>
+    <v:String x:Key="main_mapName">Map name</v:String>
+    <v:String x:Key="main_mapDescription">Map description</v:String>
+    <v:String x:Key="main_heroesFound">Heroes found</v:String>
     
     <!-- HeroPanel -->
     <v:String x:Key="hero_PrimarySkills">Primary Skills</v:String>

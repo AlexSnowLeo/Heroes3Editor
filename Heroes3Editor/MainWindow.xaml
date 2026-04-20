@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Heroes3Editor.Models"
         mc:Ignorable="d"
-        Title="{DynamicResource main_Title}" Height="834" MinHeight="600" Width="800" MinWidth="760">
+        Title="{DynamicResource main_Title}" Height="834" MinHeight="600" Width="850" MinWidth="760">
     <Window.Resources>
         <local:Constants x:Key="constants"/>
     </Window.Resources>
@@ -66,8 +66,7 @@
                       Width="40" Margin="5,0,5,0" IsEditable="False" IsEnabled="True" SelectionChanged="UpdateLangData"></ComboBox>
             <Separator />
             <Label Name="SearchHeroLabel" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{DynamicResource main_SearchHeroLabel}" />
-            <ComboBox Name="HeroCboBox" ItemsSource="{Binding Source={StaticResource constants}, Path=Heroes}"
-                      Width="110" Margin="5,0,5,0" IsEditable="True" IsEnabled="False"></ComboBox>
+            <ComboBox Name="HeroCboBox" Width="110" Margin="5,0,5,0" IsEditable="True" IsEnabled="False"></ComboBox>
             <Button Name="heroSearchBtn" IsEnabled="False" Click="SearchHero" ToolTip="Search Hero">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
             </Button>
@@ -86,19 +85,19 @@
             <Button Name="TownSearchBtn" IsEnabled="True" Click="TownSearchBtn_Click" ToolTip="{DynamicResource main_SearchTown}">
                 <Image Source="/Resources/VS2019/Search_16x.png" Width="16" Height="16"></Image>
             </Button>
-            <Separator />
-            <Button Name="SaveInfo" Click="SaveInfo_Click" ToolTip="{DynamicResource main_SaveInfo}">
-                <Image Source="/Resources/VS2019/Info_16x.png" Width="16" Height="16"></Image>
-            </Button>
         </ToolBar>
         <!--<StackPanel DockPanel.Dock="Top">-->
         <TabControl Name="heroTabs" Margin="5,5,5,5" DockPanel.Dock="Top" VerticalContentAlignment="Stretch">
+            <!--<TabItem Header="Save Info" Name="SaveInfoTab">
+                <TextBox Name="TextInfo" TextWrapping="WrapWithOverflow" Text="TextBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" UseLayoutRounding="False" FontFamily="Consolas" FontSize="14" Margin="5,5,5,5"/>
+            </TabItem>-->
         </TabControl>
         <!--</StackPanel> -->
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="status">Ready</TextBlock>
             </StatusBarItem>
+            <Separator></Separator>
             <StatusBarItem>
                 <TextBlock Name="GameVersion"></TextBlock>
             </StatusBarItem>

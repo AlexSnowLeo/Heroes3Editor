@@ -491,7 +491,7 @@ namespace Heroes3Editor
                         UpdateSlotsEnable(gear, prevArtInfo[8], false, prevArt);
                 } else
                 {
-                    UpdatePrimarySkills(artInfo, false);
+                    UpdatePrimarySkills(artInfo, false, false);
                 }
                 
                 return;
@@ -557,7 +557,7 @@ namespace Heroes3Editor
                 var updateValue = artInfo[i + 1] != ""
                     ? sbyte.Parse(artInfo[i + 1])
                     : (sbyte)0;
-                
+
                 if (updateValue == 0)
                     continue;
 
@@ -567,8 +567,8 @@ namespace Heroes3Editor
                 if (FindName("Attribute" + i) is not TextBox attrControl)
                     continue;
 
-                var value = (sbyte) (_hero.Attributes[i] + updateValue);
-                
+                var value = (sbyte)(_hero.Attributes[i] + updateValue);
+
                 if (updateAttr)
                 {
                     _initializing = true;
@@ -581,11 +581,14 @@ namespace Heroes3Editor
                 if (FindName($"Attribute{i}Change") is not System.Windows.Controls.Label attrChange)
                     continue;
 
-                _attrChanges[attrChange.Name] += updateValue;
-                var attrValue = _hero.Attributes[i] - _attrChanges[attrChange.Name];
-                attrChange.Content = _attrChanges[attrChange.Name] != 0
-                    ? $"({attrValue}){_attrChanges[attrChange.Name]:+#;-#;0}"
-                    : string.Empty;
+                if (updateAttr)
+                {
+                    _attrChanges[attrChange.Name] += updateValue;
+                    var attrValue = _hero.Attributes[i] - _attrChanges[attrChange.Name];
+                    attrChange.Content = _attrChanges[attrChange.Name] != 0
+                        ? $"({attrValue}){_attrChanges[attrChange.Name]:+#;-#;0}"
+                        : string.Empty;
+                }
             }
         }
 
